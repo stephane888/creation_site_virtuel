@@ -1,0 +1,18 @@
+creation_site_virtuel.site_internet_entity_type.*:
+  type: config_entity
+  label: 'Site internet entity type config'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    label:
+      type: label
+      label: 'Label'
+    uuid:
+      type: string
+    image:
+      type: mapping
+      label: 'Image'
+    mappings:
+      type: mapping
+      label: 'Liste de données mappées'

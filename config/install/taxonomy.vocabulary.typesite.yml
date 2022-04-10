@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - creation_site_virtuel
+name: typesite
+vid: typesite
+description: 'Contient la liste des types de sites'
+hierarchy: 0
+weight: 0

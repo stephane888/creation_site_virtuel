@@ -1,0 +1,44 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Creation site virtuel module.
+ *
+ * @DCG
+ * This file is no longer required in Drupal 8.
+ * @see https://www.drupal.org/node/2217931
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function creation_site_virtuel_theme() {
+  $theme = [];
+  $theme['site_internet_entity'] = [
+    'render element' => 'elements',
+    'file' => 'site_internet_entity.page.inc',
+    'template' => 'site_internet_entity',
+  ];
+  $theme['site_internet_entity_content_add_list'] = [
+    'render element' => 'content',
+    'variables' => ['content' => NULL],
+    'file' => 'site_internet_entity.page.inc',
+  ];
+  return $theme;
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK().
+ */
+function creation_site_virtuel_theme_suggestions_site_internet_entity(array $variables) {
+  $suggestions = [];
+  $entity = $variables['elements']['#site_internet_entity'];
+  $sanitized_view_mode = strtr($variables['elements']['#view_mode'], '.', '_');
+
+  $suggestions[] = 'site_internet_entity__' . $sanitized_view_mode;
+  $suggestions[] = 'site_internet_entity__' . $entity->bundle();
+  $suggestions[] = 'site_internet_entity__' . $entity->bundle() . '__' . $sanitized_view_mode;
+  $suggestions[] = 'site_internet_entity__' . $entity->id();
+  $suggestions[] = 'site_internet_entity__' . $entity->id() . '__' . $sanitized_view_mode;
+  return $suggestions;
+}

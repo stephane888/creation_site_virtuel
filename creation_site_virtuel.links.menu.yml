@@ -1,0 +1,17 @@
+
+# Site internet entity menu items definition
+entity.site_internet_entity.collection:
+  title: 'Site internet entity list'
+  route_name: entity.site_internet_entity.collection
+  description: 'List Site internet entity entities'
+  parent: system.admin_structure
+  weight: 100
+
+
+# Site internet entity type menu items definition
+entity.site_internet_entity_type.collection:
+  title: 'Site internet entity type'
+  route_name: entity.site_internet_entity_type.collection
+  description: 'List Site internet entity type (bundles)'
+  parent: system.admin_structure
+  weight: 99

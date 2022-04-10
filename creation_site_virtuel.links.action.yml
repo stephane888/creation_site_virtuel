@@ -1,0 +1,10 @@
+entity.site_internet_entity.add_form:
+  route_name: entity.site_internet_entity.add_page
+  title: 'Add Site internet entity'
+  appears_on:
+    - entity.site_internet_entity.collection
+entity.site_internet_entity_type.add_form:
+  route_name: entity.site_internet_entity_type.add_form
+  title: 'Add Site internet entity type'
+  appears_on:
+    - entity.site_internet_entity_type.collection

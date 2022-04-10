@@ -1,0 +1,33 @@
+add site internet entity entities:
+  title: 'Create new Site internet entity entities'
+
+administer site internet entity entities:
+  title: 'Administer Site internet entity entities'
+  description: 'Allow to access the administration form to configure Site internet entity entities.'
+  restrict access: true
+
+delete site internet entity entities:
+  title: 'Delete Site internet entity entities'
+
+edit site internet entity entities:
+  title: 'Edit Site internet entity entities'
+
+view published site internet entity entities:
+  title: 'View published Site internet entity entities'
+
+view unpublished site internet entity entities:
+  title: 'View unpublished Site internet entity entities'
+
+view all site internet entity revisions:
+  title: 'View all Site internet entity revisions'
+
+revert all site internet entity revisions:
+  title: 'Revert all Site internet entity revisions'
+  description: 'Role requires permission <em>view Site internet entity revisions</em> and <em>edit rights</em> for site internet entity entities in question or <em>administer site internet entity entities</em>.'
+
+delete all site internet entity revisions:
+  title: 'Delete all revisions'
+  description: 'Role requires permission to <em>view Site internet entity revisions</em> and <em>delete rights</em> for site internet entity entities in question or <em>administer site internet entity entities</em>.'
+
+permission_callbacks:
+  - \Drupal\creation_site_virtuel\SiteInternetEntityPermissions::generatePermissions

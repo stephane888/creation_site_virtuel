@@ -1,0 +1,7 @@
+creation_site_virtuel.example:
+  path: '/creation-site-virtuel/example'
+  defaults:
+    _title: 'Example'
+    _controller: '\Drupal\creation_site_virtuel\Controller\CreationSiteVirtuelController::build'
+  requirements:
+    _permission: 'access content'

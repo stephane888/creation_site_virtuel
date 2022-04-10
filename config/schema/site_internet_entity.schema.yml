@@ -1,0 +1,12 @@
+creation_site_virtuel.site_internet_entity.*:
+  type: config_entity
+  label: 'Site internet entity config'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    label:
+      type: label
+      label: 'Label'
+    uuid:
+      type: string
