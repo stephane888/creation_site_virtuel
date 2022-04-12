@@ -31,3 +31,23 @@ delete all site internet entity revisions:
 
 permission_callbacks:
   - \Drupal\creation_site_virtuel\SiteInternetEntityPermissions::generatePermissions
+add site type datas entities:
+  title: 'Create new Site type datas entities'
+
+administer site type datas entities:
+  title: 'Administer Site type datas entities'
+  description: 'Allow to access the administration form to configure Site type datas entities.'
+  restrict access: true
+
+delete site type datas entities:
+  title: 'Delete Site type datas entities'
+
+edit site type datas entities:
+  title: 'Edit Site type datas entities'
+
+view published site type datas entities:
+  title: 'View published Site type datas entities'
+
+view unpublished site type datas entities:
+  title: 'View unpublished Site type datas entities'
+

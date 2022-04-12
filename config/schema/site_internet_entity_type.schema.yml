@@ -10,9 +10,7 @@ creation_site_virtuel.site_internet_entity_type.*:
       label: 'Label'
     uuid:
       type: string
-    image:
-      type: mapping
-      label: 'Image'
-    mappings:
-      type: mapping
-      label: 'Liste de données mappées'
+    site_type_datas:
+      type: interger
+      label: 'id du contenu'
+

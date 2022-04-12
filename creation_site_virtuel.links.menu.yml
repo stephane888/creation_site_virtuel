@@ -15,3 +15,17 @@ entity.site_internet_entity_type.collection:
   description: 'List Site internet entity type (bundles)'
   parent: system.admin_structure
   weight: 99
+
+# Site type datas menu items definition
+entity.site_type_datas.collection:
+  title: 'Site type datas list'
+  route_name: entity.site_type_datas.collection
+  description: 'List Site type datas entities'
+  parent: system.admin_structure
+  weight: 100
+
+site_type_datas.admin.structure.settings:
+  title: 'Site type datas settings'
+  description: 'Configure Site type datas entities'
+  route_name: site_type_datas.settings
+  parent: system.admin_structure

@@ -8,3 +8,8 @@ entity.site_internet_entity_type.add_form:
   title: 'Add Site internet entity type'
   appears_on:
     - entity.site_internet_entity_type.collection
+entity.site_type_datas.add_form:
+  route_name: entity.site_type_datas.add_form
+  title: 'Add Site type datas'
+  appears_on:
+    - entity.site_type_datas.collection

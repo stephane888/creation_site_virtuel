@@ -99,14 +99,12 @@ class SiteInternetEntity extends EditorialContentEntityBase implements SiteInter
    */
   protected function urlRouteParameters($rel) {
     $uri_route_parameters = parent::urlRouteParameters($rel);
-    
     if ($rel === 'revision_revert' && $this instanceof RevisionableInterface) {
       $uri_route_parameters[$this->getEntityTypeId() . '_revision'] = $this->getRevisionId();
     }
     elseif ($rel === 'revision_delete' && $this instanceof RevisionableInterface) {
       $uri_route_parameters[$this->getEntityTypeId() . '_revision'] = $this->getRevisionId();
     }
-    
     return $uri_route_parameters;
   }
   
@@ -116,10 +114,8 @@ class SiteInternetEntity extends EditorialContentEntityBase implements SiteInter
    */
   public function preSave(EntityStorageInterface $storage) {
     parent::preSave($storage);
-    
     foreach (array_keys($this->getTranslationLanguages()) as $langcode) {
       $translation = $this->getTranslation($langcode);
-      
       // If no owner has been set explicitly, make the anonymous user the owner.
       if (!$translation->getOwner()) {
         $translation->setOwnerId(0);

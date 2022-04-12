@@ -3,6 +3,7 @@
 namespace Drupal\creation_site_virtuel\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
+use Drupal\creation_site_virtuel\Entity\SiteTypeDatas;
 
 /**
  * Defines the Site internet entity type entity.
@@ -67,21 +68,7 @@ class SiteInternetEntityType extends ConfigEntityBundleBase implements SiteInter
    *
    * @var array
    */
-  protected $image = [];
-  
-  /**
-   * Contient les terms taxo.
-   *
-   * @var array
-   */
-  protected $terms = [];
-  
-  /**
-   * Faudra prendre le temps de reflechir sur les derivées.
-   *
-   * @var array
-   */
-  protected $derivees = [];
+  protected $site_type_datas = null;
   
   /**
    * Apres la sauvegrade.
@@ -89,27 +76,17 @@ class SiteInternetEntityType extends ConfigEntityBundleBase implements SiteInter
    * {@inheritdoc}
    * @see \Drupal\Core\Entity\ContentEntityBase::postSave()
    */
-  public function postSave($storage, $update = TRUE) {
+  public function postSave($storage, $update = true) {
     parent::postSave($storage, $update);
-    // save image
-    $fid = $this->get('image');
-    if (!empty($fid)) {
-      $file = \Drupal\file\Entity\File::load($fid[0]);
-      $file->setPermanent();
-      $file->save();
+    // Add new site_type_datas
+    if (!$update) {
+      $values = [
+        'type' => $this->id,
+        'name' => $this->label
+      ];
+      $SiteTypeDatas = SiteTypeDatas::create($values);
+      $SiteTypeDatas->save();
     }
-  }
-  
-  /**
-   *
-   * {@inheritdoc}
-   * @see \Drupal\Core\Config\Entity\ConfigEntityBundleBase::preSave()
-   */
-  public function preSave($storage) {
-    parent::preSave($storage);
-    //
-    $terms = $this->get('terms');
-    $this->set('terms', $this->getIds($terms));
   }
   
   /**

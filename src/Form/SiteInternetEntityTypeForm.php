@@ -16,7 +16,6 @@ class SiteInternetEntityTypeForm extends EntityForm {
    */
   public function form(array $form, FormStateInterface $form_state) {
     $form = parent::form($form, $form_state);
-    $siteInternetType = $this->entity;
     $site_internet_entity_type = $this->entity;
     $form['label'] = [
       '#type' => 'textfield',
@@ -37,88 +36,7 @@ class SiteInternetEntityTypeForm extends EntityForm {
       '#disabled' => !$site_internet_entity_type->isNew()
     ];
     
-    //
-    $image = $siteInternetType->get('image');
-    // dump($image);
-    $form['image'] = [
-      '#type' => 'managed_file',
-      '#title' => 'Image',
-      '#default_value' => !empty($image) ? $image : [],
-      '#upload_location' => 'public://site-internet-type',
-      '#upload_validators' => [
-        'file_validate_extensions' => [
-          'gif png jpg jpeg webp'
-        ]
-      ]
-    ];
-    if (!empty($image)) {
-      /**
-       *
-       * @var \Drupal\file\Entity\File $file
-       */
-      $file = \Drupal\file\Entity\File::load($image[0]);
-      if ($file)
-        $form['image']['preview'] = [
-          '#weight' => -10,
-          '#theme' => 'image_style',
-          // '#width' => $file->get,
-          // '#height' => $variables['height'],
-          '#style_name' => 'medium',
-          '#uri' => $file->getFileUri()
-        ];
-    }
-    
-    //
-    $terms = $siteInternetType->get('terms');
-    // dump($terms);
-    // $form['terms'] = [
-    // '#type' => 'entity_autocomplete',
-    // "#target_type" => 'taxonomy_term',
-    // '#selection_handler' => "default:taxonomy_term",
-    // '#multiple' => TRUE,
-    // '#selection_settings' => [
-    // 'target_bundles' => [
-    // 'typesite' => 'typesite'
-    // ],
-    // 'sort' => [
-    // 'field' => 'name',
-    // 'direction' => 'asc'
-    // ],
-    // 'auto_create' => false,
-    // 'auto_create_bundle' => false,
-    // 'match_operator' => "CONTAINS",
-    // 'match_limit' => 10
-    // ],
-    // '#title' => 'Tags'
-    // // '#default_value' => !empty($terms) ? $terms : []
-    // ];
     /* You will need additional form elements for your custom properties. */
-    
-    $form['terms'] = [
-      '#type' => 'select2',
-      '#target_type' => 'taxonomy_term',
-      '#selection_handler' => "default:taxonomy_term",
-      '#select2' => [
-        'allowClear' => TRUE
-      ],
-      '#multiple' => TRUE,
-      '#selection_settings' => [
-        'target_bundles' => [
-          'typesite' => 'typesite'
-        ],
-        'sort' => [
-          'field' => 'name',
-          'direction' => 'asc'
-        ],
-        'auto_create' => false,
-        'auto_create_bundle' => false,
-        'match_operator' => "CONTAINS",
-        'match_limit' => 10
-      ],
-      '#cardinality' => -1,
-      '#default_value' => !empty($terms) ? $terms : [],
-      '#autocomplete' => true
-    ];
     return $form;
   }
   

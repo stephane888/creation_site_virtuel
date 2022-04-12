@@ -20,3 +20,24 @@ entity.site_internet_entity.delete_form:
   base_route:  entity.site_internet_entity.canonical
   title: Delete
   weight: 10
+# Site type datas routing definition
+site_type_datas.settings_tab:
+  route_name: site_type_datas.settings
+  title: 'Settings'
+  base_route: site_type_datas.settings
+
+entity.site_type_datas.canonical:
+  route_name: entity.site_type_datas.canonical
+  base_route: entity.site_type_datas.canonical
+  title: 'View'
+
+entity.site_type_datas.edit_form:
+  route_name: entity.site_type_datas.edit_form
+  base_route: entity.site_type_datas.canonical
+  title: 'Edit'
+
+entity.site_type_datas.delete_form:
+  route_name:  entity.site_type_datas.delete_form
+  base_route:  entity.site_type_datas.canonical
+  title: Delete
+  weight: 10
