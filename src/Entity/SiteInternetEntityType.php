@@ -9,7 +9,7 @@ use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
  *
  * @ConfigEntityType(
  *   id = "site_internet_entity_type",
- *   label = @Translation("Site internet entity type"),
+ *   label = @Translation(" Site internet entity type "),
  *   handlers = {
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "list_builder" = "Drupal\creation_site_virtuel\SiteInternetEntityTypeListBuilder",
@@ -82,5 +82,49 @@ class SiteInternetEntityType extends ConfigEntityBundleBase implements SiteInter
    * @var array
    */
   protected $derivees = [];
+  
+  /**
+   * Apres la sauvegrade.
+   *
+   * {@inheritdoc}
+   * @see \Drupal\Core\Entity\ContentEntityBase::postSave()
+   */
+  public function postSave($storage, $update = TRUE) {
+    parent::postSave($storage, $update);
+    // save image
+    $fid = $this->get('image');
+    if (!empty($fid)) {
+      $file = \Drupal\file\Entity\File::load($fid[0]);
+      $file->setPermanent();
+      $file->save();
+    }
+  }
+  
+  /**
+   *
+   * {@inheritdoc}
+   * @see \Drupal\Core\Config\Entity\ConfigEntityBundleBase::preSave()
+   */
+  public function preSave($storage) {
+    parent::preSave($storage);
+    //
+    $terms = $this->get('terms');
+    $this->set('terms', $this->getIds($terms));
+  }
+  
+  /**
+   *
+   * @param array $terms
+   * @return array[]
+   */
+  protected function getIds(array $terms) {
+    $ids = [];
+    foreach ($terms as $term) {
+      if (!empty($term['target_id'])) {
+        $ids[] = $term['target_id'];
+      }
+    }
+    return $ids;
+  }
   
 }

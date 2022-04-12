@@ -116,7 +116,7 @@ class SiteInternetEntityTypeForm extends EntityForm {
         'match_limit' => 10
       ],
       '#cardinality' => -1,
-      '#default_value' => !empty($terms) ? $this->getIds($terms) : [],
+      '#default_value' => !empty($terms) ? $terms : [],
       '#autocomplete' => true
     ];
     return $form;
