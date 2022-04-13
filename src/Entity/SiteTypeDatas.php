@@ -46,7 +46,7 @@ use Drupal\user\UserInterface;
  *     "uid" = "user_id",
  *     "langcode" = "langcode",
  *     "published" = "status",
- *     "bundle"= "type",
+ *     "bundle"= "site_internet_entity_type",
  *   },
  *   links = {
  *     "canonical" = "/admin/structure/site_type_datas/{site_type_datas}",
@@ -199,7 +199,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     
     $fields['changed'] = BaseFieldDefinition::create('changed')->setLabel(t('Changed'))->setDescription(t('The time that the entity was last edited.'));
     
-    $fields['type'] = BaseFieldDefinition::create('string')->setLabel(t('type de site'))->setRequired(true);
+    $fields['site_internet_entity_type'] = BaseFieldDefinition::create('string')->setLabel(t('Type de site'))->setRequired(true);
     
     $fields['terms'] = BaseFieldDefinition::create('entity_reference')->setLabel(" Selectionner les categories ")->setDisplayOptions('form', [
       'type' => 'entity_reference_autocomplete',
