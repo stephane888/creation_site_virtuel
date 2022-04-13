@@ -81,7 +81,7 @@ class SiteInternetEntityType extends ConfigEntityBundleBase implements SiteInter
     // Add new site_type_datas
     if (!$update) {
       $values = [
-        'type' => $this->id,
+        SiteTypeDatas::$key_type => $this->id,
         'name' => $this->label
       ];
       $SiteTypeDatas = SiteTypeDatas::create($values);

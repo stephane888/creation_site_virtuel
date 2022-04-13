@@ -53,12 +53,7 @@ class SelectfilterTheme extends OptionsWidgetBase {
         // not having a default value.
         '#default_value' => $selected ? reset($selected) : NULL,
         '#options' => $options,
-        '#theme' => 'form-element--image',
-        'preview' => [
-          '#type' => 'html_tag',
-          '#tag' => 'h3',
-          '#value' => 'PReviews kksa888'
-        ]
+        '#theme' => 'form-element--image',        
       ];
     }
     // dump($element);

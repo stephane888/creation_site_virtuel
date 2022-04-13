@@ -46,7 +46,6 @@ use Drupal\user\UserInterface;
  *     "uid" = "user_id",
  *     "langcode" = "langcode",
  *     "published" = "status",
- *     "bundle"= "site_internet_entity_type",
  *   },
  *   links = {
  *     "canonical" = "/admin/structure/site_type_datas/{site_type_datas}",
@@ -62,6 +61,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   
   use EntityChangedTrait;
   use EntityPublishedTrait;
+  public static $key_type = 'site_internet_entity_type';
   
   /**
    *
@@ -134,7 +134,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   }
   
   public function getType() {
-    return $this->get('type')->value;
+    return $this->get(self::$key_type)->value;
   }
   
   /**
@@ -151,6 +151,10 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
       throw new \LogicException('Le type de site web doit etre definie (site_internet_entity_type) ');
     }
     parent::preSave($storage);
+  }
+  
+  public function getFirstImage() {
+    return $this->get('image')->target_id;
   }
   
   /**
@@ -200,7 +204,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     $fields['changed'] = BaseFieldDefinition::create('changed')->setLabel(t('Changed'))->setDescription(t('The time that the entity was last edited.'));
     
     $fields['site_internet_entity_type'] = BaseFieldDefinition::create('string')->setLabel(t('Type de site'))->setRequired(true);
-    
+    //
     $fields['terms'] = BaseFieldDefinition::create('entity_reference')->setLabel(" Selectionner les categories ")->setDisplayOptions('form', [
       'type' => 'entity_reference_autocomplete',
       'weight' => 5,
@@ -220,10 +224,8 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
       'auto_create' => false,
       'auto_create_bundle' => ''
     ])->setSetting('target_type', 'taxonomy_term')->setSetting('handler', 'default:taxonomy_term')->setRevisionable(TRUE)->setCardinality(-1);
-    
-    $fields['image'] = BaseFieldDefinition::create('image')->setLabel(' Image du model ')->setRequired(false)->setDisplayConfigurable('form', [
-      'type' => 'image'
-    ])->setDisplayConfigurable('view', TRUE)->setSetting("min_resolution", "1000x1000");
+    //
+    $fields['image'] = BaseFieldDefinition::create('image')->setLabel(' Image du model ')->setRequired(false)->setDisplayConfigurable('form', true)->setDisplayConfigurable('view', TRUE)->setSetting("min_resolution", "1000x1000");
     
     return $fields;
   }
