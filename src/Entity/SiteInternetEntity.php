@@ -18,7 +18,7 @@ use Drupal\user\UserInterface;
  *
  * @ContentEntityType(
  *   id = "site_internet_entity",
- *   label = @Translation("Site internet entity"),
+ *   label = @Translation("Site internet entity ( models & sites web )"),
  *   bundle_label = @Translation("Site internet entity type"),
  *   handlers = {
  *     "storage" = "Drupal\creation_site_virtuel\SiteInternetEntityStorage",

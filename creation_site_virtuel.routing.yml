@@ -5,3 +5,11 @@ creation_site_virtuel.example:
     _controller: '\Drupal\creation_site_virtuel\Controller\CreationSiteVirtuelController::build'
   requirements:
     _permission: 'access content'
+
+creation_site_virtuel.model_choisie_form:
+  path: '/creation-site-virtuel/form/model-choisie'
+  defaults:
+    _form: '\Drupal\creation_site_virtuel\Form\ModelChoisieForm'
+    _title: 'ModelChoisieForm'
+  requirements:
+    _access: 'TRUE'
