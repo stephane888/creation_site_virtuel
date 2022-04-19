@@ -14,8 +14,8 @@ use Drupal\Core\Field\Plugin\Field\FieldWidget\OptionsWidgetBase;
  *   label = @Translation(" selection de theme "),
  *   field_types = {
  *     "entity_reference",
- *   },
- *   multiple_values = TRUE
+ *     "boolean",
+ *   }
  * )
  */
 class SelectfilterTheme extends OptionsWidgetBase {
@@ -25,6 +25,7 @@ class SelectfilterTheme extends OptionsWidgetBase {
    * {@inheritdoc}
    */
   public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
+    // dump($items->getSettings());
     $element = parent::formElement($items, $delta, $element, $form, $form_state);
     //
     $options = $this->getOptions($items->getEntity());
@@ -46,6 +47,7 @@ class SelectfilterTheme extends OptionsWidgetBase {
       ];
     }
     else {
+      
       $element += [
         '#type' => 'radios',
         // Radio buttons need a scalar value. Take the first default value, or
@@ -53,7 +55,7 @@ class SelectfilterTheme extends OptionsWidgetBase {
         // not having a default value.
         '#default_value' => $selected ? reset($selected) : NULL,
         '#options' => $options,
-        '#theme' => 'form-element--image',        
+        '#theme' => 'form-element--image'
       ];
     }
     // dump($element);

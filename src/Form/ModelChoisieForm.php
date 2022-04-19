@@ -82,6 +82,7 @@ class ModelChoisieForm extends FormBase {
     // SortArray::class,
     // 'sortByWeightProperty'
     // ]);
+    
     $form_state->set(FormDonneeSiteVar::$key_dsi_form, $dsi_form);
     
     $form['donnee-internet-entity'] = [
@@ -127,7 +128,8 @@ class ModelChoisieForm extends FormBase {
             '#type' => 'html_tag',
             '#tag' => 'div',
             '#attributes' => [
-              'id' => 'appLoginRegister'
+              'id' => 'appLoginRegister',
+              'action_after_login' => 'emit_even'
             ],
             '#value' => 'ff',
             '#weight' => 10
@@ -200,13 +202,15 @@ class ModelChoisieForm extends FormBase {
         '#ajax' => [
           'callback' => '::selectNextFieldSCallback',
           'wrapper' => 'donnee-internet-entity-next-field',
-          'effect' => 'fade'
+          'effect' => 'fade',
+          'event' => 'click'
         ],
         '#attributes' => [
           'class' => [
             'd-inline-block',
             'w-auto'
-          ]
+          ],
+          'data-trigger' => 'run'
         ]
       ];
     }
@@ -222,11 +226,11 @@ class ModelChoisieForm extends FormBase {
             'saveSubmit'
           ]
         ],
-        '#ajax' => [
-          'callback' => '::selectNextFieldSCallback',
-          'wrapper' => 'donnee-internet-entity-next-field',
-          'effect' => 'fade'
-        ],
+        // '#ajax' => [
+        // 'callback' => '::selectNextFieldSCallback',
+        // 'wrapper' => 'donnee-internet-entity-next-field',
+        // 'effect' => 'fade'
+        // ],
         '#attributes' => [
           'class' => [
             'd-inline-block',
@@ -291,28 +295,35 @@ class ModelChoisieForm extends FormBase {
   }
   
   public function saveSubmit($form, FormStateInterface $form_state) {
+    /**
+     *
+     * @var DonneeSiteInternetEntity $entity
+     */
     $entity = $form_state->get(FormDonneeSiteVar::$entity);
-    $entity->save();
     
+    //
     $form_state->set(FormDonneeSiteVar::$entity, $entity);
-    $this->messenger()->addStatus('Vos données ont été sauvegardées');
-    // $form_state->setRebuild(true);
-    $response = new AjaxResponse();
+    $this->messenger()->addStatus(' Veillez vous connectez, ou creer un compte pour confirmer la sauvegarde de vous données. ');
+    //
     if ($form_state->hasAnyErrors()) {
       // Do validation stuff here
       // ex: $response->addCommand(new ReplaceCommand... on error fields
     }
     else {
-      // Do submit stuff here
-      $this->messenger()->addStatus('rediction encours ... current');
-      // $url = Url::fromRoute('multi_sitemap.render6');
-      // $command = new RedirectCommand($url->toString());
-      // $response->addCommand($command);
-      
-      $response = new AjaxResponse();
-      $currentURL = Url::fromRoute('<current>');
-      $response->addCommand(new RedirectCommand($currentURL->toString()));
-      return $response;
+      $uid = $this->currentUser()->id();
+      if (!$uid) {
+        $entity->save();
+        $url = Url::fromRoute('creation_site_virtuel.model_choisie_form_save', [
+          'id_entity' => $entity->id()
+        ]);
+        $form_state->setRedirectUrl($url);
+      }
+      else {
+        $entity->setOwnerId($uid);
+        $entity->save();
+        $url = Url::fromRoute('user.page');
+        $form_state->setRedirectUrl($url);
+      }
     }
   }
   

@@ -13,3 +13,12 @@ creation_site_virtuel.model_choisie_form:
     _title: 'ModelChoisieForm'
   requirements:
     _access: 'TRUE'
+    
+    
+creation_site_virtuel.model_choisie_form_save:
+  path: '/creation-site-virtuel/form-save/model-choisie/{id_entity}'
+  defaults:
+    _controller: '\Drupal\creation_site_virtuel\Controller\CreationSiteVirtuelController::formSave'
+    _title: 'Sauvegarder votre formulaire'
+  requirements:
+    _access: 'TRUE'
