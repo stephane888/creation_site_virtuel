@@ -101,6 +101,7 @@ class ModelChoisieForm extends FormBase {
     
     //
     if ($form_state->has(FormDonneeSiteVar::$key_steps)) {
+      // \Drupal::messenger()->addStatus(json_encode($form_state->get(FormDonneeSiteVar::$key_steps)));
       LesroidelarenoFormDonneeSite::getFieldForStep($form['donnee-internet-entity'], $form_state, 2);
       if (array_key_last($form_state->get(FormDonneeSiteVar::$key_steps)) == 'login') {
         $form['donnee-internet-entity'][] = [
@@ -270,13 +271,8 @@ class ModelChoisieForm extends FormBase {
          *
          * @var array $files
          */
-        $files = $entity->get('contenus_transferer')->getValue();
-        $new_files = [];
-        foreach ($files as $file) {
-          if (!empty($file))
-            $new_files[] = $file;
-        }
-        $entity->set('contenus_transferer', $new_files);
+        $entity->set('contenus_transferer', $this->cleanFiles($entity->get('contenus_transferer')->getValue()));
+        $entity->set('contenus_transferer_txt', $this->cleanFiles($entity->get('contenus_transferer_txt')->getValue()));
         $form_display->extractFormValues($entity, $form, $form_state);
         $form_state->set(FormDonneeSiteVar::$entity, $entity);
       }
@@ -286,6 +282,15 @@ class ModelChoisieForm extends FormBase {
     }
     $form_state->set('step_direction', '+');
     $form_state->setRebuild(true);
+  }
+  
+  protected function cleanFiles($files) {
+    $new_files = [];
+    foreach ($files as $file) {
+      if (!empty($file))
+        $new_files[] = $file;
+    }
+    return $new_files;
   }
   
   public function selectPreviewsFieldSubmit($form, FormStateInterface $form_state) {
