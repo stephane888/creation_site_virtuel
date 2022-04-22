@@ -12,6 +12,8 @@ use Drupal\lesroidelareno\LesroidelarenoFormDonneeSite;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\RedirectCommand;
 use Drupal\Core\Url;
+use CaseConverter\StringAssembler;
+use Jawira\CaseConverter\Convert;
 
 /**
  * Class ModelChoisieForm.
@@ -259,7 +261,12 @@ class ModelChoisieForm extends FormBase {
   public function selectNextFieldSubmit($form, FormStateInterface $form_state) {
     //
     if ($form_state->has(FormDonneeSiteVar::$key_steps)) {
+      $steps = $form_state->get(FormDonneeSiteVar::$key_steps);
       if ($form_state->has(FormDonneeSiteVar::$entity)) {
+        /**
+         *
+         * @var DonneeSiteInternetEntity $entity
+         */
         $entity = $form_state->get(FormDonneeSiteVar::$entity);
         /**
          *
@@ -275,6 +282,26 @@ class ModelChoisieForm extends FormBase {
         $entity->set('contenus_transferer_txt', $this->cleanFiles($entity->get('contenus_transferer_txt')->getValue()));
         $form_display->extractFormValues($entity, $form, $form_state);
         $form_state->set(FormDonneeSiteVar::$entity, $entity);
+        
+        // On cree le domaine
+        $lastKey = array_key_last($steps);
+        $steppers = LesroidelarenoFormDonneeSite::getStepper2();
+        //
+        if (!empty($steppers[$lastKey])) {
+          if (in_array('name', $steppers[$lastKey]['keys'])) {
+            $compagnie = $entity->getName();
+            $textConvert = new Convert($compagnie);
+            $sub_domain = $textConvert->toKebab();
+            $DomainOvh = \Drupal\ovh_api_rest\Entity\DomainOvhEntity::create();
+            $DomainOvh->set('name', ' Generate domain : ' . $compagnie);
+            $DomainOvh->set('zone_name', 'lesroisdelareno.fr');
+            $DomainOvh->set('field_type', 'A');
+            $DomainOvh->set('sub_domain', $sub_domain);
+            $DomainOvh->set('target', '213.186.33.186');
+            $DomainOvh->set('path', '/domain/zone/lesroisdelareno.fr/record');
+            $DomainOvh->save();
+          }
+        }
       }
     }
     else {
