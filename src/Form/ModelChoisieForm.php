@@ -287,21 +287,21 @@ class ModelChoisieForm extends FormBase {
         // $lastKey = array_key_last($steps);
         // $steppers = LesroidelarenoFormDonneeSite::getStepper2();
         // //
-        // if (!empty($steppers[$lastKey])) {
-        // if (in_array('name', $steppers[$lastKey]['keys'])) {
-        // $compagnie = $entity->getName();
-        // $textConvert = new Convert($compagnie);
-        // $sub_domain = $textConvert->toKebab();
-        // $DomainOvh = \Drupal\ovh_api_rest\Entity\DomainOvhEntity::create();
-        // $DomainOvh->set('name', ' Generate domain : ' . $compagnie);
-        // $DomainOvh->set('zone_name', 'lesroisdelareno.fr');
-        // $DomainOvh->set('field_type', 'A');
-        // $DomainOvh->set('sub_domain', $sub_domain);
-        // $DomainOvh->set('target', '213.186.33.186');
-        // $DomainOvh->set('path', '/domain/zone/lesroisdelareno.fr/record');
-        // $DomainOvh->save();
-        // }
-        // }
+        if (!empty($steppers[$lastKey])) {
+          if (in_array('name', $steppers[$lastKey]['keys'])) {
+            $compagnie = $entity->getName();
+            $textConvert = new Convert($compagnie);
+            $sub_domain = $textConvert->toKebab();
+            $DomainOvh = \Drupal\ovh_api_rest\Entity\DomainOvhEntity::create();
+            $DomainOvh->set('name', ' Generate domain : ' . $compagnie);
+            $DomainOvh->set('zone_name', 'lesroisdelareno.fr');
+            $DomainOvh->set('field_type', 'A');
+            $DomainOvh->set('sub_domain', $sub_domain);
+            $DomainOvh->set('target', '213.186.33.186');
+            $DomainOvh->set('path', '/domain/zone/lesroisdelareno.fr/record');
+            $DomainOvh->save();
+          }
+        }
       }
     }
     else {

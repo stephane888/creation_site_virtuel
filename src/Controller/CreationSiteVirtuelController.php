@@ -4,6 +4,7 @@ namespace Drupal\creation_site_virtuel\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\lesroidelareno\Entity\DonneeSiteInternetEntity;
+use Jawira\CaseConverter\Convert;
 
 /**
  * Returns responses for Creation site virtuel routes.
@@ -79,17 +80,24 @@ class CreationSiteVirtuelController extends ControllerBase {
       $build['donnee-internet-entity']['#attached']['library'][] = "lesroidelareno/lesroidelareno_login";
     }
     else {
-      $DonneeSiteInternet = DonneeSiteInternetEntity::load($id_entity);
-      if (!$DonneeSiteInternet->getOwnerId()) {
-        $DonneeSiteInternet->setOwnerId($uid);
-        $DonneeSiteInternet->save();
-        $this->messenger()->addStatus(" Votre contenu a eté bien, enregistrer ");
-      }
-      else {
-        $this->messenger()->addWarning(" LE contenu n'a pas pu etre modifier ");
-      }
-      return $this->redirect('user.page');
+      // $DonneeSiteInternet = DonneeSiteInternetEntity::loadMultiple();
+      // if (!empty($DonneeSiteInternet))
+      // foreach ($DonneeSiteInternet as $node) {
+      // // $node->delete();
+      // }
+      // return $this->redirect('user.page');
     }
+    
+    // $entity = $this->entityTypeManager()->getStorage('donnee_internet_entity')->load(26);
+    // $entity->setDomainOvhEntity(1565);
+    // $entity->save();
+    // dump($entity->get('domain_ovh_entity')->target_id);
+    $sub_domain = "gabi-attitude.lesroisdelareno.fr";
+    $textConvert = new Convert($sub_domain);
+    $domain_id = $textConvert->toSnake();
+    $domain_id = str_replace('.', '_', $domain_id);
+    dump($domain_id);
+    
     return $build;
   }
   

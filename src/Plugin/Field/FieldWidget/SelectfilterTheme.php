@@ -15,9 +15,12 @@ use Stephane888\Debug\debugLog;
  *   label = @Translation(" selection de theme "),
  *   field_types = {
  *     "entity_reference",
+ *     "list_integer",
+ *     "list_float",
  *     "list_string",
  *     "boolean",
- *   }
+ *   },
+ *   multiple_values = TRUE
  * )
  */
 class SelectfilterTheme extends OptionsWidgetBase {
@@ -515,9 +518,12 @@ class SelectfilterTheme extends OptionsWidgetBase {
    * {@inheritdoc}
    */
   public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
-    // dump($items->getSettings());
     $element = parent::formElement($items, $delta, $element, $form, $form_state);
-    //
+    $this->messenger()->addStatus(' selectfilter_theme : ' . $items->getName(), true);
+    // if ('field_liste_option' == $items->getName()) {
+    // dump($items->getFieldDefinition());
+    // }
+    
     $options = $this->getOptions($items->getEntity());
     $selected = $this->getSelectedOptions($items);
     
@@ -537,18 +543,16 @@ class SelectfilterTheme extends OptionsWidgetBase {
       ];
     }
     else {
-      
       $element += [
         '#type' => 'radios',
         // Radio buttons need a scalar value. Take the first default value, or
         // default to NULL so that the form element is properly recognized as
         // not having a default value.
         '#default_value' => $selected ? reset($selected) : NULL,
-        '#options' => $options,
-        '#theme' => 'form-element--image'
+        '#options' => $options
       ];
     }
-    // dump($element);
+    
     return $element;
   }
   
@@ -559,6 +563,16 @@ class SelectfilterTheme extends OptionsWidgetBase {
       'description' => [],
       'image' => []
     ];
+  }
+  
+  /**
+   *
+   * {@inheritdoc}
+   */
+  public function massageFormValues(array $values, array $form, FormStateInterface $form_state) {
+    // dump($values);
+    // die();
+    return $values;
   }
   
 }

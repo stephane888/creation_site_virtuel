@@ -6,6 +6,7 @@ creation_site_virtuel.example:
   requirements:
     _permission: 'access content'
 
+
 creation_site_virtuel.model_choisie_form:
   path: '/creation-site-virtuel/form/model-choisie'
   defaults:
@@ -13,8 +14,6 @@ creation_site_virtuel.model_choisie_form:
     _title: 'ModelChoisieForm'
   requirements:
     _access: 'TRUE'
-    
-
     
     
 creation_site_virtuel.model_choisie_form_save:
