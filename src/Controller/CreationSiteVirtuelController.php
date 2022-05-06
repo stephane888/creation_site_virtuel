@@ -87,16 +87,66 @@ class CreationSiteVirtuelController extends ControllerBase {
       // }
       // return $this->redirect('user.page');
     }
-    
-    // $entity = $this->entityTypeManager()->getStorage('donnee_internet_entity')->load(26);
-    // $entity->setDomainOvhEntity(1565);
-    // $entity->save();
-    // dump($entity->get('domain_ovh_entity')->target_id);
-    $sub_domain = "gabi-attitude.lesroisdelareno.fr";
-    $textConvert = new Convert($sub_domain);
-    $domain_id = $textConvert->toSnake();
-    $domain_id = str_replace('.', '_', $domain_id);
-    dump($domain_id);
+    //
+    //
+    $values = [
+      'type' => 'model_d_affichage_theme_commerce'
+    ];
+    $entity = $this->entityTypeManager()->getStorage('node')->create($values);
+    dump($entity->toArray());
+    /**
+     *
+     * @var \Drupal\commerce_product\Entity\Product $Product;
+     */
+    $Product = $this->entityTypeManager()->getStorage('commerce_product')->load(38);
+    dump($Product->toArray());
+    /**
+     *
+     * @var \Drupal\commerce_product\Entity\Product $Product;
+     */
+    $Product = $this->entityTypeManager()->getStorage('commerce_product')->load(39);
+    dump($Product->toArray());
+    /**
+     *
+     * @var \Drupal\commerce_product\Entity\Product $Product;
+     */
+    $Product = $this->entityTypeManager()->getStorage('commerce_product')->load(15);
+    dump($Product->toArray());
+    /**
+     *
+     * @var \Drupal\commerce_product\Entity\Product $Product;
+     */
+    $Product = $this->entityTypeManager()->getStorage('commerce_product')->load(2);
+    dump($Product->toArray());
+    /**
+     *
+     * @var \Drupal\commerce_product\Entity\Product $Product;
+     */
+    $Product = $this->entityTypeManager()->getStorage('commerce_product')->load(4);
+    dump($Product->toArray());
+    //
+    // $menuLink = $this->entityTypeManager()->getStorage('menu_link_content')->loadByProperties([
+    // 'bundle' => 'main'
+    // ]);
+    // dump($menuLink);
+    //
+    // $value = "@lesKIO_DE-Froisdel#areno.fr pa pin";
+    // dump(preg_replace('/[0-9\@\.\;\" "]+/', "", $value));
+    // dump(preg_replace("/[A-Z]/", "", $value));
+    // '/[^A-Za-z0-9\-]/'
+    // valid un domaine
+    // dump(preg_replace('/[^a-z0-9\-\.-]/', "", $value));
+    // valid le debut d'un sous domaine
+    // dump(preg_replace('/[^a-z0-9\-]/', "", $value));
+    // $domain_name = 'dump';
+    // if (preg_match("/^([a-zd](-*[a-zd])*)(.([a-zd](-*[a-zd])*))*$/i", $domain_name) && // valid characters check
+    // preg_match("/^.{1,253}$/", $domain_name) && // overall length check
+    // preg_match("/^[^.]{1,63}(.[^.]{1,63})*$/", $domain_name)) {
+    // var_dump("domaine valid");
+    // }
+    // else {
+    // var_dump("domaine non valid");
+    // }
     
     return $build;
   }

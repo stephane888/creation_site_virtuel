@@ -148,7 +148,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   
   public function preSave($storage) {
     if (empty($this->getType())) {
-      throw new \LogicException('Le type de site web doit etre definie (site_internet_entity_type) ');
+      throw new \LogicException('Le type de site web doit etre definie (site_internet_entity_type). ');
     }
     parent::preSave($storage);
   }
@@ -226,7 +226,17 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     ])->setSetting('target_type', 'taxonomy_term')->setSetting('handler', 'default:taxonomy_term')->setRevisionable(TRUE)->setCardinality(-1);
     //
     $fields['image'] = BaseFieldDefinition::create('image')->setLabel(' Image du model ')->setRequired(false)->setDisplayConfigurable('form', true)->setDisplayConfigurable('view', TRUE)->setSetting("min_resolution", "1000x1000");
-    
+    $fields['description'] = BaseFieldDefinition::create('text_long')->setLabel(" Description ")->setSettings([
+      'text_processing' => 0,
+      'html_format' => "text_code"
+    ])->setDisplayOptions('form', [
+      'type' => 'text_textarea',
+      'weight' => 0
+    ])->setDisplayOptions('view', [
+      'label' => 'hidden',
+      'type' => 'text_default',
+      'weight' => 0
+    ])->setRequired(TRUE)->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true);
     return $fields;
   }
   
