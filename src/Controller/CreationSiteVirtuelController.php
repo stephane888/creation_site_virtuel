@@ -90,40 +90,40 @@ class CreationSiteVirtuelController extends ControllerBase {
     //
     //
     $values = [
-      'type' => 'model_d_affichage_theme_commerce'
+      'type' => 'page_realisation'
     ];
     $entity = $this->entityTypeManager()->getStorage('node')->create($values);
     dump($entity->toArray());
-    /**
-     *
-     * @var \Drupal\commerce_product\Entity\Product $Product;
-     */
-    $Product = $this->entityTypeManager()->getStorage('commerce_product')->load(38);
-    dump($Product->toArray());
-    /**
-     *
-     * @var \Drupal\commerce_product\Entity\Product $Product;
-     */
-    $Product = $this->entityTypeManager()->getStorage('commerce_product')->load(39);
-    dump($Product->toArray());
-    /**
-     *
-     * @var \Drupal\commerce_product\Entity\Product $Product;
-     */
-    $Product = $this->entityTypeManager()->getStorage('commerce_product')->load(15);
-    dump($Product->toArray());
-    /**
-     *
-     * @var \Drupal\commerce_product\Entity\Product $Product;
-     */
-    $Product = $this->entityTypeManager()->getStorage('commerce_product')->load(2);
-    dump($Product->toArray());
-    /**
-     *
-     * @var \Drupal\commerce_product\Entity\Product $Product;
-     */
-    $Product = $this->entityTypeManager()->getStorage('commerce_product')->load(4);
-    dump($Product->toArray());
+    // /**
+    // *
+    // * @var \Drupal\commerce_product\Entity\Product $Product;
+    // */
+    // $Product = $this->entityTypeManager()->getStorage('commerce_product')->load(38);
+    // dump($Product->toArray());
+    // /**
+    // *
+    // * @var \Drupal\commerce_product\Entity\Product $Product;
+    // */
+    // $Product = $this->entityTypeManager()->getStorage('commerce_product')->load(39);
+    // dump($Product->toArray());
+    // /**
+    // *
+    // * @var \Drupal\commerce_product\Entity\Product $Product;
+    // */
+    // $Product = $this->entityTypeManager()->getStorage('commerce_product')->load(15);
+    // dump($Product->toArray());
+    // /**
+    // *
+    // * @var \Drupal\commerce_product\Entity\Product $Product;
+    // */
+    // $Product = $this->entityTypeManager()->getStorage('commerce_product')->load(2);
+    // dump($Product->toArray());
+    // /**
+    // *
+    // * @var \Drupal\commerce_product\Entity\Product $Product;
+    // */
+    // $Product = $this->entityTypeManager()->getStorage('commerce_product')->load(4);
+    // dump($Product->toArray());
     //
     // $menuLink = $this->entityTypeManager()->getStorage('menu_link_content')->loadByProperties([
     // 'bundle' => 'main'
