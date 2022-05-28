@@ -5,6 +5,8 @@ namespace Drupal\creation_site_virtuel\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\lesroidelareno\Entity\DonneeSiteInternetEntity;
 use Jawira\CaseConverter\Convert;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Drupal\Component\Serialization\Json;
 
 /**
  * Returns responses for Creation site virtuel routes.
@@ -89,43 +91,50 @@ class CreationSiteVirtuelController extends ControllerBase {
     }
     //
     //
-    $values = [
-      'type' => 'page_realisation'
-    ];
-    $entity = $this->entityTypeManager()->getStorage('node')->create($values);
-    dump($entity->toArray());
+    // $values = [
+    // 'type' => 'page_realisation'
+    // ];
+    // $entity =
+    // $this->entityTypeManager()->getStorage('node')->create($values);
+    // dump($entity->toArray());
     // /**
     // *
     // * @var \Drupal\commerce_product\Entity\Product $Product;
     // */
-    // $Product = $this->entityTypeManager()->getStorage('commerce_product')->load(38);
+    // $Product =
+    // $this->entityTypeManager()->getStorage('commerce_product')->load(38);
     // dump($Product->toArray());
     // /**
     // *
     // * @var \Drupal\commerce_product\Entity\Product $Product;
     // */
-    // $Product = $this->entityTypeManager()->getStorage('commerce_product')->load(39);
+    // $Product =
+    // $this->entityTypeManager()->getStorage('commerce_product')->load(39);
     // dump($Product->toArray());
     // /**
     // *
     // * @var \Drupal\commerce_product\Entity\Product $Product;
     // */
-    // $Product = $this->entityTypeManager()->getStorage('commerce_product')->load(15);
+    // $Product =
+    // $this->entityTypeManager()->getStorage('commerce_product')->load(15);
     // dump($Product->toArray());
     // /**
     // *
     // * @var \Drupal\commerce_product\Entity\Product $Product;
     // */
-    // $Product = $this->entityTypeManager()->getStorage('commerce_product')->load(2);
+    // $Product =
+    // $this->entityTypeManager()->getStorage('commerce_product')->load(2);
     // dump($Product->toArray());
     // /**
     // *
     // * @var \Drupal\commerce_product\Entity\Product $Product;
     // */
-    // $Product = $this->entityTypeManager()->getStorage('commerce_product')->load(4);
+    // $Product =
+    // $this->entityTypeManager()->getStorage('commerce_product')->load(4);
     // dump($Product->toArray());
     //
-    // $menuLink = $this->entityTypeManager()->getStorage('menu_link_content')->loadByProperties([
+    // $menuLink =
+    // $this->entityTypeManager()->getStorage('menu_link_content')->loadByProperties([
     // 'bundle' => 'main'
     // ]);
     // dump($menuLink);
@@ -139,7 +148,8 @@ class CreationSiteVirtuelController extends ControllerBase {
     // valid le debut d'un sous domaine
     // dump(preg_replace('/[^a-z0-9\-]/', "", $value));
     // $domain_name = 'dump';
-    // if (preg_match("/^([a-zd](-*[a-zd])*)(.([a-zd](-*[a-zd])*))*$/i", $domain_name) && // valid characters check
+    // if (preg_match("/^([a-zd](-*[a-zd])*)(.([a-zd](-*[a-zd])*))*$/i",
+    // $domain_name) && // valid characters check
     // preg_match("/^.{1,253}$/", $domain_name) && // overall length check
     // preg_match("/^[^.]{1,63}(.[^.]{1,63})*$/", $domain_name)) {
     // var_dump("domaine valid");
@@ -147,8 +157,51 @@ class CreationSiteVirtuelController extends ControllerBase {
     // else {
     // var_dump("domaine non valid");
     // }
-    
-    return $build;
+    // validation d'une entité avec bundle.
+    //
+    //
+    // $bundle_entity_type_id = 'mappings_entity';
+    // $bundle = 'content_generate_entity';
+    // $bundle_entity =
+    // \Drupal::entityTypeManager()->getStorage($bundle_entity_type_id)->load($bundle);
+    // dump($bundle_entity);
+    // if ($bundle_entity) {
+    // dump($bundle_entity->getConfigDependencyName());
+    // }
+    // else {
+    // dump(\Drupal::entityTypeManager()->getStorage($bundle_entity_type_id)->loadMultiple());
+    // }
+    //
+    $user = $this->entityTypeManager()->getStorage('user')->load(255);
+    // $user = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
+    $serializer = \Drupal::service('serializer');
+    $data = $serializer->serialize($user, 'json', [
+      'plugin_id' => 'entity'
+    ]);
+    $users = [
+      'users' => [
+        $user->toArray()
+      ]
+    ];
+    return $this->reponse($users);
+    // return $build;
+  }
+  
+  /**
+   *
+   * @param array|string $configs
+   * @param number $code
+   * @param string $message
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
+   */
+  protected function reponse($configs, $code = null, $message = null) {
+    if (!is_string($configs))
+      $configs = Json::encode($configs);
+    $reponse = new JsonResponse();
+    if ($code)
+      $reponse->setStatusCode($code, $message);
+    $reponse->setContent($configs);
+    return $reponse;
   }
   
 }

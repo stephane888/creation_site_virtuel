@@ -173,7 +173,9 @@ class SelectfilterTheme extends OptionsWidgetBase {
       ], $list);
     }
     
-    // $this->messenger()->addStatus(" List_options : " . $nbre_preview . ' :: ' . $this->fieldDefinition->getName() . ' :: ' . $nbre . ' :: ' . json_encode($settings['list_options']), true);
+    // $this->messenger()->addStatus(" List_options : " . $nbre_preview . ' :: '
+    // . $this->fieldDefinition->getName() . ' :: ' . $nbre . ' :: ' .
+    // json_encode($settings['list_options']), true);
     $element['list_options'] = [
       '#type' => 'html_tag',
       '#tag' => 'section',
@@ -318,7 +320,8 @@ class SelectfilterTheme extends OptionsWidgetBase {
         ];
       }
     }
-    // $submit = function ($form, \Drupal\Core\Form\FormStateInterface $form_state) {
+    // $submit = function ($form, \Drupal\Core\Form\FormStateInterface
+    // $form_state) {
     // $values = $form_state->getValue('list_options', []);
     // if (!empty($values)) {
     // $this->messenger()->addStatus("call_back", true);
@@ -420,7 +423,8 @@ class SelectfilterTheme extends OptionsWidgetBase {
   //
   public function selectNextFieldSCallback(array $form, FormStateInterface $form_state) {
     // debugLog::$max_depth = 7;
-    // debugLog::kintDebugDrupal($form_state->getTriggeringElement(), 'selectNextFieldSCallback', true);
+    // debugLog::kintDebugDrupal($form_state->getTriggeringElement(),
+    // 'selectNextFieldSCallback', true);
     $trigger = $form_state->getTriggeringElement();
     $element = null;
     foreach ($trigger['#array_parents'] as $fielname) {

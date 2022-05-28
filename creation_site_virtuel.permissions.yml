@@ -14,6 +14,9 @@ edit site internet entity entities:
 
 view published site internet entity entities:
   title: 'View published Site internet entity entities'
+  restrict access: false
+  requirements:
+    _role: 'anonymous'
 
 view unpublished site internet entity entities:
   title: 'View unpublished Site internet entity entities'
@@ -47,6 +50,9 @@ edit site type datas entities:
 
 view published site type datas entities:
   title: 'View published Site type datas entities'
+  restrict access: false
+  requirements:
+    _role: 'anonymous'
 
 view unpublished site type datas entities:
   title: 'View unpublished Site type datas entities'

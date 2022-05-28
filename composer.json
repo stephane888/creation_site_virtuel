@@ -9,5 +9,8 @@
             "email": "kksasteph888@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+    	"drupal/paragraphs": "^1.14",
+    	"drupal/inline_entity_form": "^1.0@RC"
+    }
 }

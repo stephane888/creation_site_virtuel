@@ -10,7 +10,7 @@ use Drupal\creation_site_virtuel\Entity\SiteTypeDatas;
  *
  * @ConfigEntityType(
  *   id = "site_internet_entity_type",
- *   label = @Translation(" Site internet entity type "),
+ *   label = @Translation(" Types de site web (models sites) "),
  *   handlers = {
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "list_builder" = "Drupal\creation_site_virtuel\SiteInternetEntityTypeListBuilder",

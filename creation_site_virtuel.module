@@ -1,6 +1,10 @@
 <?php
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
 
 /**
+ *
  * @file
  * Primary module hooks for Creation site virtuel module.
  *
@@ -10,6 +14,67 @@
  */
 
 /**
+ * implement hook_entity_base_field_info
+ *
+ * @param EntityTypeInterface $entity_type
+ */
+function creation_site_virtuel_entity_base_field_info(EntityTypeInterface $entity_type) {
+  $fields = [];
+  if ($entity_type->id() == 'site_internet_entity') {
+    if (\Drupal::moduleHandler()->moduleExists('domain')) {
+      __creation_site_virtuel_fields_domain($fields);
+    }
+  }
+  elseif ($entity_type->id() == 'paragraph') {
+    if (\Drupal::moduleHandler()->moduleExists('domain')) {
+      __creation_site_virtuel_fields_domain($fields);
+    }
+  }
+  elseif ($entity_type->id() == 'block_content') {
+    
+    $fields['layout_paragraphs'] = BaseFieldDefinition::create('entity_reference')->setLabel(t(' Sections '))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setDisplayOptions('form', [
+      'type' => 'inline_entity_form_complex',
+      'weight' => 0
+    ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'paragraph')->setSetting('handler', 'default')->setTranslatable(false)->setSetting('allow_duplicate', true);
+    $fields['user_id'] = BaseFieldDefinition::create('entity_reference')->setLabel(t(' User Name '))->setRequired(TRUE)->setDescription(t('The Name of the associated user.'))->setSetting('target_type', 'user')->setSetting('handler', 'default')->setDisplayOptions('view', array(
+      'label' => 'above',
+      'type' => 'entity_reference_label',
+      'weight' => -3
+    ))->setDisplayOptions('form', [
+      'type' => 'entity_reference_autocomplete',
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'size' => 60,
+        'autocomplete_type' => 'tags',
+        'placeholder' => ''
+      ),
+      'weight' => -3
+    ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setDefaultValueCallback('\Drupal\creation_site_virtuel\CreationSiteVirtuel::getCurrentUser');
+    __creation_site_virtuel_fields_domain($fields);
+  }
+  return $fields;
+}
+
+/**
+ *
+ * @param array $fields
+ */
+function __creation_site_virtuel_fields_domain(array &$fields) {
+  $field_access = \Drupal\domain_access\DomainAccessManagerInterface::DOMAIN_ACCESS_FIELD;
+  $field_source = \Drupal\domain_source\DomainSourceElementManagerInterface::DOMAIN_SOURCE_FIELD;
+  //
+  $fields[$field_access] = BaseFieldDefinition::create('entity_reference')->setLabel(t(" Domain access "))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setDisplayOptions('form', [
+    'type' => 'options_buttons',
+    'weight' => 0
+  ])->setSetting('handler', 'default')->setSetting('target_type', 'domain')->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE);
+  //
+  $fields[$field_source] = BaseFieldDefinition::create('entity_reference')->setLabel(t(" Domain source "))->setDisplayOptions('form', [
+    'type' => 'options_select',
+    'weight' => 0
+  ])->setSetting('handler', 'default')->setSetting('target_type', 'domain')->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE);
+}
+
+/**
  * Implements hook_theme().
  */
 function creation_site_virtuel_theme() {
@@ -17,12 +82,14 @@ function creation_site_virtuel_theme() {
   $theme['site_internet_entity'] = [
     'render element' => 'elements',
     'file' => 'site_internet_entity.page.inc',
-    'template' => 'site_internet_entity',
+    'template' => 'site_internet_entity'
   ];
   $theme['site_internet_entity_content_add_list'] = [
     'render element' => 'content',
-    'variables' => ['content' => NULL],
-    'file' => 'site_internet_entity.page.inc',
+    'variables' => [
+      'content' => NULL
+    ],
+    'file' => 'site_internet_entity.page.inc'
   ];
   return $theme;
 }
@@ -34,7 +101,7 @@ function creation_site_virtuel_theme_suggestions_site_internet_entity(array $var
   $suggestions = [];
   $entity = $variables['elements']['#site_internet_entity'];
   $sanitized_view_mode = strtr($variables['elements']['#view_mode'], '.', '_');
-
+  
   $suggestions[] = 'site_internet_entity__' . $sanitized_view_mode;
   $suggestions[] = 'site_internet_entity__' . $entity->bundle();
   $suggestions[] = 'site_internet_entity__' . $entity->bundle() . '__' . $sanitized_view_mode;

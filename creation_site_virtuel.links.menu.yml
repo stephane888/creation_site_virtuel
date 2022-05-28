@@ -1,7 +1,7 @@
 
 # Site internet entity menu items definition
 entity.site_internet_entity.collection:
-  title: 'Site internet entity list'
+  title: 'Contenus pour type de sites web'
   route_name: entity.site_internet_entity.collection
   description: 'List Site internet entity entities'
   parent: system.admin_structure
@@ -10,7 +10,7 @@ entity.site_internet_entity.collection:
 
 # Site internet entity type menu items definition
 entity.site_internet_entity_type.collection:
-  title: 'Site internet entity type'
+  title: 'Type de site web'
   route_name: entity.site_internet_entity_type.collection
   description: 'List Site internet entity type (bundles)'
   parent: system.admin_structure

@@ -10,6 +10,7 @@ use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityPublishedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\user\UserInterface;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
 
 /**
  * Defines the Site internet entity entity.
@@ -18,7 +19,7 @@ use Drupal\user\UserInterface;
  *
  * @ContentEntityType(
  *   id = "site_internet_entity",
- *   label = @Translation("Site internet entity ( models & sites web )"),
+ *   label = @Translation(" Contenu pour Types de site web"),
  *   bundle_label = @Translation("Site internet entity type"),
  *   handlers = {
  *     "storage" = "Drupal\creation_site_virtuel\SiteInternetEntityStorage",
@@ -61,7 +62,7 @@ use Drupal\user\UserInterface;
  *     "revision_log_message" = "revision_log"
  *   },
  *   links = {
- *     "canonical" = "/admin/structure/site_internet_entity/{site_internet_entity}",
+ *     "canonical" = "/site-internet-entity/{site_internet_entity}",
  *     "add-page" = "/admin/structure/site_internet_entity/add",
  *     "add-form" = "/admin/structure/site_internet_entity/add/{site_internet_entity_type}",
  *     "edit-form" = "/admin/structure/site_internet_entity/{site_internet_entity}/edit",
@@ -78,7 +79,6 @@ use Drupal\user\UserInterface;
  * )
  */
 class SiteInternetEntity extends EditorialContentEntityBase implements SiteInternetEntityInterface {
-  
   use EntityChangedTrait;
   use EntityPublishedTrait;
   
@@ -221,7 +221,7 @@ class SiteInternetEntity extends EditorialContentEntityBase implements SiteInter
         'placeholder' => ''
       ]
     ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE);
-    
+    //
     $fields['name'] = BaseFieldDefinition::create('string')->setLabel(t('Name'))->setDescription(t('The name of the Site internet entity entity.'))->setRevisionable(TRUE)->setSettings([
       'max_length' => 50,
       'text_processing' => 0
@@ -233,12 +233,27 @@ class SiteInternetEntity extends EditorialContentEntityBase implements SiteInter
       'type' => 'string_textfield',
       'weight' => -4
     ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setRequired(TRUE);
-    
+    //
+    $fields['layout_paragraphs'] = BaseFieldDefinition::create('entity_reference')->setLabel(t(' Sections '))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setDisplayOptions('form', [
+      'type' => 'inline_entity_form_complex',
+      'weight' => 0
+    ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'paragraph')->setSetting('handler', 'default')->setTranslatable(false)->setSetting('allow_duplicate', true);
+    //
     $fields['status']->setDescription(t('A boolean indicating whether the Site internet entity is published.'))->setDisplayOptions('form', [
       'type' => 'boolean_checkbox',
       'weight' => -3
     ]);
-    
+    //
+    $fields['is_home_page'] = BaseFieldDefinition::create('boolean')->setLabel(" Page d'accueil ? ")->setDisplayOptions('form', [
+      'type' => 'boolean_checkbox',
+      'weight' => -3
+    ])->setDisplayOptions('view', [])->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true)->setDefaultValue(true);
+    //
+    $fields['is_default_theme'] = BaseFieldDefinition::create('boolean')->setLabel(" Model par defaut ")->setDisplayOptions('form', [
+      'type' => 'boolean_checkbox',
+      'weight' => -3
+    ])->setDisplayOptions('view', [])->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true)->setDefaultValue(true);
+    //
     $fields['created'] = BaseFieldDefinition::create('created')->setLabel(t('Created'))->setDescription(t('The time that the entity was created.'));
     
     $fields['changed'] = BaseFieldDefinition::create('changed')->setLabel(t('Changed'))->setDescription(t('The time that the entity was last edited.'));
