@@ -109,3 +109,113 @@ function creation_site_virtuel_theme_suggestions_site_internet_entity(array $var
   $suggestions[] = 'site_internet_entity__' . $entity->id() . '__' . $sanitized_view_mode;
   return $suggestions;
 }
+
+/**
+ * implement hook_field_widget_form_alter
+ *
+ * @param unknown $element
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ * @param unknown $context
+ */
+function creation_site_virtuel_field_widget_form_alter(&$element, \Drupal\Core\Form\FormStateInterface $form_state, $context) {
+  // dump($element);
+}
+
+/**
+ * implement hook_field_widget_multivalue_WIDGET_TYPE_form_alter
+ */
+// function
+// creation_site_virtuel_field_widget_multivalue_creationsitevirtuelcomplexinline_form_alter(&$element,
+// \Drupal\Core\Form\FormStateInterface $form_state, $context) {
+// dump($element);
+// }
+function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_form_alter(&$element, \Drupal\Core\Form\FormStateInterface $form_state, $context) {
+  
+  /**
+   *
+   * @var \Drupal\Core\Field\FieldItemListInterface $items
+   */
+  $items = $context['items'];
+  
+  // On n'essaie de faire des copie de contenus.
+  if ($items->getEntity()->isNew()) {
+    
+    /**
+     *
+     * @var \Drupal\creation_site_virtuel\Plugin\Field\FieldWidget\CreationSiteVirtuelComplexInline $widget
+     */
+    $widget = $context['widget'];
+    $ief_id = $widget->_getIefId();
+    $entities = $form_state->get([
+      'inline_entity_form',
+      $ief_id,
+      'entities'
+    ]);
+    
+    // uniquement lors de la creation d'un contenu, on duplique les contenus
+    // definies par defaut.
+    if (!$form_state->get('default_value_widget')) {
+      
+      if (!empty($entities)) {
+        // on met à jour les données present dans $form_state.
+        foreach ($entities as $k => $entity) {
+          /**
+           *
+           * @var \Drupal\node\Entity\Node $entity
+           */
+          $cloneNode = $entity['entity']->createDuplicate();
+          $entities[$k]['needs_save'] = true;
+          $entities[$k]['form'] = null;
+          $entities[$k]['entity'] = $cloneNode;
+        }
+        //
+        $form_state->set([
+          'inline_entity_form',
+          $ief_id,
+          'entities'
+        ], $entities);
+        // On met à jour les données present dans le bloc d'affichage.
+        foreach ($element['entities'] as $k => $entity) {
+          if (!empty($entity['#entity'])) {
+            /**
+             *
+             * @var \Drupal\node\Entity\Node $node
+             */
+            $node = $element['entities'][$k]['#entity'];
+            $element['entities'][$k]['#entity'] = $node->createDuplicate();
+            $element['entities'][$k]['#needs_save'] = true;
+          }
+        }
+      }
+      else {
+        $message = "Aucun contenu par defaut pour le champs : " . $items->getName();
+        \Drupal::messenger()->addStatus($message);
+      }
+    }
+    // $form_values = NestedArray::getValue($form_state->getValues(),
+    // $reference_form['#parents']);
+  }
+  else {
+    // $widget = $context['widget'];
+    // $ief_id = $widget->_getIefId();
+    // $entities = $form_state->get([
+    // 'inline_entity_form',
+    // $ief_id,
+    // 'entities'
+    // ]);
+    // // dump($entities);
+    // foreach ($entities as $vals) {
+    // foreach ($vals as $entity) {
+    // /**
+    // *
+    // * @var \Drupal\block_content\Entity\BlockContent $entity
+    // */
+    // if ($entity instanceof Drupal\block_content\Entity\BlockContent &&
+    // $entity->getEntityTypeId() == 'block_content') {
+    // dump($entity->get('field_domain_access')->getValue());
+    // }
+    // }
+    // }
+  }
+}
+

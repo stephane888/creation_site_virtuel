@@ -9,6 +9,8 @@ use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityPublishedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\user\UserInterface;
+use Drupal\link\LinkItemInterface;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
 
 /**
  * Defines the Site type datas entity.
@@ -66,6 +68,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   /**
    *
    * {@inheritdoc}
+   *
    */
   public static function preCreate(EntityStorageInterface $storage_controller, array &$values) {
     parent::preCreate($storage_controller, $values);
@@ -134,7 +137,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   }
   
   public function getType() {
-    return $this->get(self::$key_type)->value;
+    return $this->get(self::$key_type)->target_id;
   }
   
   /**
@@ -203,17 +206,27 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     
     $fields['changed'] = BaseFieldDefinition::create('changed')->setLabel(t('Changed'))->setDescription(t('The time that the entity was last edited.'));
     
-    $fields['site_internet_entity_type'] = BaseFieldDefinition::create('string')->setLabel(t('Type de site'))->setRequired(true);
-    //
-    $fields['terms'] = BaseFieldDefinition::create('entity_reference')->setLabel(" Selectionner les categories ")->setDisplayOptions('form', [
-      'type' => 'entity_reference_autocomplete',
+    $fields[self::$key_type] = BaseFieldDefinition::create('entity_reference')->setLabel(t('Type de site'))->setRequired(true)->setDisplayOptions('form', [
+      'type' => 'options_select',
       'weight' => 5,
-      'settings' => [
+      'settings' => array(
         'match_operator' => 'CONTAINS',
-        'size' => '60',
+        'size' => '10',
+        'autocomplete_type' => 'tags',
         'placeholder' => ''
-      ]
-    ])->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true)->setDescription(t(" Selectionnez un domaine lié ou proche de votre activé "))->setSetting('handler_settings', [
+      )
+    ])->setSetting('target_type', self::$key_type)->setSetting('handler', 'default')->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true);
+    //
+    $fields['terms'] = BaseFieldDefinition::create('entity_reference')->setLabel(" Sélectionner les categories ")->setDisplayOptions('form', [
+      'type' => 'select2_entity_reference',
+      'weight' => 5,
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'size' => '10',
+        'autocomplete_type' => 'tags',
+        'placeholder' => ''
+      )
+    ])->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true)->setDescription(t(" Selectionnez ou ajouté une categorie pour ce theme "))->setSetting('handler_settings', [
       'target_bundles' => [
         'typesite' => 'typesite'
       ],
@@ -221,7 +234,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
         'field' => 'name',
         'direction' => 'asc'
       ],
-      'auto_create' => false,
+      'auto_create' => true,
       'auto_create_bundle' => ''
     ])->setSetting('target_type', 'taxonomy_term')->setSetting('handler', 'default:taxonomy_term')->setRevisionable(TRUE)->setCardinality(-1);
     //
@@ -237,6 +250,31 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
       'type' => 'text_default',
       'weight' => 0
     ])->setRequired(TRUE)->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true);
+    //
+    $fields['layout_paragraphs'] = BaseFieldDefinition::create('entity_reference')->setLabel(t(' Sections '))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setDisplayOptions('form', [
+      'type' => 'inline_entity_form_complex',
+      'weight' => 0
+    ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'paragraph')->setSetting('handler', 'default')->setTranslatable(false)->setSetting('allow_duplicate', true);
+    
+    //
+    $fields['je_choisie_text'] = BaseFieldDefinition::create('string')->setLabel(t('Je choisie (texte)'))->setDefaultValue('Je choisie')->setDisplayConfigurable('form', true)->setDisplayConfigurable('view', TRUE);
+    //
+    $fields['je_choisie'] = BaseFieldDefinition::create('link')->setLabel(t('Je choisie (direct link )'))->setSetting('link_type', LinkItemInterface::LINK_GENERIC)->setSetting('title', DRUPAL_OPTIONAL)->setDefaultValue([
+      'link_type' => '#',
+      'title' => 'Je choisie'
+    ])->setDisplayConfigurable('form', true)->setDisplayConfigurable('view', TRUE);
+    // Permet de definir faire apparaitre le dit modele sur la liste de
+    // selection.
+    $fields['is_home_page'] = BaseFieldDefinition::create('boolean')->setLabel(" Page d'accueil ? ")->setDisplayOptions('form', [
+      'type' => 'boolean_checkbox',
+      'weight' => 3
+    ])->setDisplayOptions('view', [])->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true)->setDefaultValue(true);
+    // pour determiner les modeles en fonction de la categorie. il doivent avoir
+    // la meme categorie. Le titre servir de nom de la page.
+    
+    //
+    $fields['voir_demo'] = BaseFieldDefinition::create('link')->setLabel(t('Voir la demo'))->setSetting('link_type', LinkItemInterface::LINK_GENERIC)->setSetting('title', DRUPAL_OPTIONAL)->setDisplayConfigurable('form', true)->setDisplayConfigurable('view', TRUE);
+    //
     return $fields;
   }
   

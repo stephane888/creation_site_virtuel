@@ -172,19 +172,61 @@ class CreationSiteVirtuelController extends ControllerBase {
     // dump(\Drupal::entityTypeManager()->getStorage($bundle_entity_type_id)->loadMultiple());
     // }
     //
-    $user = $this->entityTypeManager()->getStorage('user')->load(255);
-    // $user = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
-    $serializer = \Drupal::service('serializer');
-    $data = $serializer->serialize($user, 'json', [
-      'plugin_id' => 'entity'
-    ]);
-    $users = [
-      'users' => [
-        $user->toArray()
-      ]
-    ];
-    return $this->reponse($users);
+    // $blockContent =
+    // $this->entityTypeManager()->getStorage('block_content')->load(46);
+    // // $user = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
+    // // $serializer = \Drupal::service('serializer');
+    // // $data = $serializer->serialize($user, 'json', [
+    // // 'plugin_id' => 'entity'
+    // // ]);
+    // $users = [
+    // 'users' => [
+    // $user->toArray()
+    // ]
+    // ];
+    // return $this->reponse($users);
     // return $build;
+    //
+    //
+    $blockContent = $this->entityTypeManager()->getStorage('block_content')->load(3);
+    dump($blockContent->toArray());
+    //
+    //
+    /**
+     *
+     * @var \Drupal\block\Entity\Block $entity
+     */
+    $entities = $this->entityTypeManager()->getStorage('block')->loadByProperties([
+      'theme' => 'admin25_wb_horizon_kksa'
+    ]);
+    $blocks = [];
+    foreach ($entities as $entity) {
+      $blocks[] = $entity->toArray();
+    }
+    dump($blocks);
+    //
+    // $entity =
+    // $this->entityTypeManager()->getStorage('block_content')->load(58);
+    // dump($entity->toArray());
+    /**
+     * Charge un menu.
+     */
+    // $entities =
+    // $this->entityTypeManager()->getStorage('menu')->loadByProperties([
+    // 'theme' => 'admin23_wb_horizon_kksa'
+    // ]);
+    // $blocks = [];
+    // foreach ($entities as $entity) {
+    // $blocks[] = $entity->toArray();
+    // }
+    // dump($blocks);
+    /**
+     * Charge un item de menu.
+     */
+    $entity = $this->entityTypeManager()->getStorage('menu_link_content')->load(3);
+    dump($entity->toArray());
+    
+    dump(system_region_list('admin26_wb_horizon_kksa'));
   }
   
   /**

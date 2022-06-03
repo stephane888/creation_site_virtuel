@@ -246,13 +246,15 @@ class SiteInternetEntity extends EditorialContentEntityBase implements SiteInter
     //
     $fields['is_home_page'] = BaseFieldDefinition::create('boolean')->setLabel(" Page d'accueil ? ")->setDisplayOptions('form', [
       'type' => 'boolean_checkbox',
-      'weight' => -3
+      'weight' => 3
     ])->setDisplayOptions('view', [])->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true)->setDefaultValue(true);
     //
     $fields['is_default_theme'] = BaseFieldDefinition::create('boolean')->setLabel(" Model par defaut ")->setDisplayOptions('form', [
       'type' => 'boolean_checkbox',
-      'weight' => -3
+      'weight' => 25
     ])->setDisplayOptions('view', [])->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true)->setDefaultValue(true);
+    //
+    
     //
     $fields['created'] = BaseFieldDefinition::create('created')->setLabel(t('Created'))->setDescription(t('The time that the entity was created.'));
     

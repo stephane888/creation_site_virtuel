@@ -18,7 +18,7 @@ entity.site_internet_entity_type.collection:
 
 # Site type datas menu items definition
 entity.site_type_datas.collection:
-  title: 'Site type datas list'
+  title: 'Site type datas list (modele page web)'
   route_name: entity.site_type_datas.collection
   description: 'List Site type datas entities'
   parent: system.admin_structure
