@@ -140,6 +140,10 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     return $this->get(self::$key_type)->target_id;
   }
   
+  public function getCategorie() {
+    return $this->get('terms')->target_id;
+  }
+  
   /**
    *
    * {@inheritdoc}
@@ -157,6 +161,16 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   }
   
   public function getFirstImage() {
+    if ($this->get('image')->first()) {
+      $fisrt = $this->get('image')->first();
+      if (!empty($fisrt)) {
+        $val = $fisrt->getValue();
+        if (!empty($val['target_id'])) {
+          return $val['target_id'];
+        }
+      }
+    }
+    
     return $this->get('image')->target_id;
   }
   
