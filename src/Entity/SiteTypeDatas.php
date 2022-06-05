@@ -271,7 +271,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'paragraph')->setSetting('handler', 'default')->setTranslatable(false)->setSetting('allow_duplicate', true);
     
     //
-    $fields['je_choisie_text'] = BaseFieldDefinition::create('string')->setLabel(t('Je choisie (texte)'))->setDefaultValue('Je choisie')->setDisplayConfigurable('form', true)->setDisplayConfigurable('view', TRUE);
+    $fields['je_choisie_text'] = BaseFieldDefinition::create('string')->setLabel(t('Je choisie (texte)'))->setDisplayConfigurable('form', true)->setDisplayConfigurable('view', TRUE);
     //
     $fields['je_choisie'] = BaseFieldDefinition::create('link')->setLabel(t('Je choisie (direct link )'))->setSetting('link_type', LinkItemInterface::LINK_GENERIC)->setSetting('title', DRUPAL_OPTIONAL)->setDefaultValue([
       'link_type' => '#',
@@ -282,7 +282,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     $fields['is_home_page'] = BaseFieldDefinition::create('boolean')->setLabel(" Page d'accueil ? ")->setDisplayOptions('form', [
       'type' => 'boolean_checkbox',
       'weight' => 3
-    ])->setDisplayOptions('view', [])->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true)->setDefaultValue(true);
+    ])->setDisplayOptions('view', [])->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true)->setDefaultValue(false);
     // pour determiner les modeles en fonction de la categorie. il doivent avoir
     // la meme categorie. Le titre servir de nom de la page.
     
