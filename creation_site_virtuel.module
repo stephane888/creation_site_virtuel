@@ -31,9 +31,8 @@ function creation_site_virtuel_entity_base_field_info(EntityTypeInterface $entit
     }
   }
   elseif ($entity_type->id() == 'block_content') {
-    
     $fields['layout_paragraphs'] = BaseFieldDefinition::create('entity_reference')->setLabel(t(' Sections '))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setDisplayOptions('form', [
-      'type' => 'inline_entity_form_complex',
+      'type' => 'creationsitevirtuelcomplexinline',
       'weight' => 0
     ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'paragraph')->setSetting('handler', 'default')->setTranslatable(false)->setSetting('allow_duplicate', true);
     $fields['user_id'] = BaseFieldDefinition::create('entity_reference')->setLabel(t(' User Name '))->setRequired(TRUE)->setDescription(t('The Name of the associated user.'))->setSetting('target_type', 'user')->setSetting('handler', 'default')->setDisplayOptions('view', array(
@@ -52,6 +51,26 @@ function creation_site_virtuel_entity_base_field_info(EntityTypeInterface $entit
     ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setDefaultValueCallback('\Drupal\creation_site_virtuel\CreationSiteVirtuel::getCurrentUser');
     __creation_site_virtuel_fields_domain($fields);
   }
+  elseif ($entity_type->id() == 'commerce_product') {
+    $fields['layout_paragraphs'] = BaseFieldDefinition::create('entity_reference')->setLabel(t(' Sections '))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setDisplayOptions('form', [
+      'type' => 'creationsitevirtuelcomplexinline',
+      'weight' => 39
+    ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'paragraph')->setSetting('handler', 'default')->setTranslatable(false)->setSetting('allow_duplicate', true);
+    __creation_site_virtuel_fields_domain($fields);
+  }
+  // on ajoute un champs à tous les types de nodes pour l'affichage des
+  // données de paragraphs
+  // elseif ($entity_type->id() == 'node') {
+  // $fields['layout_paragraphs'] =
+  // BaseFieldDefinition::create('entity_reference')->setLabel(t(' Sections
+  // '))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setDisplayOptions('form',
+  // [
+  // 'type' => 'creationsitevirtuelcomplexinline',
+  // 'weight' => 10
+  // ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view',
+  // TRUE)->setSetting('target_type', 'paragraph')->setSetting('handler',
+  // 'default')->setTranslatable(false)->setSetting('allow_duplicate', true);
+  // }
   return $fields;
 }
 
@@ -64,13 +83,16 @@ function __creation_site_virtuel_fields_domain(array &$fields) {
   $field_source = \Drupal\domain_source\DomainSourceElementManagerInterface::DOMAIN_SOURCE_FIELD;
   //
   $fields[$field_access] = BaseFieldDefinition::create('entity_reference')->setLabel(t(" Domain access "))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setDisplayOptions('form', [
-    'type' => 'options_buttons',
-    'weight' => 0
-  ])->setSetting('handler', 'default')->setSetting('target_type', 'domain')->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE);
+    'type' => 'select2_entity_reference',
+    'weight' => 40,
+    'settings' => [
+      'autocomplete' => true
+    ]
+  ])->setSetting('handler', 'default')->setSetting('target_type', 'domain')->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setDefaultValueCallback('\Drupal\creation_site_virtuel\CreationSiteVirtuel::getActiveDomain');
   //
   $fields[$field_source] = BaseFieldDefinition::create('entity_reference')->setLabel(t(" Domain source "))->setDisplayOptions('form', [
     'type' => 'options_select',
-    'weight' => 0
+    'weight' => 40
   ])->setSetting('handler', 'default')->setSetting('target_type', 'domain')->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE);
 }
 

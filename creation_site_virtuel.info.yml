@@ -10,3 +10,4 @@ dependencies:
   - drupal:inline_entity_form
   - drupal:select2
   - generate_domain_vps:generate_domain_vps
+  - domain_access

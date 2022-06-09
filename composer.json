@@ -13,6 +13,7 @@
     	"drupal/paragraphs": "^1.14",
     	"drupal/select2": "^1.13",
     	"drupal/inline_entity_form": "^1.0@RC",
+    	"drupal/domain": "^1.0@beta",
     	"stephane888/generate_domain_vps": "dev-1x|^1.0"
     }
 }
