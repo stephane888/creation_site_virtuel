@@ -251,6 +251,7 @@ class CreationSiteVirtuelController extends ControllerBase {
       $logo_path = ImageStyle::load('medium')->buildUri($file->getFileUri());
       $img2 = ImageStyle::load('medium')->buildUrl($file->getFileUri());
       file_get_contents($img2);
+      dump($img2);
       $file_url_generator = \Drupal::service('file_url_generator');
       $img_url = $file_url_generator->generateString($logo_path);
       dump($logo_path, $img_url, $file->getFileUri());
