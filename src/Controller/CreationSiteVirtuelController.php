@@ -7,6 +7,8 @@ use Drupal\lesroidelareno\Entity\DonneeSiteInternetEntity;
 use Jawira\CaseConverter\Convert;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Drupal\Component\Serialization\Json;
+use Drupal\image\Entity\ImageStyle;
+use Drupal\file\Entity\File;
 
 /**
  * Returns responses for Creation site virtuel routes.
@@ -188,22 +190,24 @@ class CreationSiteVirtuelController extends ControllerBase {
     // return $build;
     //
     //
-    $blockContent = $this->entityTypeManager()->getStorage('block_content')->load(188);
-    dump($blockContent->toArray());
+    // $blockContent =
+    // $this->entityTypeManager()->getStorage('block_content')->load(188);
+    // dump($blockContent->toArray());
     //
     //
     /**
      *
      * @var \Drupal\block\Entity\Block $entity
      */
-    $entities = $this->entityTypeManager()->getStorage('block')->loadByProperties([
-      'theme' => 'admin25_wb_horizon_kksa'
-    ]);
-    $blocks = [];
-    foreach ($entities as $entity) {
-      $blocks[] = $entity->toArray();
-    }
-    dump($blocks);
+    // $entities =
+    // $this->entityTypeManager()->getStorage('block')->loadByProperties([
+    // 'theme' => 'admin25_wb_horizon_kksa'
+    // ]);
+    // $blocks = [];
+    // foreach ($entities as $entity) {
+    // $blocks[] = $entity->toArray();
+    // }
+    // dump($blocks);
     //
     // $entity =
     // $this->entityTypeManager()->getStorage('block_content')->load(58);
@@ -223,10 +227,34 @@ class CreationSiteVirtuelController extends ControllerBase {
     /**
      * Charge un item de menu.
      */
-    $entity = $this->entityTypeManager()->getStorage('menu_link_content')->load(3);
-    dump($entity->toArray());
+    // $entity =
+    // $this->entityTypeManager()->getStorage('menu_link_content')->load(3);
+    // dump($entity->toArray());
     
-    dump(system_region_list('admin26_wb_horizon_kksa'));
+    // dump(system_region_list('admin26_wb_horizon_kksa'));
+    
+    /**
+     * test de recuration via le multidomaine.
+     *
+     * @var $configs
+     */
+    /**
+     *
+     * @var \Drupal\domain_config\DomainConfigOverrider $DomainConfigOverrider
+     */
+    // $conf =
+    // \Stephane888\Debug\Repositories\ConfigDrupal::config('ovh_api_rest.settings');
+    // dump($conf);
+    //
+    $file = File::load(327);
+    if ($file) {
+      $logo_path = ImageStyle::load('medium')->buildUri($file->getFileUri());
+      $img2 = ImageStyle::load('medium')->buildUrl($file->getFileUri());
+      file_get_contents($img2);
+      $file_url_generator = \Drupal::service('file_url_generator');
+      $img_url = $file_url_generator->generateString($logo_path);
+      dump($logo_path, $img_url, $file->getFileUri());
+    }
   }
   
   /**
