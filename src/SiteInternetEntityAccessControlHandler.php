@@ -50,6 +50,8 @@ class SiteInternetEntityAccessControlHandler extends EntityAccessControlHandler 
         if (!empty($permission)) {
           return AccessResult::allowed();
         }
+        elseif ($account->id() == $entity->getOwnerId())
+          return AccessResult::allowed();
         return AccessResult::allowedIfHasPermission($account, 'edit site internet entity entities');
       
       case 'delete':

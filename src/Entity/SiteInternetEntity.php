@@ -19,7 +19,7 @@ use Drupal\Core\Field\FieldStorageDefinitionInterface;
  *
  * @ContentEntityType(
  *   id = "site_internet_entity",
- *   label = @Translation(" Contenu pour Types de site web"),
+ *   label = @Translation(" Contenu pour Types de site web (Pages)"),
  *   bundle_label = @Translation("Site internet entity type"),
  *   handlers = {
  *     "storage" = "Drupal\creation_site_virtuel\SiteInternetEntityStorage",
