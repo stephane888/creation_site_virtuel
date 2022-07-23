@@ -133,11 +133,9 @@ function creation_site_virtuel_theme_suggestions_site_internet_entity(array $var
 }
 
 /**
- * implement hook_field_widget_form_alter
+ * Implement hook_field_widget_form_alter
  *
- * @param unknown $element
  * @param \Drupal\Core\Form\FormStateInterface $form_state
- * @param unknown $context
  */
 function creation_site_virtuel_field_widget_form_alter(&$element, \Drupal\Core\Form\FormStateInterface $form_state, $context) {
   // dump($element);
@@ -152,7 +150,6 @@ function creation_site_virtuel_field_widget_form_alter(&$element, \Drupal\Core\F
 // dump($element);
 // }
 function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_form_alter(&$element, \Drupal\Core\Form\FormStateInterface $form_state, $context) {
-  
   /**
    *
    * @var \Drupal\Core\Field\FieldItemListInterface $items

@@ -19,7 +19,7 @@ use Drupal\Core\Field\FieldStorageDefinitionInterface;
  *
  * @ContentEntityType(
  *   id = "site_type_datas",
- *   label = @Translation("Site type datas ( données de presentation de  modele ) "),
+ *   label = @Translation(" Site type datas ( données de presentation de  modele ) "),
  *   handlers = {
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "list_builder" = "Drupal\creation_site_virtuel\SiteTypeDatasListBuilder",

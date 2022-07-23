@@ -12,7 +12,6 @@ use Drupal\lesroidelareno\LesroidelarenoFormDonneeSite;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\RedirectCommand;
 use Drupal\Core\Url;
-use CaseConverter\StringAssembler;
 use Jawira\CaseConverter\Convert;
 
 /**
@@ -138,8 +137,10 @@ class ModelChoisieForm extends FormBase {
             '#weight' => 10
           ]
         ];
-        // $form['donnee-internet-entity']['#attached']['library'][] = 'login_rx_vuejs/login_register';
-        // $form['donnee-internet-entity']['#attached']['library'][] = 'login_rx_vuejs/login_register_small_components';
+        // $form['donnee-internet-entity']['#attached']['library'][] =
+        // 'login_rx_vuejs/login_register';
+        // $form['donnee-internet-entity']['#attached']['library'][] =
+        // 'login_rx_vuejs/login_register_small_components';
         $form['donnee-internet-entity']['#attached']['library'][] = "lesroidelareno/lesroidelareno_login";
       }
     }
@@ -322,7 +323,8 @@ class ModelChoisieForm extends FormBase {
   
   public function selectPreviewsFieldSubmit($form, FormStateInterface $form_state) {
     $form_state->set('step_direction', '-');
-    // $this->messenger()->addStatus('selectPreviewsFieldSubmit :: ' . json_encode($form_state->getValues()), true);
+    // $this->messenger()->addStatus('selectPreviewsFieldSubmit :: ' .
+    // json_encode($form_state->getValues()), true);
     $form_state->setRebuild(true);
   }
   
