@@ -11,6 +11,8 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\user\UserInterface;
 use Drupal\link\LinkItemInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Stephane888\Debug\debugLog;
+use Stephane888\Debug\Repositories\ConfigDrupal;
 
 /**
  * Defines the Site type datas entity.
@@ -63,6 +65,10 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   
   use EntityChangedTrait;
   use EntityPublishedTrait;
+  /**
+   * definie le path
+   */
+  protected $path;
   public static $key_type = 'site_internet_entity_type';
   
   /**
@@ -160,6 +166,27 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     parent::preSave($storage);
   }
   
+  public function postSave(EntityStorageInterface $storage, $update = TRUE) {
+    parent::postSave($storage, $update);
+    // On force une sauvegarde ici.
+    $style_scss = $this->get('style_scss')->value;
+    $style_js = $this->get('style_js')->value;
+    debugLog::logger($style_scss, "custom.scss", false, 'file', $this->getPath() . '/scss', true);
+    debugLog::logger($style_js, "custom.js", false, 'file', $this->getPath() . '/js', true);
+  }
+  
+  /**
+   *
+   * @return string
+   */
+  protected function getPath() {
+    if (!$this->path) {
+      $conf = ConfigDrupal::config('system.theme');
+      $this->path = DRUPAL_ROOT . '/' . drupal_get_path('theme', $conf['default']) . '/wbu-atomique-theme/src';
+    }
+    return $this->path;
+  }
+  
   public function getFirstImage() {
     if ($this->get('image')->first()) {
       $fisrt = $this->get('image')->first();
@@ -253,6 +280,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     ])->setSetting('target_type', 'taxonomy_term')->setSetting('handler', 'default:taxonomy_term')->setRevisionable(TRUE)->setCardinality(-1);
     //
     $fields['image'] = BaseFieldDefinition::create('image')->setLabel(' Image du model ')->setRequired(false)->setDisplayConfigurable('form', true)->setDisplayConfigurable('view', TRUE)->setSetting("min_resolution", "1000x1000");
+    //
     $fields['description'] = BaseFieldDefinition::create('text_long')->setLabel(" Description ")->setSettings([
       'text_processing' => 0,
       'html_format' => "text_code"
@@ -264,6 +292,22 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
       'type' => 'text_default',
       'weight' => 0
     ])->setRequired(TRUE)->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true);
+    //
+    $fields['style_scss'] = BaseFieldDefinition::create('string_long')->setLabel(" Style scss (les variables, mixins de wbu-atomique sont disponible) ")->setDisplayOptions('form', [
+      'type' => 'string_textarea',
+      'weight' => 25,
+      'settings' => [
+        'rows' => 4
+      ]
+    ])->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true);
+    //
+    $fields['style_js'] = BaseFieldDefinition::create('string_long')->setLabel(" Style JS ")->setDisplayOptions('form', [
+      'type' => 'string_textarea',
+      'weight' => 25,
+      'settings' => [
+        'rows' => 4
+      ]
+    ])->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true);
     //
     $fields['layout_paragraphs'] = BaseFieldDefinition::create('entity_reference')->setLabel(t(' Sections '))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setDisplayOptions('form', [
       'type' => 'inline_entity_form_complex',
