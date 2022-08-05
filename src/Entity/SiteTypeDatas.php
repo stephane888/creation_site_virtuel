@@ -168,11 +168,6 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   
   public function postSave(EntityStorageInterface $storage, $update = TRUE) {
     parent::postSave($storage, $update);
-    // On force une sauvegarde ici.
-    $style_scss = $this->get('style_scss')->value;
-    $style_js = $this->get('style_js')->value;
-    debugLog::logger($style_scss, "custom.scss", false, 'file', $this->getPath() . '/scss', true);
-    debugLog::logger($style_js, "custom.js", false, 'file', $this->getPath() . '/js', true);
   }
   
   /**
