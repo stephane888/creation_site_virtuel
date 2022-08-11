@@ -246,6 +246,8 @@ class CreationSiteVirtuelController extends ControllerBase {
     // \Stephane888\Debug\Repositories\ConfigDrupal::config('ovh_api_rest.settings');
     // dump($conf);
     //
+    $model = \Drupal\creation_site_virtuel\Entity\SiteTypeDatas::load(1);
+    dump($model->getPageSupplementaireIds());
     $file = File::load(327);
     if ($file) {
       $logo_path = ImageStyle::load('medium')->buildUri($file->getFileUri());

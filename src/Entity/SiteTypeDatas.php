@@ -11,7 +11,6 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\user\UserInterface;
 use Drupal\link\LinkItemInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
-use Stephane888\Debug\debugLog;
 use Stephane888\Debug\Repositories\ConfigDrupal;
 
 /**
@@ -27,7 +26,6 @@ use Stephane888\Debug\Repositories\ConfigDrupal;
  *     "list_builder" = "Drupal\creation_site_virtuel\SiteTypeDatasListBuilder",
  *     "views_data" = "Drupal\creation_site_virtuel\Entity\SiteTypeDatasViewsData",
  *     "translation" = "Drupal\creation_site_virtuel\SiteTypeDatasTranslationHandler",
- *
  *     "form" = {
  *       "default" = "Drupal\creation_site_virtuel\Form\SiteTypeDatasForm",
  *       "add" = "Drupal\creation_site_virtuel\Form\SiteTypeDatasForm",
@@ -42,7 +40,7 @@ use Stephane888\Debug\Repositories\ConfigDrupal;
  *   base_table = "site_type_datas",
  *   data_table = "site_type_datas_field_data",
  *   translatable = TRUE,
- *   admin_permission = "administer site type datas entities",
+ *   admin_permission = "Administer site type datas entities",
  *   entity_keys = {
  *     "id" = "id",
  *     "label" = "name",
@@ -151,6 +149,19 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   }
   
   /**
+   * -
+   */
+  public function getPageSupplementaireIds() {
+    $target_ids = [];
+    $values = $this->get('page_supplementaires')->getValue();
+    if (!empty($values))
+      foreach ($values as $r) {
+        $target_ids[] = $r['target_id'];
+      }
+    return $target_ids;
+  }
+  
+  /**
    *
    * {@inheritdoc}
    */
@@ -182,6 +193,10 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     return $this->path;
   }
   
+  /**
+   *
+   * @return mixed
+   */
   public function getFirstImage() {
     if ($this->get('image')->first()) {
       $fisrt = $this->get('image')->first();
@@ -288,6 +303,14 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
       'weight' => 0
     ])->setRequired(TRUE)->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true);
     //
+    $fields['admin_description'] = BaseFieldDefinition::create('text_long')->setLabel(" Note pour l'admin/constructeurs de sites ")->setDescription(' Decrivez brievement votre theme ')->setSettings([
+      'text_processing' => 0,
+      'html_format' => "text_code"
+    ])->setDisplayOptions('form', [
+      'type' => 'text_textarea',
+      'weight' => 100
+    ])->setDisplayOptions('view', [])->setRequired(TRUE)->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true)->setDefaultValue('Theme de base');
+    //
     $fields['style_scss'] = BaseFieldDefinition::create('string_long')->setLabel(" Style scss (les variables, mixins de wbu-atomique sont disponible) ")->setDisplayOptions('form', [
       'type' => 'string_textarea',
       'weight' => 25,
@@ -322,7 +345,20 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
       'type' => 'boolean_checkbox',
       'weight' => 3
     ])->setDisplayOptions('view', [])->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true)->setDefaultValue(false);
-    // pour determiner les modeles en fonction de la categorie. il doivent avoir
+    
+    // On permet l'ajout des pages supplementaires qui seront creer par defaut.
+    $fields['page_supplementaires'] = BaseFieldDefinition::create('entity_reference')->setLabel(t(' Page supplementaire '))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setDisplayOptions('form', [
+      'type' => 'select2_entity_reference',
+      'weight' => 5,
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'size' => '10',
+        'autocomplete_type' => 'tags',
+        'placeholder' => ''
+      )
+    ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'site_type_datas')->setSetting('handler', 'default')->setDescription(' Selectionner les pages qui seront automatiquement creer ');
+    
+    // Pour determiner les modeles en fonction de la categorie. il doivent avoir
     // la meme categorie. Le titre servir de nom de la page.
     
     //
