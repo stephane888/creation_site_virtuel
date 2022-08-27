@@ -246,10 +246,30 @@ class CreationSiteVirtuelController extends ControllerBase {
     // \Stephane888\Debug\Repositories\ConfigDrupal::config('ovh_api_rest.settings');
     // dump($conf);
     //
-    $model = \Drupal\creation_site_virtuel\Entity\SiteTypeDatas::load(1);
-    dump($model->getPageSupplementaireIds());
-    $file = File::load(327);
+    
+    $connection = \Drupal::database();
+    $query = $connection->select('node_field_data', 'nd');
+    $query->addField('nd', 'nid');
+    $query->condition('nd.status', 1);
+    $query->condition('nd.type', 'realisations_entreprise_generale');
+    $query->addJoin('INNER', 'node__field_domain_access', 'fda', 'fda.entity_id=nd.nid');
+    $query->condition('fda.field_domain_access_target_id', 'test61_wb_horizon_kksa');
+    dump($query->execute()->fetchAll(\PDO::ATTR_ERRMODE));
+    //
+    $file = File::load(799);
     if ($file) {
+      $url = ImageStyle::load('medium')->buildUrl($file->getFileUri());
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_HEADER, 0);
+      curl_setopt($ch, CURLOPT_VERBOSE, 0);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      // curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/50.0 (compatible;)");
+      curl_setopt($ch, CURLOPT_URL, urlencode($url));
+      curl_exec($ch);
+      curl_close($ch);
+      dump($url);
+    }
+    if ($file == '000') {
       $logo_path = ImageStyle::load('medium')->buildUri($file->getFileUri());
       $img2 = ImageStyle::load('medium')->buildUrl($file->getFileUri());
       file_get_contents($img2);

@@ -207,7 +207,6 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
         }
       }
     }
-    
     return $this->get('image')->target_id;
   }
   
@@ -247,16 +246,16 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
       'type' => 'string_textfield',
       'weight' => -4
     ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setRequired(TRUE);
-    
+    //
     $fields['status']->setDescription(t('A boolean indicating whether the Site type datas is published.'))->setDisplayOptions('form', [
       'type' => 'boolean_checkbox',
       'weight' => -3
     ]);
-    
+    //
     $fields['created'] = BaseFieldDefinition::create('created')->setLabel(t('Created'))->setDescription(t('The time that the entity was created.'));
-    
+    //
     $fields['changed'] = BaseFieldDefinition::create('changed')->setLabel(t('Changed'))->setDescription(t('The time that the entity was last edited.'));
-    
+    //
     $fields[self::$key_type] = BaseFieldDefinition::create('entity_reference')->setLabel(t('Type de site'))->setRequired(true)->setDisplayOptions('form', [
       'type' => 'options_select',
       'weight' => 5,
