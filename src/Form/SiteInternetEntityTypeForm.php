@@ -9,7 +9,7 @@ use Drupal\Core\Form\FormStateInterface;
  * Class SiteInternetEntityTypeForm.
  */
 class SiteInternetEntityTypeForm extends EntityForm {
-  
+
   /**
    *
    * {@inheritdoc}
@@ -25,7 +25,7 @@ class SiteInternetEntityTypeForm extends EntityForm {
       '#description' => $this->t("Label for the Site internet entity type."),
       '#required' => TRUE
     ];
-    
+
     //
     $form['id'] = [
       '#type' => 'machine_name',
@@ -35,11 +35,12 @@ class SiteInternetEntityTypeForm extends EntityForm {
       ],
       '#disabled' => !$site_internet_entity_type->isNew()
     ];
-    
+
     /* You will need additional form elements for your custom properties. */
+
     return $form;
   }
-  
+
   /**
    *
    * {@inheritdoc}
@@ -61,7 +62,7 @@ class SiteInternetEntityTypeForm extends EntityForm {
     }
     $form_state->setRedirectUrl($site_internet_entity_type->toUrl('collection'));
   }
-  
+
   /**
    * --
    */
@@ -74,5 +75,5 @@ class SiteInternetEntityTypeForm extends EntityForm {
     }
     return $ids;
   }
-  
+
 }
