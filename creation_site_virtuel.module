@@ -19,6 +19,7 @@ use Drupal\Core\Field\FieldStorageDefinitionInterface;
  * @param EntityTypeInterface $entity_type
  */
 function creation_site_virtuel_entity_base_field_info(EntityTypeInterface $entity_type) {
+
   $fields = [];
   if ($entity_type->id() == 'site_internet_entity') {
     if (\Drupal::moduleHandler()->moduleExists('domain')) {

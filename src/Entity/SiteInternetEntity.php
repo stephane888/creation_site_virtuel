@@ -202,6 +202,7 @@ class SiteInternetEntity extends EditorialContentEntityBase implements SiteInter
    * {@inheritdoc}
    */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
+
     $fields = parent::baseFieldDefinitions($entity_type);
     
     // Add the published field.
