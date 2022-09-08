@@ -14,7 +14,7 @@ use Drupal\file\Entity\File;
  * Returns responses for Creation site virtuel routes.
  */
 class CreationSiteVirtuelController extends ControllerBase {
-  
+
   /**
    * Builds the response.
    */
@@ -23,10 +23,10 @@ class CreationSiteVirtuelController extends ControllerBase {
       '#type' => 'item',
       '#markup' => $this->t('It works!')
     ];
-    
+
     return $build;
   }
-  
+
   public function formSave($id_entity) {
     $uid = $this->currentUser()->id();
     //
@@ -101,11 +101,13 @@ class CreationSiteVirtuelController extends ControllerBase {
     // dump($entity->toArray());
     // /**
     // *
-    // * @var \Drupal\commerce_product\Entity\Product $Product;
+    // * @var \Drupal\node\Entity\Node $node;
     // */
-    // $Product =
-    // $this->entityTypeManager()->getStorage('commerce_product')->load(38);
-    // dump($Product->toArray());
+    $node = $this->entityTypeManager()->getStorage('node')->load(273);
+    dump($node->get('type')->target_id);
+    dump($node->getEntityType()->getBundleEntityType());
+    // return;
+    return [];
     // /**
     // *
     // * @var \Drupal\commerce_product\Entity\Product $Product;
@@ -230,9 +232,9 @@ class CreationSiteVirtuelController extends ControllerBase {
     // $entity =
     // $this->entityTypeManager()->getStorage('menu_link_content')->load(3);
     // dump($entity->toArray());
-    
+
     // dump(system_region_list('admin26_wb_horizon_kksa'));
-    
+
     /**
      * test de recuration via le multidomaine.
      *
@@ -246,7 +248,7 @@ class CreationSiteVirtuelController extends ControllerBase {
     // \Stephane888\Debug\Repositories\ConfigDrupal::config('ovh_api_rest.settings');
     // dump($conf);
     //
-    
+
     $connection = \Drupal::database();
     $query = $connection->select('node_field_data', 'nd');
     $query->addField('nd', 'nid');
@@ -279,7 +281,7 @@ class CreationSiteVirtuelController extends ControllerBase {
       dump($logo_path, $img_url, $file->getFileUri());
     }
   }
-  
+
   /**
    *
    * @param array|string $configs
@@ -296,5 +298,5 @@ class CreationSiteVirtuelController extends ControllerBase {
     $reponse->setContent($configs);
     return $reponse;
   }
-  
+
 }
