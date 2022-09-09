@@ -81,7 +81,7 @@ use Drupal\Core\Field\FieldStorageDefinitionInterface;
 class SiteInternetEntity extends EditorialContentEntityBase implements SiteInternetEntityInterface {
   use EntityChangedTrait;
   use EntityPublishedTrait;
-  
+
   /**
    *
    * {@inheritdoc}
@@ -92,7 +92,7 @@ class SiteInternetEntity extends EditorialContentEntityBase implements SiteInter
       'user_id' => \Drupal::currentUser()->id()
     ];
   }
-  
+
   /**
    *
    * {@inheritdoc}
@@ -107,7 +107,7 @@ class SiteInternetEntity extends EditorialContentEntityBase implements SiteInter
     }
     return $uri_route_parameters;
   }
-  
+
   /**
    *
    * {@inheritdoc}
@@ -121,14 +121,14 @@ class SiteInternetEntity extends EditorialContentEntityBase implements SiteInter
         $translation->setOwnerId(0);
       }
     }
-    
+
     // If no revision author has been set explicitly,
     // make the site_internet_entity owner the revision author.
     if (!$this->getRevisionUser()) {
       $this->setRevisionUserId($this->getOwnerId());
     }
   }
-  
+
   /**
    *
    * {@inheritdoc}
@@ -136,7 +136,7 @@ class SiteInternetEntity extends EditorialContentEntityBase implements SiteInter
   public function getName() {
     return $this->get('name')->value;
   }
-  
+
   /**
    *
    * {@inheritdoc}
@@ -145,7 +145,7 @@ class SiteInternetEntity extends EditorialContentEntityBase implements SiteInter
     $this->set('name', $name);
     return $this;
   }
-  
+
   /**
    *
    * {@inheritdoc}
@@ -153,7 +153,7 @@ class SiteInternetEntity extends EditorialContentEntityBase implements SiteInter
   public function getCreatedTime() {
     return $this->get('created')->value;
   }
-  
+
   /**
    *
    * {@inheritdoc}
@@ -162,7 +162,7 @@ class SiteInternetEntity extends EditorialContentEntityBase implements SiteInter
     $this->set('created', $timestamp);
     return $this;
   }
-  
+
   /**
    *
    * {@inheritdoc}
@@ -170,7 +170,7 @@ class SiteInternetEntity extends EditorialContentEntityBase implements SiteInter
   public function getOwner() {
     return $this->get('user_id')->entity;
   }
-  
+
   /**
    *
    * {@inheritdoc}
@@ -178,7 +178,7 @@ class SiteInternetEntity extends EditorialContentEntityBase implements SiteInter
   public function getOwnerId() {
     return $this->get('user_id')->target_id;
   }
-  
+
   /**
    *
    * {@inheritdoc}
@@ -187,7 +187,7 @@ class SiteInternetEntity extends EditorialContentEntityBase implements SiteInter
     $this->set('user_id', $uid);
     return $this;
   }
-  
+
   /**
    *
    * {@inheritdoc}
@@ -196,18 +196,17 @@ class SiteInternetEntity extends EditorialContentEntityBase implements SiteInter
     $this->set('user_id', $account->id());
     return $this;
   }
-  
+
   /**
    *
    * {@inheritdoc}
    */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
-
     $fields = parent::baseFieldDefinitions($entity_type);
-    
+
     // Add the published field.
     $fields += static::publishedBaseFieldDefinitions($entity_type);
-    
+
     $fields['user_id'] = BaseFieldDefinition::create('entity_reference')->setLabel(t('Authored by'))->setDescription(t('The user ID of author of the Site internet entity entity.'))->setRevisionable(TRUE)->setSetting('target_type', 'user')->setSetting('handler', 'default')->setTranslatable(TRUE)->setDisplayOptions('view', [
       'label' => 'hidden',
       'type' => 'author',
@@ -233,7 +232,7 @@ class SiteInternetEntity extends EditorialContentEntityBase implements SiteInter
     ])->setDisplayOptions('form', [
       'type' => 'string_textfield',
       'weight' => -4
-    ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setRequired(TRUE);
+    ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setRequired(TRUE)->setTranslatable(TRUE);
     //
     $fields['layout_paragraphs'] = BaseFieldDefinition::create('entity_reference')->setLabel(t(' Sections '))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setDisplayOptions('form', [
       'type' => 'inline_entity_form_complex',
@@ -255,15 +254,15 @@ class SiteInternetEntity extends EditorialContentEntityBase implements SiteInter
       'weight' => 25
     ])->setDisplayOptions('view', [])->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true)->setDefaultValue(true);
     //
-    
+
     //
     $fields['created'] = BaseFieldDefinition::create('created')->setLabel(t('Created'))->setDescription(t('The time that the entity was created.'));
-    
+
     $fields['changed'] = BaseFieldDefinition::create('changed')->setLabel(t('Changed'))->setDescription(t('The time that the entity was last edited.'));
-    
+
     $fields['revision_translation_affected'] = BaseFieldDefinition::create('boolean')->setLabel(t('Revision translation affected'))->setDescription(t('Indicates if the last edit of a translation belongs to current revision.'))->setReadOnly(TRUE)->setRevisionable(TRUE)->setTranslatable(TRUE);
-    
+
     return $fields;
   }
-  
+
 }

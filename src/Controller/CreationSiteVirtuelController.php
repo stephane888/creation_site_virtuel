@@ -103,9 +103,8 @@ class CreationSiteVirtuelController extends ControllerBase {
     // *
     // * @var \Drupal\node\Entity\Node $node;
     // */
-    $node = $this->entityTypeManager()->getStorage('node')->load(273);
-    dump($node->get('type')->target_id);
-    dump($node->getEntityType()->getBundleEntityType());
+    $node = $this->entityTypeManager()->getStorage('manage_days_entity')->load(1);
+    dump($node->toArray());
     // return;
     return [];
     // /**
