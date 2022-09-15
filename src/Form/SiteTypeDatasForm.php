@@ -38,9 +38,21 @@ class SiteTypeDatasForm extends ContentEntityForm {
   public function buildForm(array $form, FormStateInterface $form_state) {
     /* @var \Drupal\creation_site_virtuel\Entity\SiteTypeDatas $entity */
     $form = parent::buildForm($form, $form_state);
+    // set defaut value.
+    if (empty($form['page_supplementaires']['widget']['#default_value']))
+      $form['page_supplementaires']['widget']['#default_value'] = \Drupal\creation_site_virtuel\CreationSiteVirtuel::getDefautPage();
 
+    //
+    $form['page_supplementaires']['widget']['#states'] = [
+      'visible' => [
+        ':input[name="is_home_page[value]"]' => [
+          'checked' => TRUE
+        ]
+      ]
+    ];
+
+    // dump($form['is_home_page']['widget']);
     if (!$this->entity->isNew()) {
-      // dump($form['actions']);
       $form['actions']['duplicate'] = [
         '#type' => 'submit',
         '#value' => 'Dupliquer le model',

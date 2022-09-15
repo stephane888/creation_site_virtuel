@@ -148,6 +148,14 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     return $this->get('terms')->target_id;
   }
 
+  public function getIs_home_page() {
+    return $this->get('is_home_page')->value;
+  }
+
+  public function setPageSupplementaires(array $values) {
+    $this->set('page_supplementaires', $values);
+  }
+
   /**
    * -
    */
@@ -173,6 +181,10 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   public function preSave($storage) {
     if (empty($this->getType())) {
       throw new \LogicException('Le type de site web doit etre definie (site_internet_entity_type). ');
+    }
+    // si cest pas une page d'accueil; on supprime les champs en relation.
+    if (!$this->getIs_home_page()) {
+      $this->setPageSupplementaires([]);
     }
     parent::preSave($storage);
   }
@@ -231,7 +243,6 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
    * {@inheritdoc}
    */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
-
     $fields = parent::baseFieldDefinitions($entity_type);
 
     // Add the published field.
@@ -283,6 +294,29 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
         'placeholder' => ''
       )
     ])->setSetting('target_type', self::$key_type)->setSetting('handler', 'default')->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true);
+    // Permet de definir faire apparaitre le dit modele sur la liste de
+    // selection.
+    $fields['is_home_page'] = BaseFieldDefinition::create('boolean')->setLabel(" Page d'accueil ? ")->setDisplayOptions('form', [
+      'type' => 'boolean_checkbox',
+      'weight' => 3
+    ])->setDisplayOptions('view', [])->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true)->setDefaultValue(false);
+
+    // On permet l'ajout des pages supplementaires qui seront creer par defaut.
+    /**
+     * SetDefaultValueCallback not work with select2_entity_reference ( On a la
+     * surchargée au niveau du formualire ).
+     */
+    $fields['page_supplementaires'] = BaseFieldDefinition::create('entity_reference')->setLabel(t(' Page supplementaire '))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setDisplayOptions('form', [
+      'type' => 'select2_entity_reference',
+      'weight' => 3,
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'size' => '10',
+        'autocomplete_type' => 'tags',
+        'placeholder' => ''
+      )
+    ])->setDefaultValueCallback("\Drupal\creation_site_virtuel\CreationSiteVirtuel::getDefautPage")->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'site_type_datas')->setSetting('handler', 'default')->setDescription(' Selectionner les pages qui seront automatiquement creer ');
+
     //
     $fields['terms'] = BaseFieldDefinition::create('entity_reference')->setLabel(" Sélectionner les categories ")->setDisplayOptions('form', [
       'type' => 'select2_entity_reference',
@@ -355,25 +389,23 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
       'link_type' => '#',
       'title' => 'Je choisie'
     ])->setDisplayConfigurable('form', true)->setDisplayConfigurable('view', TRUE);
-    // Permet de definir faire apparaitre le dit modele sur la liste de
-    // selection.
-    $fields['is_home_page'] = BaseFieldDefinition::create('boolean')->setLabel(" Page d'accueil ? ")->setDisplayOptions('form', [
-      'type' => 'boolean_checkbox',
-      'weight' => 3
-    ])->setDisplayOptions('view', [])->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true)->setDefaultValue(false);
 
-    // On permet l'ajout des pages supplementaires qui seront creer par defaut.
-    $fields['page_supplementaires'] = BaseFieldDefinition::create('entity_reference')->setLabel(t(' Page supplementaire '))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setDisplayOptions('form', [
-      'type' => 'select2_entity_reference',
-      'weight' => 5,
-      'settings' => array(
-        'match_operator' => 'CONTAINS',
-        'size' => '10',
-        'autocomplete_type' => 'tags',
-        'placeholder' => ''
-      )
-    ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'site_type_datas')->setSetting('handler', 'default')->setDescription(' Selectionner les pages qui seront automatiquement creer ');
-
+    // on definit les pages par defaut.
+    // $fields['page_default'] =
+    // BaseFieldDefinition::create('select')->setLabel(t(' Page default
+    // '))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setDisplayOptions('form',
+    // [
+    // 'type' => 'select2_entity_reference',
+    // 'weight' => 5,
+    // 'settings' => array(
+    // 'match_operator' => 'CONTAINS',
+    // 'size' => '10',
+    // 'autocomplete_type' => 'tags',
+    // 'placeholder' => ''
+    // )
+    // ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view',
+    // TRUE)->setSetting('target_type',
+    // 'site_type_datas')->setSetting('handler', 'default');
     // Pour determiner les modeles en fonction de la categorie. il doivent avoir
     // la meme categorie. Le titre servir de nom de la page.
 

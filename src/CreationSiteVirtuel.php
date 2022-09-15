@@ -18,4 +18,14 @@ class CreationSiteVirtuel {
       return $domainNegos->getActiveId();
   }
 
+  public static function getDefautPage() {
+    $defaultPages = [
+      3,
+      4,
+      5,
+      16
+    ];
+    return $defaultPages;
+  }
+
 }
