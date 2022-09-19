@@ -34,7 +34,7 @@ function creation_site_virtuel_entity_base_field_info(EntityTypeInterface $entit
     $fields['layout_paragraphs'] = BaseFieldDefinition::create('entity_reference')->setLabel(t(' Sections '))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setDisplayOptions('form', [
       'type' => 'creationsitevirtuelcomplexinline',
       'weight' => 0
-    ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'paragraph')->setSetting('handler', 'default')->setTranslatable(false)->setSetting('allow_duplicate', true);
+    ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'paragraph')->setSetting('handler', 'default')->setTranslatable(true)->setSetting('allow_duplicate', true);
     $fields['user_id'] = BaseFieldDefinition::create('entity_reference')->setLabel(t(' User Name '))->setRequired(TRUE)->setDescription(t('The Name of the associated user.'))->setSetting('target_type', 'user')->setSetting('handler', 'default')->setDisplayOptions('view', array(
       'label' => 'above',
       'type' => 'entity_reference_label',
@@ -55,7 +55,7 @@ function creation_site_virtuel_entity_base_field_info(EntityTypeInterface $entit
     $fields['layout_paragraphs'] = BaseFieldDefinition::create('entity_reference')->setLabel(t(' Sections '))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setDisplayOptions('form', [
       'type' => 'creationsitevirtuelcomplexinline',
       'weight' => 39
-    ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'paragraph')->setSetting('handler', 'default')->setTranslatable(false)->setSetting('allow_duplicate', true);
+    ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'paragraph')->setSetting('handler', 'default')->setTranslatable(true)->setSetting('allow_duplicate', true);
     __creation_site_virtuel_fields_domain($fields);
   }
   // on ajoute un champs à tous les types de nodes pour l'affichage des

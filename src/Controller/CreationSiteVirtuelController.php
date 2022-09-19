@@ -103,10 +103,35 @@ class CreationSiteVirtuelController extends ControllerBase {
     // *
     // * @var \Drupal\node\Entity\Node $node;
     // */
-    $node = $this->entityTypeManager()->getStorage('manage_days_entity')->load(1);
-    dump($node->toArray());
-    // return;
+    // $commerce_products =
+    // $this->entityTypeManager()->getStorage('domain_buy')->loadMultiple();
+
+    // if (!empty($commerce_products)) {
+    // dump(count($commerce_products));
+    // foreach ($commerce_products as $commerce_product) {
+    // $commerce_product->delete();
+    // }
+    // }
+    // else {
+    // dump('deja delete');
+    // }
+    // // return;
+    // return [];
+
+    // $conf = ConfigDrupal::config('ovh_api_rest.settings');
+    $query = $this->entityTypeManager()->getStorage('domain_ovh_entity')->load(178);
+    dump($query->toArray());
     return [];
+    //
+    // $str = implode("\n", $out);
+    // $cmd = " echo '" . $str . "' | sudo tee /etc/hosts ";
+    // $exc = $this->excuteCmd($cmd);
+    // if ($exc['return_var']) {
+    // $this->logger->critical(' Error to update /etc/hosts <br> ' .
+    // implode("<br>", $exc['output']));
+    // $this->hasError = true;
+    // }
+
     // /**
     // *
     // * @var \Drupal\commerce_product\Entity\Product $Product;
