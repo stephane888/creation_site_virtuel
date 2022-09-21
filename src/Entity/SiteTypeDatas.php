@@ -351,7 +351,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
       'label' => 'hidden',
       'type' => 'text_default',
       'weight' => 0
-    ])->setRequired(TRUE)->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true);
+    ])->setRequired(TRUE)->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true)->setTranslatable(true);
     //
     $fields['admin_description'] = BaseFieldDefinition::create('text_long')->setLabel(" Note pour l'admin/constructeurs de sites ")->setDescription(' Decrivez brievement votre theme ')->setSettings([
       'text_processing' => 0,
@@ -383,12 +383,12 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'paragraph')->setSetting('handler', 'default')->setTranslatable(false)->setSetting('allow_duplicate', true);
 
     //
-    $fields['je_choisie_text'] = BaseFieldDefinition::create('string')->setLabel(t('Je choisie (texte)'))->setDisplayConfigurable('form', true)->setDisplayConfigurable('view', TRUE);
+    $fields['je_choisie_text'] = BaseFieldDefinition::create('string')->setLabel(t('Je choisie (texte)'))->setDisplayConfigurable('form', true)->setDisplayConfigurable('view', TRUE)->setTranslatable(true);
     //
     $fields['je_choisie'] = BaseFieldDefinition::create('link')->setLabel(t('Je choisie (direct link )'))->setSetting('link_type', LinkItemInterface::LINK_GENERIC)->setSetting('title', DRUPAL_OPTIONAL)->setDefaultValue([
       'link_type' => '#',
       'title' => 'Je choisie'
-    ])->setDisplayConfigurable('form', true)->setDisplayConfigurable('view', TRUE);
+    ])->setDisplayConfigurable('form', true)->setDisplayConfigurable('view', TRUE)->setTranslatable(true);
 
     // on definit les pages par defaut.
     // $fields['page_default'] =
@@ -410,7 +410,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     // la meme categorie. Le titre servir de nom de la page.
 
     //
-    $fields['voir_demo'] = BaseFieldDefinition::create('link')->setLabel(t('Voir la demo'))->setSetting('link_type', LinkItemInterface::LINK_GENERIC)->setSetting('title', DRUPAL_OPTIONAL)->setDisplayConfigurable('form', true)->setDisplayConfigurable('view', TRUE);
+    $fields['voir_demo'] = BaseFieldDefinition::create('link')->setLabel(t('Voir la demo'))->setSetting('link_type', LinkItemInterface::LINK_GENERIC)->setSetting('title', DRUPAL_OPTIONAL)->setTranslatable(true)->setDisplayConfigurable('form', true)->setDisplayConfigurable('view', TRUE);
     //
     return $fields;
   }

@@ -206,7 +206,7 @@ class SiteInternetEntity extends EditorialContentEntityBase implements SiteInter
 
     // Add the published field.
     $fields += static::publishedBaseFieldDefinitions($entity_type);
-
+    //
     $fields['user_id'] = BaseFieldDefinition::create('entity_reference')->setLabel(t('Authored by'))->setDescription(t('The user ID of author of the Site internet entity entity.'))->setRevisionable(TRUE)->setSetting('target_type', 'user')->setSetting('handler', 'default')->setTranslatable(TRUE)->setDisplayOptions('view', [
       'label' => 'hidden',
       'type' => 'author',
