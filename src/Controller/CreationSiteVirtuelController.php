@@ -119,8 +119,10 @@ class CreationSiteVirtuelController extends ControllerBase {
     // return [];
 
     // $conf = ConfigDrupal::config('ovh_api_rest.settings');
-    $query = $this->entityTypeManager()->getStorage('block')->load('entreprise6329700fb6e34');
-    dump($query->toArray());
+    $query = $this->entityTypeManager()->getStorage('menu')->getQuery();
+    $query->condition('id', '_main', 'CONTAINS');
+    $re = $query->execute();
+    dump($re);
     return [];
     //
     // $str = implode("\n", $out);

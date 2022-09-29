@@ -90,6 +90,18 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   }
 
   /**
+   * Permet de recuperer la valeur du champs menu s"il est definit ou la valeur
+   * du titre.
+   */
+  public function getNameToMenu() {
+    $name_menu = $this->get('name_menu')->value;
+    if (!empty($name_menu))
+      return $name_menu;
+    else
+      return $this->getName();
+  }
+
+  /**
    *
    * {@inheritdoc}
    */
@@ -221,6 +233,10 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     return $this->path;
   }
 
+  public function getImageModel() {
+    return $this->get('image')->target_id;
+  }
+
   /**
    *
    * @return mixed
@@ -274,6 +290,18 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
       'type' => 'string_textfield',
       'weight' => -4
     ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setRequired(TRUE);
+
+    $fields['name_menu'] = BaseFieldDefinition::create('string')->setLabel(t('Text à afficher sur le menu'))->setDescription(t('The name of the Site type datas entity.'))->setSettings([
+      'max_length' => 50,
+      'text_processing' => 0
+    ])->setDefaultValue('')->setDisplayOptions('view', [
+      'label' => 'above',
+      'type' => 'string',
+      'weight' => -4
+    ])->setDisplayOptions('form', [
+      'type' => 'string_textfield',
+      'weight' => 2
+    ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setRequired(TRUE)->setTranslatable(true);
     //
     $fields['status']->setDescription(t('A boolean indicating whether the Site type datas is published.'))->setDisplayOptions('form', [
       'type' => 'boolean_checkbox',
@@ -352,14 +380,6 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
       'type' => 'text_default',
       'weight' => 0
     ])->setRequired(TRUE)->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true)->setTranslatable(true);
-    //
-    $fields['admin_description'] = BaseFieldDefinition::create('text_long')->setLabel(" Note pour l'admin/constructeurs de sites ")->setDescription(' Decrivez brievement votre theme ')->setSettings([
-      'text_processing' => 0,
-      'html_format' => "text_code"
-    ])->setDisplayOptions('form', [
-      'type' => 'text_textarea',
-      'weight' => 100
-    ])->setDisplayOptions('view', [])->setRequired(TRUE)->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true)->setDefaultValue('Theme de base');
     //
     $fields['style_scss'] = BaseFieldDefinition::create('string_long')->setLabel(" Style scss (les variables, mixins de wbu-atomique sont disponible) ")->setDisplayOptions('form', [
       'type' => 'string_textarea',
