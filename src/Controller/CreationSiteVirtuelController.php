@@ -83,46 +83,11 @@ class CreationSiteVirtuelController extends ControllerBase {
       ];
       $build['donnee-internet-entity']['#attached']['library'][] = "lesroidelareno/lesroidelareno_login";
     }
-    else {
-      // $DonneeSiteInternet = DonneeSiteInternetEntity::loadMultiple();
-      // if (!empty($DonneeSiteInternet))
-      // foreach ($DonneeSiteInternet as $node) {
-      // // $node->delete();
-      // }
-      // return $this->redirect('user.page');
-    }
-    //
-    //
-    // $values = [
-    // 'type' => 'page_realisation'
-    // ];
-    // $entity =
-    // $this->entityTypeManager()->getStorage('node')->create($values);
-    // dump($entity->toArray());
-    // /**
-    // *
-    // * @var \Drupal\node\Entity\Node $node;
-    // */
-    // $commerce_products =
-    // $this->entityTypeManager()->getStorage('domain_buy')->loadMultiple();
-
-    // if (!empty($commerce_products)) {
-    // dump(count($commerce_products));
-    // foreach ($commerce_products as $commerce_product) {
-    // $commerce_product->delete();
-    // }
-    // }
-    // else {
-    // dump('deja delete');
-    // }
-    // // return;
-    // return [];
 
     // $conf = ConfigDrupal::config('ovh_api_rest.settings');
-    $query = $this->entityTypeManager()->getStorage('menu')->getQuery();
-    $query->condition('id', '_main', 'CONTAINS');
-    $re = $query->execute();
-    dump($re);
+    $query = $this->entityTypeManager()->getStorage('commerce_product_variation')->load(786); // 216
+    $query = $this->entityTypeManager()->getStorage('commerce_product_variation')->load(65);
+    dump($this->entityTypeManager()->getStorage('menu')->load('test26_main')->toArray());
     return [];
     //
     // $str = implode("\n", $out);

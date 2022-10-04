@@ -43,6 +43,20 @@ class SiteTypeDatasForm extends ContentEntityForm {
       $form['page_supplementaires']['widget']['#default_value'] = \Drupal\creation_site_virtuel\CreationSiteVirtuel::getDefautPage();
 
     //
+    $form['entete_paragraph']['widget']['#states'] = [
+      'visible' => [
+        ':input[name="is_home_page[value]"]' => [
+          'checked' => TRUE
+        ]
+      ]
+    ];
+    $form['footer_paragraph']['widget']['#states'] = [
+      'visible' => [
+        ':input[name="is_home_page[value]"]' => [
+          'checked' => TRUE
+        ]
+      ]
+    ];
     $form['page_supplementaires']['widget']['#states'] = [
       'visible' => [
         ':input[name="is_home_page[value]"]' => [

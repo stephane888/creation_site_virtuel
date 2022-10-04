@@ -278,7 +278,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
         'placeholder' => ''
       ]
     ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE);
-
+    //
     $fields['name'] = BaseFieldDefinition::create('string')->setLabel(t('Name'))->setDescription(t('The name of the Site type datas entity.'))->setSettings([
       'max_length' => 50,
       'text_processing' => 0
@@ -290,7 +290,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
       'type' => 'string_textfield',
       'weight' => -4
     ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setRequired(TRUE);
-
+    //
     $fields['name_menu'] = BaseFieldDefinition::create('string')->setLabel(t('Text à afficher sur le menu'))->setDescription(t('The name of the Site type datas entity.'))->setSettings([
       'max_length' => 50,
       'text_processing' => 0
@@ -302,6 +302,26 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
       'type' => 'string_textfield',
       'weight' => 2
     ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setRequired(TRUE)->setTranslatable(true);
+    //
+    $fields['entete_paragraph'] = BaseFieldDefinition::create('entity_reference')->setLabel(t('Entete'))->setCardinality(1)->setRequired(true)->setSetting('handler_settings', [
+      'target_bundles' => [
+        'headers_m2' => 'headers_m2',
+        'headers' => 'headers'
+      ]
+    ])->setDisplayOptions('form', [
+      'type' => 'inline_entity_form_complex',
+      'weight' => 0
+    ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'paragraph')->setSetting('handler', 'default')->setTranslatable(false)->setSetting('allow_duplicate', false);
+    //
+    $fields['footer_paragraph'] = BaseFieldDefinition::create('entity_reference')->setLabel(t('Footer'))->setCardinality(1)->setRequired(true)->setSetting('handler_settings', [
+      'target_bundles' => [
+        'footer' => 'footer',
+        'footer_m2' => 'footer_m2'
+      ]
+    ])->setDisplayOptions('form', [
+      'type' => 'inline_entity_form_complex',
+      'weight' => 0
+    ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'paragraph')->setSetting('handler', 'default')->setTranslatable(false)->setSetting('allow_duplicate', false);
     //
     $fields['status']->setDescription(t('A boolean indicating whether the Site type datas is published.'))->setDisplayOptions('form', [
       'type' => 'boolean_checkbox',
@@ -326,7 +346,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     // selection.
     $fields['is_home_page'] = BaseFieldDefinition::create('boolean')->setLabel(" Page d'accueil ? ")->setDisplayOptions('form', [
       'type' => 'boolean_checkbox',
-      'weight' => 3
+      'weight' => 5
     ])->setDisplayOptions('view', [])->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true)->setDefaultValue(false);
 
     // On permet l'ajout des pages supplementaires qui seront creer par defaut.
