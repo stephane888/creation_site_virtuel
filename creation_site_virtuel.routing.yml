@@ -6,7 +6,6 @@ creation_site_virtuel.example:
   requirements:
     _permission: 'access content'
 
-
 creation_site_virtuel.model_choisie_form:
   path: '/creation-site-virtuel/form/model-choisie'
   defaults:
@@ -15,7 +14,6 @@ creation_site_virtuel.model_choisie_form:
   requirements:
     _access: 'TRUE'
     
-    
 creation_site_virtuel.model_choisie_form_save:
   path: '/creation-site-virtuel/form-save/model-choisie/{id_entity}'
   defaults:
@@ -23,3 +21,13 @@ creation_site_virtuel.model_choisie_form_save:
     _title: 'Sauvegarder votre formulaire'
   requirements:
     _access: 'TRUE'
+
+creation_site_virtuel.entreprise:
+  path: '/creation-site-virtuel/config'
+  defaults:
+    _form: '\Drupal\creation_site_virtuel\Form\CreationSiteVirtuelSettings'
+    _title: 'LayoutEnteteForm'
+  requirements:
+    _role: 'administrator'
+  options:
+    _admin_route: TRUE

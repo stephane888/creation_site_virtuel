@@ -194,13 +194,18 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     if (empty($this->getType())) {
       throw new \LogicException('Le type de site web doit etre definie (site_internet_entity_type). ');
     }
-    // si cest pas une page d'accueil; on supprime les champs en relation.
+    // Si cest pas une page d'accueil; on supprime les champs en relation.
     if (!$this->getIs_home_page()) {
       $this->setPageSupplementaires([]);
     }
     parent::preSave($storage);
   }
 
+  /**
+   *
+   * {@inheritdoc}
+   * @see \Drupal\Core\Entity\ContentEntityBase::postSave()
+   */
   public function postSave(EntityStorageInterface $storage, $update = TRUE) {
     parent::postSave($storage, $update);
   }
@@ -260,6 +265,17 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
    */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
     $fields = parent::baseFieldDefinitions($entity_type);
+    $configs = \Drupal::config('creation_site_virtuel.settings')->getRawData();
+    $entete_paragraph_type = [];
+    foreach ($configs['entete_paragraph_type'] as $v) {
+      if ($v)
+        $entete_paragraph_type[$v] = $v;
+    }
+    $footer_paragraph_type = [];
+    foreach ($configs['footer_paragraph_type'] as $v) {
+      if ($v)
+        $footer_paragraph_type[$v] = $v;
+    }
 
     // Add the published field.
     $fields += static::publishedBaseFieldDefinitions($entity_type);
@@ -304,20 +320,14 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setRequired(TRUE)->setTranslatable(true);
     //
     $fields['entete_paragraph'] = BaseFieldDefinition::create('entity_reference')->setLabel(t('Entete'))->setCardinality(1)->setRequired(true)->setSetting('handler_settings', [
-      'target_bundles' => [
-        'headers_m2' => 'headers_m2',
-        'headers' => 'headers'
-      ]
+      'target_bundles' => $entete_paragraph_type
     ])->setDisplayOptions('form', [
       'type' => 'inline_entity_form_complex',
       'weight' => 0
     ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'paragraph')->setSetting('handler', 'default')->setTranslatable(false)->setSetting('allow_duplicate', false);
     //
     $fields['footer_paragraph'] = BaseFieldDefinition::create('entity_reference')->setLabel(t('Footer'))->setCardinality(1)->setRequired(true)->setSetting('handler_settings', [
-      'target_bundles' => [
-        'footer' => 'footer',
-        'footer_m2' => 'footer_m2'
-      ]
+      'target_bundles' => $footer_paragraph_type
     ])->setDisplayOptions('form', [
       'type' => 'inline_entity_form_complex',
       'weight' => 0
