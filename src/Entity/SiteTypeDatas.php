@@ -319,14 +319,14 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
       'weight' => 2
     ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setRequired(TRUE)->setTranslatable(true);
     //
-    $fields['entete_paragraph'] = BaseFieldDefinition::create('entity_reference')->setLabel(t('Entete'))->setCardinality(1)->setRequired(true)->setSetting('handler_settings', [
+    $fields['entete_paragraph'] = BaseFieldDefinition::create('entity_reference')->setLabel(t('Entête'))->setCardinality(1)->setRequired(false)->setSetting('handler_settings', [
       'target_bundles' => $entete_paragraph_type
     ])->setDisplayOptions('form', [
       'type' => 'inline_entity_form_complex',
       'weight' => 0
     ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'paragraph')->setSetting('handler', 'default')->setTranslatable(false)->setSetting('allow_duplicate', false);
     //
-    $fields['footer_paragraph'] = BaseFieldDefinition::create('entity_reference')->setLabel(t('Footer'))->setCardinality(1)->setRequired(true)->setSetting('handler_settings', [
+    $fields['footer_paragraph'] = BaseFieldDefinition::create('entity_reference')->setLabel(t('Footer'))->setCardinality(1)->setRequired(false)->setSetting('handler_settings', [
       'target_bundles' => $footer_paragraph_type
     ])->setDisplayOptions('form', [
       'type' => 'inline_entity_form_complex',
