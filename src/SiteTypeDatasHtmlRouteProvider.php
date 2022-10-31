@@ -13,29 +13,40 @@ use Symfony\Component\Routing\Route;
  * @see \Drupal\Core\Entity\Routing\DefaultHtmlRouteProvider
  */
 class SiteTypeDatasHtmlRouteProvider extends AdminHtmlRouteProvider {
-  
+
   /**
    *
    * {@inheritdoc}
    */
   public function getRoutes(EntityTypeInterface $entity_type) {
     $collection = parent::getRoutes($entity_type);
-    
     $entity_type_id = $entity_type->id();
-    
     if ($settings_form_route = $this->getSettingsFormRoute($entity_type)) {
       $collection->add("$entity_type_id.settings", $settings_form_route);
     }
-    
+    // On force l'entité a utilisé le theme de rendu.
+    /**
+     *
+     * @var \Symfony\Component\Routing\Route $route
+     */
+    $route = $collection->get('entity.site_type_datas.canonical');
+
+    if ($route) {
+      /**
+       *
+       * @var \Symfony\Component\Routing\Route $route
+       */
+      $route->setOption('_admin_route', false);
+    }
     return $collection;
   }
-  
+
   /**
    * Gets the settings form route.
    *
    * @param \Drupal\Core\Entity\EntityTypeInterface $entity_type
    *        The entity type.
-   *        
+   *
    * @return \Symfony\Component\Routing\Route|null The generated route, if
    *         available.
    */
@@ -46,9 +57,9 @@ class SiteTypeDatasHtmlRouteProvider extends AdminHtmlRouteProvider {
         '_form' => 'Drupal\creation_site_virtuel\Form\SiteTypeDatasSettingsForm',
         '_title' => "{$entity_type->getLabel()} settings"
       ])->setRequirement('_permission', $entity_type->getAdminPermission())->setOption('_admin_route', TRUE);
-      
+      //
       return $route;
     }
   }
-  
+
 }
