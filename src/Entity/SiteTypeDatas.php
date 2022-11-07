@@ -156,8 +156,21 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     return $this->get(self::$key_type)->target_id;
   }
 
+  /**
+   * Retourne la premiere valeur
+   *
+   * @return integer
+   */
   public function getCategorie() {
     return $this->get('terms')->target_id;
+  }
+
+  public function getCategories() {
+    $terms = [];
+    foreach ($this->get('terms')->getValue() as $value) {
+      $terms[] = $value['target_id'];
+    }
+    return $terms;
   }
 
   public function getIs_home_page() {
@@ -173,11 +186,9 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
    */
   public function getPageSupplementaireIds() {
     $target_ids = [];
-    $values = $this->get('page_supplementaires')->getValue();
-    if (!empty($values))
-      foreach ($values as $r) {
-        $target_ids[] = $r['target_id'];
-      }
+    foreach ($this->get('page_supplementaires')->getValue() as $r) {
+      $target_ids[] = $r['target_id'];
+    }
     return $target_ids;
   }
 

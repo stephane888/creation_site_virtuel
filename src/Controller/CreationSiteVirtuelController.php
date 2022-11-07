@@ -85,9 +85,16 @@ class CreationSiteVirtuelController extends ControllerBase {
     }
 
     // $conf = ConfigDrupal::config('ovh_api_rest.settings');
-    $query = $this->entityTypeManager()->getStorage('commerce_product_variation')->load(786); // 216
-    $query = $this->entityTypeManager()->getStorage('commerce_product_variation')->load(65);
-    dump($this->entityTypeManager()->getStorage('menu')->load('test26_main')->toArray());
+    // $entities =
+    /**
+     *
+     * @var \Drupal\creation_site_virtuel\Entity\SiteTypeDatas $entities
+     */
+    $entities = $this->entityTypeManager()->getStorage('site_type_datas')->load('31');
+    dump($entities->getCategories());
+    dump($entities->getPageSupplementaireIds());
+    dump($entities->toArray());
+    //
     return [];
     //
     // $str = implode("\n", $out);
