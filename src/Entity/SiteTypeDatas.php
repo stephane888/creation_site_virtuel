@@ -278,15 +278,17 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     $fields = parent::baseFieldDefinitions($entity_type);
     $configs = \Drupal::config('creation_site_virtuel.settings')->getRawData();
     $entete_paragraph_type = [];
-    foreach ($configs['entete_paragraph_type'] as $v) {
-      if ($v)
-        $entete_paragraph_type[$v] = $v;
-    }
+    if (!empty($configs['entete_paragraph_type']))
+      foreach ($configs['entete_paragraph_type'] as $v) {
+        if ($v)
+          $entete_paragraph_type[$v] = $v;
+      }
     $footer_paragraph_type = [];
-    foreach ($configs['footer_paragraph_type'] as $v) {
-      if ($v)
-        $footer_paragraph_type[$v] = $v;
-    }
+    if (!empty($configs['footer_paragraph_type']))
+      foreach ($configs['footer_paragraph_type'] as $v) {
+        if ($v)
+          $footer_paragraph_type[$v] = $v;
+      }
 
     // Add the published field.
     $fields += static::publishedBaseFieldDefinitions($entity_type);
@@ -444,7 +446,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'paragraph')->setSetting('handler', 'default')->setTranslatable(false)->setSetting('allow_duplicate', true);
 
     //
-    $fields['je_choisie_text'] = BaseFieldDefinition::create('string')->setLabel(t('Je choisie (texte)'))->setDisplayConfigurable('form', true)->setDisplayConfigurable('view', TRUE)->setTranslatable(true);
+    $fields['je_choisie_text'] = BaseFieldDefinition::create('string')->setLabel(t('Je choisie (texte)'))->setDisplayConfigurable('form', true)->setDisplayConfigurable('view', TRUE)->setTranslatable(true)->setDefaultValue('Je choisis');
     //
     $fields['je_choisie'] = BaseFieldDefinition::create('link')->setLabel(t('Je choisie (direct link )'))->setSetting('link_type', LinkItemInterface::LINK_GENERIC)->setSetting('title', DRUPAL_OPTIONAL)->setDefaultValue([
       'link_type' => '#',

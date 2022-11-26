@@ -83,6 +83,8 @@ class CreationSiteVirtuelController extends ControllerBase {
       ];
       $build['donnee-internet-entity']['#attached']['library'][] = "lesroidelareno/lesroidelareno_login";
     }
+    $datas = $this->config('system.site')->getRawData();
+    dump($datas);
 
     // $conf = ConfigDrupal::config('ovh_api_rest.settings');
     // $entities =
