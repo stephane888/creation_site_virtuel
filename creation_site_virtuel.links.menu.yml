@@ -1,7 +1,7 @@
 
 # Site internet entity menu items definition
 entity.site_internet_entity.collection:
-  title: 'Contenus pour type de sites web'
+  title: 'Liste de site web des clients (y compris les pages)'
   route_name: entity.site_internet_entity.collection
   description: 'List Site internet entity entities'
   parent: system.admin_structure
