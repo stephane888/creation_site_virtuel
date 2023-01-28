@@ -27,6 +27,11 @@ class CreationSiteVirtuelController extends ControllerBase {
     return $build;
   }
   
+  /**
+   *
+   * @param integer $id_entity
+   * @return array
+   */
   public function formSave($id_entity) {
     $uid = $this->currentUser()->id();
     //
