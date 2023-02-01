@@ -14,7 +14,7 @@ use Drupal\file\Entity\File;
  * @ingroup creation_site_virtuel
  */
 class SiteTypeDatasListBuilder extends EntityListBuilder {
-
+  
   /**
    *
    * {@inheritdoc}
@@ -28,7 +28,7 @@ class SiteTypeDatasListBuilder extends EntityListBuilder {
     $header['is_home_page'] = $this->t(" page d'accueil ? ");
     return $header + parent::buildHeader();
   }
-
+  
   /**
    *
    * {@inheritdoc}
@@ -36,7 +36,7 @@ class SiteTypeDatasListBuilder extends EntityListBuilder {
   public function buildRow(EntityInterface $entity) {
     /* @var \Drupal\creation_site_virtuel\Entity\SiteTypeDatas $entity */
     $row['id'] = $entity->id();
-
+    
     $fileUrl = '';
     $fid = $entity->getImageModel();
     if (!empty($fid)) {
@@ -48,7 +48,7 @@ class SiteTypeDatasListBuilder extends EntityListBuilder {
       ];
       $fileUrl = \Drupal::service('renderer')->renderRoot($fileUrl);
     }
-
+    
     $row['image'] = $fileUrl;
     $row['name'] = Link::createFromRoute($entity->label(), 'entity.site_type_datas.edit_form', [
       'site_type_datas' => $entity->id()
@@ -58,7 +58,7 @@ class SiteTypeDatasListBuilder extends EntityListBuilder {
     $row['is_home_page'] = $entity->get('is_home_page')->value ? 'Oui' : 'Non';
     return $row + parent::buildRow($entity);
   }
-
+  
   /**
    *
    * @param array $values
@@ -86,5 +86,25 @@ class SiteTypeDatasListBuilder extends EntityListBuilder {
     ];
     return (render($ul));
   }
-
+  
+  /**
+   *
+   * {@inheritdoc}
+   * @see \Drupal\Core\Entity\EntityListBuilder::render()
+   */
+  public function render() {
+    $build = parent::render();
+    // On ajoute lien pour l'edition avec filtre.
+    $build['views_list'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'a',
+      '#value' => 'Utiliser la liste avec filtre',
+      '#weight' => -10,
+      '#attributes' => [
+        'href' => '/modele-de-page-web'
+      ]
+    ];
+    return $build;
+  }
+  
 }
