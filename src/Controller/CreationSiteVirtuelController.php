@@ -95,8 +95,21 @@ class CreationSiteVirtuelController extends ControllerBase {
      *
      * @var \Drupal\creation_site_virtuel\Entity\SiteTypeDatas $entities
      */
-    $entities = $this->entityTypeManager()->getStorage('block')->load('paragraphe');
-    dump($entities->toArray());
+    // $entities =
+    // $this->entityTypeManager()->getStorage('paragraph')->load('10626');
+    // $ar = $entities->toArray();
+    // $entities->set('layout_builder__layout', $ar['layout_builder__layout']);
+    // $entities->save();
+    // /**
+    // *
+    // * @var \Drupal\layout_builder\Field\LayoutSectionItemList $layout_builder
+    // */
+    // $layout_builder = $entities->get('layout_builder__layout');
+    // dump($ar);
+    // $this->testDuplicateModelePageTranslate();
+    // $this->testDuplicateNodeTranslate();
+    $this->comprendreLeProblemeGetTranslation(15109);
+    $this->comprendreLeProblemeGetTranslation(10623);
     //
     return [];
     //
@@ -281,6 +294,108 @@ class CreationSiteVirtuelController extends ControllerBase {
       $img_url = $file_url_generator->generateString($logo_path);
       dump($logo_path, $img_url, $file->getFileUri());
     }
+  }
+  
+  protected function comprendreLeProblemeGetTranslation($id) {
+    /**
+     *
+     * @var \Drupal\paragraphs\Entity\Paragraph $paragraph
+     */
+    $paragraph = $this->entityTypeManager()->getStorage('paragraph')->load($id);
+    dump($paragraph);
+    // dump($paragraph->getTranslation('en')->toArray());
+  }
+  
+  /**
+   * Permet de genere une page de site dans la langue courante à partir du model
+   * de page.
+   */
+  protected function testDuplicateModelePageTranslate() {
+    $lang_code = \Drupal::languageManager()->getCurrentLanguage()->getId();
+    /**
+     *
+     * @var \Drupal\creation_site_virtuel\Entity\SiteTypeDatas $modelPage
+     */
+    $modelPage = $this->entityTypeManager()->getStorage('site_type_datas')->load(142);
+    // on recupere le model de page en function de la langue encours.
+    if ($modelPage->hasTranslation($lang_code)) {
+      $modelPage = $modelPage->getTranslation($lang_code);
+    }
+    $values = [
+      'type' => $modelPage->getType()
+    ];
+    /**
+     *
+     * @var \Drupal\creation_site_virtuel\Entity\SiteInternetEntity $pageSiteWeb
+     */
+    $pageSiteWeb = $this->entityTypeManager()->getStorage('site_internet_entity')->create($values);
+    dump($pageSiteWeb->toArray());
+    // on recupere la page du site web en function de la langue encours.
+    // ( pour les contenus generer par l'interface, la langue par defaut c'est
+    // la langue par defaut au niveau du site web ).
+    if (!$pageSiteWeb->hasTranslation($lang_code)) {
+      $pageSiteWeb = $pageSiteWeb->addTranslation($lang_code);
+      // dans ce cas on doit definir cette langue comme langue par defaut,(
+      // celle par defaut ne serra pas recuperer ).
+      $pageSiteWeb->set('default_langcode', true);
+    }
+    // On transfert les données.
+    $pageSiteWeb->set('name', $modelPage->getNameToMenu());
+    $pageSiteWeb->save();
+    dump($pageSiteWeb->toArray());
+  }
+  
+  /**
+   * Duplique un node dans la langue courante.
+   */
+  protected function testDuplicateNodeTranslate() {
+    $lang_code = \Drupal::languageManager()->getCurrentLanguage()->getId();
+    /**
+     *
+     * @var \Drupal\node\Entity\Node $node
+     */
+    $node = $this->entityTypeManager()->getStorage('node')->load(1860);
+    // $clone = $node->createDuplicate();
+    // $clone->save();
+    // dump($node->getTranslation('en')->toArray());
+    /**
+     *
+     * @var \Drupal\node\Entity\Node $newNode
+     */
+    $newNode = $this->entityTypeManager()->getStorage('node')->create([
+      'type' => $node->bundle()
+    ]);
+    // On souhaite que le nouveau node($newNode) soit dans la langues courantes.
+    if (!$newNode->hasTranslation($lang_code)) {
+      $newNode = $newNode->addTranslation($lang_code);
+    }
+    // On recupere le contenu de la langue courante, si elle existe.
+    if ($node->hasTranslation($lang_code)) {
+      $node = $node->getTranslation($lang_code);
+    }
+    // on transfert les données.
+    $newNode->set('title', $node->get('title')->getValue());
+    // ... // set more fields.
+    $newNode->save();
+    // // On recupere les langues supplementaires.
+    // $langues = $node->getTranslationLanguages();
+    // $lang_codes = array_keys($langues);
+    // if (!empty($lang_codes))
+    // foreach ($lang_codes as $langcode) {
+    // if ($langcode == $lang_code)
+    // continue;
+    // $nodeTanslate = $node->getTranslation($langcode);
+    // if (!$newNode->hasTranslation($langcode)) {
+    // $newNodeTranslate = $newNode->addTranslation($langcode);
+    // $newNodeTranslate->set('title', $nodeTanslate->get('title')->getValue());
+    // $newNodeTranslate->save();
+    // }
+    // }
+    //
+    // $newNode->save();
+    // $newNode->addTranslation($langcode);
+    dump($newNode);
+    dump($newNode->toArray());
   }
   
   /**

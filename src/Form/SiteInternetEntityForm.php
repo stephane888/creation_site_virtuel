@@ -12,14 +12,14 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @ingroup creation_site_virtuel
  */
 class SiteInternetEntityForm extends ContentEntityForm {
-
+  
   /**
    * The current user account.
    *
    * @var \Drupal\Core\Session\AccountProxyInterface
    */
   protected $account;
-
+  
   /**
    *
    * {@inheritdoc}
@@ -30,12 +30,13 @@ class SiteInternetEntityForm extends ContentEntityForm {
     $instance->account = $container->get('current_user');
     return $instance;
   }
-
+  
   /**
    *
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+    
     /* @var \Drupal\creation_site_virtuel\Entity\SiteInternetEntity $entity */
     $form = parent::buildForm($form, $form_state);
     $form['#theme'] = array(
@@ -63,7 +64,7 @@ class SiteInternetEntityForm extends ContentEntityForm {
       '#value' => 'Model : ' . $this->entity->get('type')->target_id,
       '#weight' => -20
     ];
-
+    
     if (!$this->entity->isNew()) {
       $form['meta']['new_revision'] = [
         '#type' => 'checkbox',
@@ -76,18 +77,18 @@ class SiteInternetEntityForm extends ContentEntityForm {
     $form['#attached']['library'][] = 'claro/node-form';
     return $form;
   }
-
+  
   /**
    *
    * {@inheritdoc}
    */
   public function save(array $form, FormStateInterface $form_state) {
     $entity = $this->entity;
-
+    
     // Save as a new revision if requested to do so.
     if (!$form_state->isValueEmpty('new_revision') && $form_state->getValue('new_revision') != FALSE) {
       $entity->setNewRevision();
-
+      
       // If a new revision is created, save the current user as revision author.
       $entity->setRevisionCreationTime($this->time->getRequestTime());
       $entity->setRevisionUserId($this->account->id());
@@ -95,16 +96,16 @@ class SiteInternetEntityForm extends ContentEntityForm {
     else {
       $entity->setNewRevision(FALSE);
     }
-
+    
     $status = parent::save($form, $form_state);
-
+    
     switch ($status) {
       case SAVED_NEW:
         $this->messenger()->addMessage($this->t('Created the %label Site internet entity.', [
           '%label' => $entity->label()
         ]));
         break;
-
+      
       default:
         $this->messenger()->addMessage($this->t('Saved the %label Site internet entity.', [
           '%label' => $entity->label()
@@ -114,5 +115,5 @@ class SiteInternetEntityForm extends ContentEntityForm {
       'site_internet_entity' => $entity->id()
     ]);
   }
-
+  
 }
