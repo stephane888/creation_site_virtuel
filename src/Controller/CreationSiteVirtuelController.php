@@ -108,8 +108,7 @@ class CreationSiteVirtuelController extends ControllerBase {
     // dump($ar);
     // $this->testDuplicateModelePageTranslate();
     // $this->testDuplicateNodeTranslate();
-    $this->comprendreLeProblemeGetTranslation(15109);
-    $this->comprendreLeProblemeGetTranslation(10623);
+    $this->translationDuHeader(15764);
     //
     return [];
     //
@@ -296,6 +295,19 @@ class CreationSiteVirtuelController extends ControllerBase {
     }
   }
   
+  protected function translationDuHeader($id) {
+    /**
+     *
+     * @var \Drupal\paragraphs\Entity\Paragraph $paragraph
+     */
+    $paragraph = $this->entityTypeManager()->getStorage('paragraph')->load($id);
+    dump($paragraph);
+  }
+  
+  /**
+   *
+   * @param int $id
+   */
   protected function comprendreLeProblemeGetTranslation($id) {
     /**
      *
