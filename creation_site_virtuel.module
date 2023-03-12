@@ -148,6 +148,24 @@ function creation_site_virtuel_entity_base_field_info(EntityTypeInterface $entit
   elseif ($entity_type->id() == 'commerce_order_item') {
     __creation_site_virtuel_fields_domain($fields);
   }
+  elseif ($entity_type->id() == 'commerce_promotion') {
+    __creation_site_virtuel_fields_domain($fields);
+  }
+  elseif ($entity_type->id() == 'commerce_promotion_coupon') {
+    __creation_site_virtuel_fields_domain($fields);
+  }
+  elseif ($entity_type->id() == 'commerce_shipping_method') {
+    __creation_site_virtuel_fields_domain($fields);
+  }
+  elseif ($entity_type->id() == 'commerce_shipment') {
+    __creation_site_virtuel_fields_domain($fields);
+  }
+  elseif ($entity_type->id() == 'commerce_stock_location') {
+    __creation_site_virtuel_fields_domain($fields);
+  }
+  elseif ($entity_type->id() == 'commerce_store') {
+    __creation_site_virtuel_fields_domain($fields);
+  }
   return $fields;
 }
 
