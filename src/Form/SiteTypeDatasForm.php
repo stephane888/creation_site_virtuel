@@ -12,14 +12,14 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @ingroup creation_site_virtuel
  */
 class SiteTypeDatasForm extends ContentEntityForm {
-
+  
   /**
    * The current user account.
    *
    * @var \Drupal\Core\Session\AccountProxyInterface
    */
   protected $account;
-
+  
   /**
    *
    * {@inheritdoc}
@@ -30,7 +30,7 @@ class SiteTypeDatasForm extends ContentEntityForm {
     $instance->account = $container->get('current_user');
     return $instance;
   }
-
+  
   /**
    *
    * {@inheritdoc}
@@ -41,7 +41,7 @@ class SiteTypeDatasForm extends ContentEntityForm {
     // set defaut value.
     if (empty($form['page_supplementaires']['widget']['#default_value']))
       $form['page_supplementaires']['widget']['#default_value'] = \Drupal\creation_site_virtuel\CreationSiteVirtuel::getDefautPage();
-
+    
     //
     $form['entete_paragraph']['widget']['#states'] = [
       'visible' => [
@@ -64,7 +64,7 @@ class SiteTypeDatasForm extends ContentEntityForm {
         ]
       ]
     ];
-
+    
     // dump($form['is_home_page']['widget']);
     if (!$this->entity->isNew()) {
       $form['actions']['duplicate'] = [
@@ -77,16 +77,17 @@ class SiteTypeDatasForm extends ContentEntityForm {
         '#weight' => 20
       ];
     }
+    // dump($this->entity->toArray());
     return $form;
   }
-
+  
   public function entityDuplicate(array $form, FormStateInterface $form_state) {
     /**
      *
      * @var \Drupal\creation_site_virtuel\Entity\SiteTypeDatas $entity
      */
     $entity = $this->entity;
-
+    
     /**
      *
      * @var \Drupal\creation_site_virtuel\Entity\SiteTypeDatas $duplique
@@ -101,7 +102,7 @@ class SiteTypeDatasForm extends ContentEntityForm {
     $DuplicateEntityReference = \Drupal::service('vuejs_entity.duplicate.entity');
     $DuplicateEntityReference->duplicateExistantReference($dupliqueEntity);
     $dupliqueEntity->save();
-
+    
     // $form_state->setRebuild();
     \Drupal::request()->query->remove('destination');
     $form_state->setRedirect("entity.site_type_datas.edit_form", [
@@ -110,23 +111,23 @@ class SiteTypeDatasForm extends ContentEntityForm {
     //
     $this->messenger()->addStatus('Contenu dupliqué avec success');
   }
-
+  
   /**
    *
    * {@inheritdoc}
    */
   public function save(array $form, FormStateInterface $form_state) {
     $entity = $this->entity;
-
+    
     $status = parent::save($form, $form_state);
-
+    
     switch ($status) {
       case SAVED_NEW:
         $this->messenger()->addMessage($this->t('Created the %label Site type datas.', [
           '%label' => $entity->label()
         ]));
         break;
-
+      
       default:
         $this->messenger()->addMessage($this->t('Saved the %label Site type datas.', [
           '%label' => $entity->label()
@@ -136,5 +137,5 @@ class SiteTypeDatasForm extends ContentEntityForm {
       'site_type_datas' => $entity->id()
     ]);
   }
-
+  
 }

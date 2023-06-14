@@ -75,6 +75,7 @@ class SiteInternetEntityForm extends ContentEntityForm {
     }
     // add style for theme claro
     $form['#attached']['library'][] = 'claro/node-form';
+    
     return $form;
   }
   

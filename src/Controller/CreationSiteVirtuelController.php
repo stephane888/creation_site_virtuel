@@ -89,27 +89,15 @@ class CreationSiteVirtuelController extends ControllerBase {
       $build['donnee-internet-entity']['#attached']['library'][] = "lesroidelareno/lesroidelareno_login";
     }
     
-    // $conf = ConfigDrupal::config('ovh_api_rest.settings');
-    // $entities =
-    /**
-     *
-     * @var \Drupal\creation_site_virtuel\Entity\SiteTypeDatas $entities
-     */
-    // $entities =
-    // $this->entityTypeManager()->getStorage('paragraph')->load('10626');
-    // $ar = $entities->toArray();
-    // $entities->set('layout_builder__layout', $ar['layout_builder__layout']);
-    // $entities->save();
-    // /**
-    // *
-    // * @var \Drupal\layout_builder\Field\LayoutSectionItemList $layout_builder
-    // */
-    // $layout_builder = $entities->get('layout_builder__layout');
-    // dump($ar);
-    // $this->testDuplicateModelePageTranslate();
-    // $this->testDuplicateNodeTranslate();
-    $this->translationDuHeader(15764);
+    $paragraph = \Drupal::entityTypeManager()->getStorage('paragraph')->load(16352);
+    if ($paragraph)
+      dump($paragraph->createDuplicate()->toArray());
     //
+    $paragraph = \Drupal::entityTypeManager()->getStorage('paragraph')->load(16386);
+    if ($paragraph) {
+      dump($paragraph->toArray());
+      dump($paragraph->createDuplicate()->toArray());
+    }
     return [];
     //
     // $str = implode("\n", $out);
