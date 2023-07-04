@@ -60,7 +60,7 @@ function __creation_site_virtuel_update_name_max_length($entity_type_id) {
     'name'
   ])->execute()->fetchAll(\PDO::FETCH_ASSOC);
   // Remove data from the column.
-  $database->update('site_type_datas_field_data')->fields([
+  $database->update($entity_type_id . '_field_data')->fields([
     'name' => NULL
   ])->execute();
   // Remove old definition field.

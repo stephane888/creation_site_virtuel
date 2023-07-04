@@ -410,7 +410,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
       'auto_create_bundle' => ''
     ])->setSetting('target_type', 'taxonomy_term')->setSetting('handler', 'default:taxonomy_term')->setRevisionable(TRUE)->setCardinality(-1);
     //
-    $fields['image'] = BaseFieldDefinition::create('image')->setLabel(' Image du model ')->setRequired(false)->setDisplayConfigurable('form', true)->setDisplayConfigurable('view', TRUE)->setSetting("min_resolution", "1000x1000");
+    $fields['image'] = BaseFieldDefinition::create('image')->setLabel(' Image du model ')->setRequired(false)->setDisplayConfigurable('form', true)->setSetting("file_extensions", "png gif jpg jpeg webp")->setDisplayConfigurable('view', TRUE)->setSetting("min_resolution", "1000x1000");
     //
     $fields['description'] = BaseFieldDefinition::create('text_long')->setLabel(" Description ")->setSettings([
       'text_processing' => 0,
