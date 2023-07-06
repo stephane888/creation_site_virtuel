@@ -109,7 +109,7 @@ function creation_site_virtuel_entity_base_field_info(EntityTypeInterface $entit
     __creation_site_virtuel_fields_domain($fields);
   }
   elseif ($entity_type->id() == 'block_content') {
-    $fields['layout_paragraphs'] = BaseFieldDefinition::create('entity_reference')->setLabel(t(' Sections '))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setDisplayOptions('form', [
+    $fields['layout_paragraphs'] = BaseFieldDefinition::create('entity_reference')->setLabel(t(' Sections (@Depreciate) '))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setDisplayOptions('form', [
       'type' => 'creationsitevirtuelcomplexinline',
       'weight' => 0
     ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'paragraph')->setSetting('handler', 'default')->setTranslatable(true)->setSetting('allow_duplicate', true);
@@ -130,7 +130,7 @@ function creation_site_virtuel_entity_base_field_info(EntityTypeInterface $entit
     __creation_site_virtuel_fields_domain($fields);
   }
   elseif ($entity_type->id() == 'commerce_product') {
-    $fields['layout_paragraphs'] = BaseFieldDefinition::create('entity_reference')->setLabel(t(' Sections '))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setDisplayOptions('form', [
+    $fields['layout_paragraphs'] = BaseFieldDefinition::create('entity_reference')->setLabel(t(' Sections (@Depreciate) '))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setDisplayOptions('form', [
       'type' => 'creationsitevirtuelcomplexinline',
       'weight' => 39
     ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'paragraph')->setSetting('handler', 'default')->setTranslatable(true)->setSetting('allow_duplicate', true);
@@ -168,35 +168,16 @@ function creation_site_virtuel_entity_base_field_info(EntityTypeInterface $entit
   }
   elseif ($entity_type->id() == 'blocks_contents') {
     __creation_site_virtuel_fields_domain($fields);
-    // $field_access =
-    // \Drupal\domain_access\DomainAccessManagerInterface::DOMAIN_ACCESS_FIELD;
-    // $field_source =
-    // \Drupal\domain_source\DomainSourceElementManagerInterface::DOMAIN_SOURCE_FIELD;
-    // //
-    // $fields[$field_access] =
-    // BaseFieldDefinition::create('entity_reference')->setLabel(t(" Domain
-    // access
-    // "))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setTranslatable(false)->setDisplayOptions('form',
-    // [
-    // 'type' => 'select2_entity_reference',
-    // 'weight' => 40,
-    // 'settings' => [
-    // 'autocomplete' => true
-    // ]
-    // ])->setSetting('handler', 'default')->setSetting('target_type',
-    // 'domain')->setDisplayConfigurable('form',
-    // TRUE)->setDisplayConfigurable('view',
-    // TRUE)->setDefaultValueCallback('\Drupal\creation_site_virtuel\CreationSiteVirtuel::getActiveDomain');
-    // //
-    // $fields[$field_source] =
-    // BaseFieldDefinition::create('entity_reference')->setLabel(t(" Domain
-    // source "))->setDisplayOptions('form', [
-    // 'type' => 'options_select',
-    // 'weight' => 40
-    // ])->setSetting('handler', 'default')->setSetting('target_type',
-    // 'domain')->setDisplayConfigurable('form',
-    // TRUE)->setDisplayConfigurable('view', TRUE)->setTranslatable(false);
   }
+  // elseif ($entity_type->id() == 'dis_period_entity') {
+  // __creation_site_virtuel_fields_domain($fields);
+  // }
+  // elseif ($entity_type->id() == 'equipes_entity') {
+  // __creation_site_virtuel_fields_domain($fields);
+  // }
+  // elseif ($entity_type->id() == 'submit_rdv_entity') {
+  // __creation_site_virtuel_fields_domain($fields);
+  // }
   return $fields;
 }
 
@@ -268,8 +249,20 @@ function creation_site_virtuel_theme_suggestions_site_internet_entity(array $var
  *
  * @param \Drupal\Core\Form\FormStateInterface $form_state
  */
-function creation_site_virtuel_field_widget_form_alter(&$element, \Drupal\Core\Form\FormStateInterface $form_state, $context) {
-  // dump($element);
+// function creation_site_virtuel_field_widget_form_alter(&$element,
+// \Drupal\Core\Form\FormStateInterface $form_state, $context) {
+// // dump($element);
+// }
+
+/**
+ * implement hook_field_widget_WIDGET_TYPE_form_alter
+ * on affiche un message si le widget est inline_entity_form_complex pour les
+ * paragraphes.
+ */
+function creation_site_virtuel_field_widget_inline_entity_form_complex_form_alter(&$element, \Drupal\Core\Form\FormStateInterface $form_state, $context) {
+  if (!empty($element['entities']['#entity_type']) && $element['entities']['#entity_type'] == 'paragraph') {
+    \Drupal::messenger()->addError(' Le widget "Inline entity form - Complex" n\'est pas compatible avec paragraph, utiliser le widget "Create site virtual Complexe inline".  Champs :  ' . $element['#ief_id']);
+  }
 }
 
 /**
@@ -289,7 +282,6 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
   
   // On n'essaie de faire des copie de contenus.
   if ($items->getEntity()->isNew()) {
-    
     /**
      *
      * @var \Drupal\creation_site_virtuel\Plugin\Field\FieldWidget\CreationSiteVirtuelComplexInline $widget

@@ -4,8 +4,8 @@ entity.site_internet_entity.collection:
   title: 'Liste de site web des clients (y compris les pages)'
   route_name: entity.site_internet_entity.collection
   description: 'List Site internet entity entities'
-  parent: system.admin_structure
-  weight: 100
+  parent: system.admin_content
+  weight: 10
 
 
 # Site internet entity type menu items definition
@@ -14,18 +14,19 @@ entity.site_internet_entity_type.collection:
   route_name: entity.site_internet_entity_type.collection
   description: 'List Site internet entity type (bundles)'
   parent: system.admin_structure
-  weight: 99
+  weight: 40
 
 # Site type datas menu items definition
 entity.site_type_datas.collection:
   title: 'Site type datas list (modele page web)'
   route_name: entity.site_type_datas.collection
   description: 'List Site type datas entities'
-  parent: system.admin_structure
-  weight: 100
+  parent: system.admin_content
+  weight: 5
 
 site_type_datas.admin.structure.settings:
   title: 'Site type datas settings'
   description: 'Configure Site type datas entities'
   route_name: site_type_datas.settings
   parent: system.admin_structure
+  weight: 40
