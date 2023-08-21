@@ -182,7 +182,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   }
   
   /**
-   * -
+   * --
    */
   public function getPageSupplementaireIds() {
     $target_ids = [];

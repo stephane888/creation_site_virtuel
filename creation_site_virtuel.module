@@ -2,6 +2,7 @@
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\lesroidelareno\lesroidelareno;
 
 /**
  *
@@ -297,15 +298,34 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
     // uniquement lors de la creation d'un contenu, on duplique les contenus
     // definies par defaut.
     if (!$form_state->get('default_value_widget')) {
-      
       if (!empty($entities)) {
+        $field_access = \Drupal\domain_access\DomainAccessManagerInterface::DOMAIN_ACCESS_FIELD;
+        $field_source = \Drupal\domain_source\DomainSourceElementManagerInterface::DOMAIN_SOURCE_FIELD;
+        $uid = \Drupal::currentUser()->id();
+        $subDatas = [];
+        /**
+         *
+         * @var \Drupal\apivuejs\Services\DuplicateEntityReference $duplicate_reference
+         */
+        $duplicate_reference = \Drupal::service('apivuejs.duplicate_reference');
         // on met à jour les données present dans $form_state.
         foreach ($entities as $k => $entity) {
           /**
            *
-           * @var \Drupal\node\Entity\Node $entity
+           * @var \Drupal\commerce_product\Entity\Product $cloneNode
            */
           $cloneNode = $entity['entity']->createDuplicate();
+          // On verifie si l'entité a le champs domain acces,
+          if ($cloneNode->hasField($field_access)) {
+            $cloneNode->set($field_access, lesroidelareno::getCurrentDomainId());
+          }
+          if ($cloneNode->hasField($field_source)) {
+            $cloneNode->set($field_source, lesroidelareno::getCurrentDomainId());
+          }
+          // Les variations de produits ne sont pas duppliquer
+          if ($cloneNode->getEntityTypeId() == 'commerce_product') {
+            $duplicate_reference->duplicateProduct($entity['entity'], $cloneNode, true, $uid, $subDatas);
+          }
           $entities[$k]['needs_save'] = true;
           $entities[$k]['form'] = null;
           $entities[$k]['entity'] = $cloneNode;
@@ -324,7 +344,14 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
              * @var \Drupal\node\Entity\Node $node
              */
             $node = $element['entities'][$k]['#entity'];
-            $element['entities'][$k]['#entity'] = $node->createDuplicate();
+            $cloneNodeDisplay = $node->createDuplicate();
+            if ($cloneNodeDisplay->hasField($field_access)) {
+              $cloneNodeDisplay->set($field_access, lesroidelareno::getCurrentDomainId());
+            }
+            if ($cloneNodeDisplay->hasField($field_source)) {
+              $cloneNodeDisplay->set($field_source, lesroidelareno::getCurrentDomainId());
+            }
+            $element['entities'][$k]['#entity'] = $cloneNodeDisplay;
             $element['entities'][$k]['#needs_save'] = true;
           }
         }
