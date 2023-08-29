@@ -170,6 +170,13 @@ function creation_site_virtuel_entity_base_field_info(EntityTypeInterface $entit
   elseif ($entity_type->id() == 'blocks_contents') {
     __creation_site_virtuel_fields_domain($fields);
   }
+  elseif ($entity_type->id() == 'bks_autoecole_heures') {
+    __creation_site_virtuel_fields_domain($fields);
+  }
+  //
+  elseif ($entity_type->id() == 'booking_reservation') {
+    __creation_site_virtuel_fields_domain($fields);
+  }
   // elseif ($entity_type->id() == 'dis_period_entity') {
   // __creation_site_virtuel_fields_domain($fields);
   // }
