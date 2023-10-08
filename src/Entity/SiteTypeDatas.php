@@ -221,6 +221,11 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     parent::postSave($storage, $update);
   }
   
+  /**
+   *
+   * @param EntityStorageInterface $storage
+   * @param array $entities
+   */
   public static function preDelete(EntityStorageInterface $storage, array $entities) {
     parent::preDelete($storage, $entities);
     $DuplicateEntityReference = null;
@@ -268,6 +273,21 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
       }
     }
     return $this->get('image')->target_id;
+  }
+  
+  /**
+   * --
+   *
+   * @return array
+   */
+  public function getPlugins() {
+    $plugins = [];
+    $vals = $this->get('plugins')->getValue();
+    
+    foreach ($vals as $val) {
+      $plugins[$val['value']] = $val['value'];
+    }
+    return $plugins;
   }
   
   /**
@@ -475,6 +495,21 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     //
     $fields['voir_demo'] = BaseFieldDefinition::create('link')->setLabel(t('Voir la demo'))->setSetting('link_type', LinkItemInterface::LINK_GENERIC)->setSetting('title', DRUPAL_OPTIONAL)->setTranslatable(true)->setDisplayConfigurable('form', true)->setDisplayConfigurable('view', TRUE);
     //
+    
+    $fields['plugins'] = BaseFieldDefinition::create('list_string')->setLabel(t('Selectionner les modules'))->setDisplayOptions('form', [
+      'type' => 'options_buttons',
+      'weight' => 5,
+      'settings' => [
+        'match_operator' => 'CONTAINS',
+        'size' => '10',
+        'autocomplete_type' => 'tags',
+        'placeholder' => ''
+      ]
+    ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('allowed_values_function', [
+      '\Drupal\manage_module_config\ManageModuleConfig',
+      'getPlugins'
+    ])->setCardinality(-1);
+    
     return $fields;
   }
   

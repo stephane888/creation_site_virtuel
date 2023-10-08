@@ -290,6 +290,8 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
   
   // On n'essaie de faire des copie de contenus.
   if ($items->getEntity()->isNew()) {
+    \Stephane888\Debug\debugLog::kintDebugDrupal($form_state, 'creationsitevirtuelcomplexinline--form_state', true);
+    \Stephane888\Debug\debugLog::kintDebugDrupal($context, 'creationsitevirtuelcomplexinline--context', true);
     /**
      *
      * @var \Drupal\creation_site_virtuel\Plugin\Field\FieldWidget\CreationSiteVirtuelComplexInline $widget
@@ -305,6 +307,11 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
     // uniquement lors de la creation d'un contenu, on duplique les contenus
     // definies par defaut.
     if (!$form_state->get('default_value_widget')) {
+      $debug = [
+        'Storage' => $form_state->getStorage(),
+        'inline_entity_form' => $form_state->get('inline_entity_form')
+      ];
+      \Stephane888\Debug\debugLog::kintDebugDrupal($debug, 'creationsitevirtuelcomplexinline', true);
       if (!empty($entities)) {
         $field_access = \Drupal\domain_access\DomainAccessManagerInterface::DOMAIN_ACCESS_FIELD;
         $field_source = \Drupal\domain_source\DomainSourceElementManagerInterface::DOMAIN_SOURCE_FIELD;
