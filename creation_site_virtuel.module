@@ -269,7 +269,12 @@ function creation_site_virtuel_theme_suggestions_site_internet_entity(array $var
  */
 function creation_site_virtuel_field_widget_inline_entity_form_complex_form_alter(&$element, \Drupal\Core\Form\FormStateInterface $form_state, $context) {
   if (!empty($element['entities']['#entity_type']) && $element['entities']['#entity_type'] == 'paragraph') {
-    \Drupal::messenger()->addError(' Le widget "Inline entity form - Complex" n\'est pas compatible avec paragraph, utiliser le widget "Create site virtual Complexe inline".  Champs :  ' . $element['#ief_id']);
+  /**
+   * On masque pour l'instant, car on doit publier la version 1.
+   */
+    // \Drupal::messenger()->addError(' Le widget "Inline entity form - Complex"
+    // n\'est pas compatible avec paragraph, utiliser le widget "Create site
+    // virtual Complexe inline". Champs : ' . $element['#ief_id']);
   }
 }
 
