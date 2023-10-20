@@ -295,11 +295,12 @@ class ModelChoisieForm extends FormBase {
             $sub_domain = $textConvert->toKebab();
             $DomainOvh = \Drupal\ovh_api_rest\Entity\DomainOvhEntity::create();
             $DomainOvh->set('name', ' Generate domain : ' . $compagnie);
-            $DomainOvh->set('zone_name', 'lesroisdelareno.fr');
-            $DomainOvh->set('field_type', 'A');
+            // $DomainOvh->set('zone_name', 'lesroisdelareno.fr');
+            // $DomainOvh->set('field_type', 'A');
             $DomainOvh->set('sub_domain', $sub_domain);
-            $DomainOvh->set('target', '213.186.33.186');
-            $DomainOvh->set('path', '/domain/zone/lesroisdelareno.fr/record');
+            // $DomainOvh->set('target', '213.186.33.186');
+            // $DomainOvh->set('path',
+            // '/domain/zone/lesroisdelareno.fr/record');
             $DomainOvh->save();
           }
         }

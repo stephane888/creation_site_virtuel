@@ -18,7 +18,7 @@ class SiteInternetEntityTypeForm extends EntityForm {
   public function form(array $form, FormStateInterface $form_state) {
     $form = parent::form($form, $form_state);
     $site_internet_entity_type = $this->entity;
-    // dump($site_internet_entity_type->toArray());
+    
     $form['label'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Label'),

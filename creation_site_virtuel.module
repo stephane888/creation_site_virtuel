@@ -253,16 +253,6 @@ function creation_site_virtuel_theme_suggestions_site_internet_entity(array $var
 }
 
 /**
- * Implement hook_field_widget_form_alter
- *
- * @param \Drupal\Core\Form\FormStateInterface $form_state
- */
-// function creation_site_virtuel_field_widget_form_alter(&$element,
-// \Drupal\Core\Form\FormStateInterface $form_state, $context) {
-// // dump($element);
-// }
-
-/**
  * implement hook_field_widget_WIDGET_TYPE_form_alter
  * on affiche un message si le widget est inline_entity_form_complex pour les
  * paragraphes.
@@ -278,14 +268,6 @@ function creation_site_virtuel_field_widget_inline_entity_form_complex_form_alte
   }
 }
 
-/**
- * implement hook_field_widget_multivalue_WIDGET_TYPE_form_alter
- */
-// function
-// creation_site_virtuel_field_widget_multivalue_creationsitevirtuelcomplexinline_form_alter(&$element,
-// \Drupal\Core\Form\FormStateInterface $form_state, $context) {
-// dump($element);
-// }
 function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_form_alter(&$element, \Drupal\Core\Form\FormStateInterface $form_state, $context) {
   /**
    *
@@ -295,8 +277,6 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
   
   // On n'essaie de faire des copie de contenus.
   if ($items->getEntity()->isNew()) {
-    \Stephane888\Debug\debugLog::kintDebugDrupal($form_state, 'creationsitevirtuelcomplexinline--form_state', true);
-    \Stephane888\Debug\debugLog::kintDebugDrupal($context, 'creationsitevirtuelcomplexinline--context', true);
     /**
      *
      * @var \Drupal\creation_site_virtuel\Plugin\Field\FieldWidget\CreationSiteVirtuelComplexInline $widget
@@ -312,11 +292,7 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
     // uniquement lors de la creation d'un contenu, on duplique les contenus
     // definies par defaut.
     if (!$form_state->get('default_value_widget')) {
-      $debug = [
-        'Storage' => $form_state->getStorage(),
-        'inline_entity_form' => $form_state->get('inline_entity_form')
-      ];
-      \Stephane888\Debug\debugLog::kintDebugDrupal($debug, 'creationsitevirtuelcomplexinline', true);
+      
       if (!empty($entities)) {
         $field_access = \Drupal\domain_access\DomainAccessManagerInterface::DOMAIN_ACCESS_FIELD;
         $field_source = \Drupal\domain_source\DomainSourceElementManagerInterface::DOMAIN_SOURCE_FIELD;
@@ -391,7 +367,7 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
     // $ief_id,
     // 'entities'
     // ]);
-    // // dump($entities);
+    
     // foreach ($entities as $vals) {
     // foreach ($vals as $entity) {
     // /**
@@ -400,7 +376,7 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
     // */
     // if ($entity instanceof Drupal\block_content\Entity\BlockContent &&
     // $entity->getEntityTypeId() == 'block_content') {
-    // dump($entity->get('field_domain_access')->getValue());
+    
     // }
     // }
     // }

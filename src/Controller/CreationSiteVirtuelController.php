@@ -90,165 +90,11 @@ class CreationSiteVirtuelController extends ControllerBase {
     }
     
     $paragraph = \Drupal::entityTypeManager()->getStorage('paragraph')->load(16352);
-    if ($paragraph)
-      dump($paragraph->createDuplicate()->toArray());
+    
     //
     $paragraph = \Drupal::entityTypeManager()->getStorage('paragraph')->load(16386);
-    if ($paragraph) {
-      dump($paragraph->toArray());
-      dump($paragraph->createDuplicate()->toArray());
-    }
+    
     return [];
-    //
-    // $str = implode("\n", $out);
-    // $cmd = " echo '" . $str . "' | sudo tee /etc/hosts ";
-    // $exc = $this->excuteCmd($cmd);
-    // if ($exc['return_var']) {
-    // $this->logger->critical(' Error to update /etc/hosts <br> ' .
-    // implode("<br>", $exc['output']));
-    // $this->hasError = true;
-    // }
-    
-    // /**
-    // *
-    // * @var \Drupal\commerce_product\Entity\Product $Product;
-    // */
-    // $Product =
-    // $this->entityTypeManager()->getStorage('commerce_product')->load(39);
-    // dump($Product->toArray());
-    // /**
-    // *
-    // * @var \Drupal\commerce_product\Entity\Product $Product;
-    // */
-    // $Product =
-    // $this->entityTypeManager()->getStorage('commerce_product')->load(15);
-    // dump($Product->toArray());
-    // /**
-    // *
-    // * @var \Drupal\commerce_product\Entity\Product $Product;
-    // */
-    // $Product =
-    // $this->entityTypeManager()->getStorage('commerce_product')->load(2);
-    // dump($Product->toArray());
-    // /**
-    // *
-    // * @var \Drupal\commerce_product\Entity\Product $Product;
-    // */
-    // $Product =
-    // $this->entityTypeManager()->getStorage('commerce_product')->load(4);
-    // dump($Product->toArray());
-    //
-    // $menuLink =
-    // $this->entityTypeManager()->getStorage('menu_link_content')->loadByProperties([
-    // 'bundle' => 'main'
-    // ]);
-    // dump($menuLink);
-    //
-    // $value = "@lesKIO_DE-Froisdel#areno.fr pa pin";
-    // dump(preg_replace('/[0-9\@\.\;\" "]+/', "", $value));
-    // dump(preg_replace("/[A-Z]/", "", $value));
-    // '/[^A-Za-z0-9\-]/'
-    // valid un domaine
-    // dump(preg_replace('/[^a-z0-9\-\.-]/', "", $value));
-    // valid le debut d'un sous domaine
-    // dump(preg_replace('/[^a-z0-9\-]/', "", $value));
-    // $domain_name = 'dump';
-    // if (preg_match("/^([a-zd](-*[a-zd])*)(.([a-zd](-*[a-zd])*))*$/i",
-    // $domain_name) && // valid characters check
-    // preg_match("/^.{1,253}$/", $domain_name) && // overall length check
-    // preg_match("/^[^.]{1,63}(.[^.]{1,63})*$/", $domain_name)) {
-    // var_dump("domaine valid");
-    // }
-    // else {
-    // var_dump("domaine non valid");
-    // }
-    // validation d'une entité avec bundle.
-    //
-    //
-    // $bundle_entity_type_id = 'mappings_entity';
-    // $bundle = 'content_generate_entity';
-    // $bundle_entity =
-    // \Drupal::entityTypeManager()->getStorage($bundle_entity_type_id)->load($bundle);
-    // dump($bundle_entity);
-    // if ($bundle_entity) {
-    // dump($bundle_entity->getConfigDependencyName());
-    // }
-    // else {
-    // dump(\Drupal::entityTypeManager()->getStorage($bundle_entity_type_id)->loadMultiple());
-    // }
-    //
-    // $blockContent =
-    // $this->entityTypeManager()->getStorage('block_content')->load(46);
-    // // $user = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
-    // // $serializer = \Drupal::service('serializer');
-    // // $data = $serializer->serialize($user, 'json', [
-    // // 'plugin_id' => 'entity'
-    // // ]);
-    // $users = [
-    // 'users' => [
-    // $user->toArray()
-    // ]
-    // ];
-    // return $this->reponse($users);
-    // return $build;
-    //
-    //
-    // $blockContent =
-    // $this->entityTypeManager()->getStorage('block_content')->load(188);
-    // dump($blockContent->toArray());
-    //
-    //
-    /**
-     *
-     * @var \Drupal\block\Entity\Block $entity
-     */
-    // $entities =
-    // $this->entityTypeManager()->getStorage('block')->loadByProperties([
-    // 'theme' => 'admin25_wb_horizon_kksa'
-    // ]);
-    // $blocks = [];
-    // foreach ($entities as $entity) {
-    // $blocks[] = $entity->toArray();
-    // }
-    // dump($blocks);
-    //
-    // $entity =
-    // $this->entityTypeManager()->getStorage('block_content')->load(58);
-    // dump($entity->toArray());
-    /**
-     * Charge un menu.
-     */
-    // $entities =
-    // $this->entityTypeManager()->getStorage('menu')->loadByProperties([
-    // 'theme' => 'admin23_wb_horizon_kksa'
-    // ]);
-    // $blocks = [];
-    // foreach ($entities as $entity) {
-    // $blocks[] = $entity->toArray();
-    // }
-    // dump($blocks);
-    /**
-     * Charge un item de menu.
-     */
-    // $entity =
-    // $this->entityTypeManager()->getStorage('menu_link_content')->load(3);
-    // dump($entity->toArray());
-    
-    // dump(system_region_list('admin26_wb_horizon_kksa'));
-    
-    /**
-     * test de recuration via le multidomaine.
-     *
-     * @var $configs
-     */
-    /**
-     *
-     * @var \Drupal\domain_config\DomainConfigOverrider $DomainConfigOverrider
-     */
-    // $conf =
-    // \Stephane888\Debug\Repositories\ConfigDrupal::config('ovh_api_rest.settings');
-    // dump($conf);
-    //
     
     $connection = \Drupal::database();
     $query = $connection->select('node_field_data', 'nd');
@@ -257,7 +103,7 @@ class CreationSiteVirtuelController extends ControllerBase {
     $query->condition('nd.type', 'realisations_entreprise_generale');
     $query->addJoin('INNER', 'node__field_domain_access', 'fda', 'fda.entity_id=nd.nid');
     $query->condition('fda.field_domain_access_target_id', 'test61_wb_horizon_kksa');
-    dump($query->execute()->fetchAll(\PDO::ATTR_ERRMODE));
+    $query->execute()->fetchAll(\PDO::ATTR_ERRMODE);
     //
     $file = File::load(799);
     if ($file) {
@@ -270,16 +116,14 @@ class CreationSiteVirtuelController extends ControllerBase {
       curl_setopt($ch, CURLOPT_URL, urlencode($url));
       curl_exec($ch);
       curl_close($ch);
-      dump($url);
     }
     if ($file == '000') {
       $logo_path = ImageStyle::load('medium')->buildUri($file->getFileUri());
       $img2 = ImageStyle::load('medium')->buildUrl($file->getFileUri());
       file_get_contents($img2);
-      dump($img2);
+      
       $file_url_generator = \Drupal::service('file_url_generator');
       $img_url = $file_url_generator->generateString($logo_path);
-      dump($logo_path, $img_url, $file->getFileUri());
     }
   }
   
@@ -289,7 +133,6 @@ class CreationSiteVirtuelController extends ControllerBase {
      * @var \Drupal\paragraphs\Entity\Paragraph $paragraph
      */
     $paragraph = $this->entityTypeManager()->getStorage('paragraph')->load($id);
-    dump($paragraph);
   }
   
   /**
@@ -302,8 +145,6 @@ class CreationSiteVirtuelController extends ControllerBase {
      * @var \Drupal\paragraphs\Entity\Paragraph $paragraph
      */
     $paragraph = $this->entityTypeManager()->getStorage('paragraph')->load($id);
-    dump($paragraph);
-    // dump($paragraph->getTranslation('en')->toArray());
   }
   
   /**
@@ -329,7 +170,7 @@ class CreationSiteVirtuelController extends ControllerBase {
      * @var \Drupal\creation_site_virtuel\Entity\SiteInternetEntity $pageSiteWeb
      */
     $pageSiteWeb = $this->entityTypeManager()->getStorage('site_internet_entity')->create($values);
-    dump($pageSiteWeb->toArray());
+    
     // on recupere la page du site web en function de la langue encours.
     // ( pour les contenus generer par l'interface, la langue par defaut c'est
     // la langue par defaut au niveau du site web ).
@@ -342,7 +183,6 @@ class CreationSiteVirtuelController extends ControllerBase {
     // On transfert les données.
     $pageSiteWeb->set('name', $modelPage->getNameToMenu());
     $pageSiteWeb->save();
-    dump($pageSiteWeb->toArray());
   }
   
   /**
@@ -357,7 +197,7 @@ class CreationSiteVirtuelController extends ControllerBase {
     $node = $this->entityTypeManager()->getStorage('node')->load(1860);
     // $clone = $node->createDuplicate();
     // $clone->save();
-    // dump($node->getTranslation('en')->toArray());
+    
     /**
      *
      * @var \Drupal\node\Entity\Node $newNode
@@ -394,8 +234,6 @@ class CreationSiteVirtuelController extends ControllerBase {
     //
     // $newNode->save();
     // $newNode->addTranslation($langcode);
-    dump($newNode);
-    dump($newNode->toArray());
   }
   
   /**

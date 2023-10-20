@@ -422,9 +422,6 @@ class SelectfilterTheme extends OptionsWidgetBase {
   
   //
   public function selectNextFieldSCallback(array $form, FormStateInterface $form_state) {
-    // debugLog::$max_depth = 7;
-    // debugLog::kintDebugDrupal($form_state->getTriggeringElement(),
-    // 'selectNextFieldSCallback', true);
     $trigger = $form_state->getTriggeringElement();
     $element = null;
     foreach ($trigger['#array_parents'] as $fielname) {
@@ -510,10 +507,6 @@ class SelectfilterTheme extends OptionsWidgetBase {
   }
   
   function save_image_callback(FormStateInterface $form_state, $form) {
-    // debugLog::kintDebugDrupal($element, 'element_validate', true);
-    // if (!empty($element['#default_value 2'])) {
-    // //
-    // }
     $this->messenger()->addStatus("save_image_callback 2", true);
   }
   
@@ -524,9 +517,6 @@ class SelectfilterTheme extends OptionsWidgetBase {
   public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
     $element = parent::formElement($items, $delta, $element, $form, $form_state);
     $this->messenger()->addStatus(' selectfilter_theme : ' . $items->getName(), true);
-    // if ('field_liste_option' == $items->getName()) {
-    // dump($items->getFieldDefinition());
-    // }
     
     $options = $this->getOptions($items->getEntity());
     $selected = $this->getSelectedOptions($items);
@@ -574,8 +564,6 @@ class SelectfilterTheme extends OptionsWidgetBase {
    * {@inheritdoc}
    */
   public function massageFormValues(array $values, array $form, FormStateInterface $form_state) {
-    // dump($values);
-    // die();
     return $values;
   }
   

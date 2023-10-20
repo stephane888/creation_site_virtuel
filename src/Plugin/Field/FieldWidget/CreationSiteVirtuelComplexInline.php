@@ -57,7 +57,7 @@ class CreationSiteVirtuelComplexInline extends InlineEntityFormComplex {
    */
   public function settingsForm(array $form, FormStateInterface $form_state) {
     $settingForm = parent::settingsForm($form, $form_state);
-    // dump($settingForm);
+    
     return $settingForm;
   }
   
@@ -67,7 +67,7 @@ class CreationSiteVirtuelComplexInline extends InlineEntityFormComplex {
    */
   public function settingsSummary() {
     $settingsSummary = parent::settingsSummary();
-    // dump($settingsSummary);
+    
     return $settingsSummary;
   }
   

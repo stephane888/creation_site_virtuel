@@ -65,7 +65,6 @@ class SiteTypeDatasForm extends ContentEntityForm {
       ]
     ];
     
-    // dump($form['is_home_page']['widget']);
     if (!$this->entity->isNew()) {
       $form['actions']['duplicate'] = [
         '#type' => 'submit',
@@ -77,7 +76,7 @@ class SiteTypeDatasForm extends ContentEntityForm {
         '#weight' => 20
       ];
     }
-    // dump($this->entity->toArray());
+    
     return $form;
   }
   
