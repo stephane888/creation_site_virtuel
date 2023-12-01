@@ -180,6 +180,19 @@ class SiteInternetEntity extends EditorialContentEntityBase implements SiteInter
   }
   
   /**
+   * Recupere les ids des pages generer à partir de ce dernier.
+   *
+   * @return mixed[]
+   */
+  public function getModeleDePagesIds() {
+    $ids = [];
+    foreach ($this->get('entities_duplicate')->getValue() as $value) {
+      $ids[] = $value['target_id'];
+    }
+    return $ids;
+  }
+  
+  /**
    *
    * {@inheritdoc}
    */
@@ -238,6 +251,12 @@ class SiteInternetEntity extends EditorialContentEntityBase implements SiteInter
       'type' => 'inline_entity_form_complex',
       'weight' => 0
     ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'paragraph')->setSetting('handler', 'default')->setTranslatable(false)->setSetting('allow_duplicate', true);
+    
+    $fields['entities_duplicate'] = BaseFieldDefinition::create('entity_reference')->setLabel(t(' Modele de page '))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setDisplayOptions('form', [
+      'type' => 'entity_reference_autocomplete',
+      'weight' => 0
+    ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'site_type_datas')->setSetting('handler', 'default')->setTranslatable(false)->setDescription("Modele de page generer à partir de cette page");
+    
     //
     $fields['status']->setDescription(t('A boolean indicating whether the Site internet entity is published.'))->setDisplayOptions('form', [
       'type' => 'boolean_checkbox',

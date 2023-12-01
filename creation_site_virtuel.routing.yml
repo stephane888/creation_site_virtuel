@@ -26,7 +26,7 @@ creation_site_virtuel.entreprise:
   path: '/creation-site-virtuel/config'
   defaults:
     _form: '\Drupal\creation_site_virtuel\Form\CreationSiteVirtuelSettings'
-    _title: 'LayoutEnteteForm'
+    _title: 'creation_site_virtuel config headers & footers'
   requirements:
     _role: 'administrator'
   options:
