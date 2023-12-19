@@ -6,9 +6,9 @@ core: 8.x
 core_version_requirement: ^8 || ^9
 dependencies:
   - taxonomy:taxonomy
-  - drupal:paragraphs
-  - drupal:inline_entity_form
-  - drupal:select2
+  - paragraphs:paragraphs
+  - inline_entity_form:inline_entity_form
+  - select2:select2
   - generate_domain_vps:generate_domain_vps
-  - drupal:domain_source
-  - drupal:domain_access
+  - domain:domain_source
+  - domain:domain_access
