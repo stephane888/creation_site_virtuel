@@ -397,7 +397,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
      * SetDefaultValueCallback not work with select2_entity_reference ( On a la
      * surchargée au niveau du formualire ).
      */
-    $fields['page_supplementaires'] = BaseFieldDefinition::create('entity_reference')->setLabel(t(' Page supplementaire '))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setDisplayOptions('form', [
+    $fields['page_supplementaires'] = BaseFieldDefinition::create('entity_reference')->setLabel(t(" Page supplementaire "))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setDisplayOptions('form', [
       'type' => 'select2_entity_reference',
       'weight' => 3,
       'settings' => array(
