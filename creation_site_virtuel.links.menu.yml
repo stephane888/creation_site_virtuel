@@ -30,3 +30,10 @@ site_type_datas.admin.structure.settings:
   route_name: site_type_datas.settings
   parent: system.admin_structure
   weight: 40
+  
+creation_site_virtuel.entreprise:
+  title: 'Creation_site_virtuel config headers & footers'
+  description: ''
+  route_name: creation_site_virtuel.entreprise
+  parent: system.admin_config_ui
+  weight: 40
