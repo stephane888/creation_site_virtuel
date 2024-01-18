@@ -173,8 +173,21 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     return $terms;
   }
   
+  /**
+   *
+   * @deprecated
+   * @return boolean
+   */
   public function getIs_home_page() {
-    return $this->get('is_home_page')->value;
+    return $this->isHomePage();
+  }
+  
+  /**
+   *
+   * @return boolean
+   */
+  public function isHomePage() {
+    return (bool) $this->get('is_home_page')->value;
   }
   
   public function setPageSupplementaires(array $values) {

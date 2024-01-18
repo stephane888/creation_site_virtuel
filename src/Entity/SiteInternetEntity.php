@@ -203,6 +203,14 @@ class SiteInternetEntity extends EditorialContentEntityBase implements SiteInter
   
   /**
    *
+   * @return boolean
+   */
+  public function isHomePage() {
+    return (bool) $this->get('is_home_page')->value;
+  }
+  
+  /**
+   *
    * {@inheritdoc}
    */
   public function setOwner(UserInterface $account) {
