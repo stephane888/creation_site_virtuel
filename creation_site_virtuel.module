@@ -359,26 +359,4 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
     // $form_values = NestedArray::getValue($form_state->getValues(),
     // $reference_form['#parents']);
   }
-  else {
-    // $widget = $context['widget'];
-    // $ief_id = $widget->_getIefId();
-    // $entities = $form_state->get([
-    // 'inline_entity_form',
-    // $ief_id,
-    // 'entities'
-    // ]);
-    
-    // foreach ($entities as $vals) {
-    // foreach ($vals as $entity) {
-    // /**
-    // *
-    // * @var \Drupal\block_content\Entity\BlockContent $entity
-    // */
-    // if ($entity instanceof Drupal\block_content\Entity\BlockContent &&
-    // $entity->getEntityTypeId() == 'block_content') {
-    
-    // }
-    // }
-    // }
-  }
 }
