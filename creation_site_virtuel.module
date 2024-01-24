@@ -321,7 +321,7 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
      * On ajoute $form_state->getTriggeringElement() afin de limiter à l'action
      * au bouton " ajouter Nouveau..."
      */
-    if (!$form_state->get('default_value_widget') && $form_state->getTriggeringElement()) {
+    if (!$form_state->get('default_value_widget') && !$form_state->getTriggeringElement()) {
       if (!empty($entities)) {
         $subDatas = [];
         /**
