@@ -292,8 +292,8 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
     $field_source = \Drupal\domain_source\DomainSourceElementManagerInterface::DOMAIN_SOURCE_FIELD;
     $uid = \Drupal::currentUser()->id();
     // \Stephane888\Debug\debugLog::$max_depth = 5;
-    // \Stephane888\Debug\debugLog::kintDebugDrupal($entities,
-    // 'form_state__entities__', true);
+    // \Stephane888\Debug\debugLog::kintDebugDrupal($form_state->getTriggeringElement(),
+    // 'form_state__TriggeringElement__', true);
     /**
      * On souhaite juste presenter à l'utilisateur la MAJ du domaine.
      * Le but est juste visuele.
@@ -321,8 +321,7 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
      * On ajoute $form_state->getTriggeringElement() afin de limiter à l'action
      * au bouton " ajouter Nouveau..."
      */
-    // && $form_state->getTriggeringElement()
-    if (!$form_state->get('default_value_widget')) {
+    if (!$form_state->get('default_value_widget') && $form_state->getTriggeringElement()) {
       if (!empty($entities)) {
         $subDatas = [];
         /**
@@ -331,56 +330,57 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
          */
         $duplicate_reference = \Drupal::service('apivuejs.duplicate_reference');
         // on met à jour les données present dans $form_state.
-        // foreach ($entities as $k => $entity) {
-        // /**
-        // *
-        // * @var \Drupal\commerce_product\Entity\Product $entity
-        // */
-        // $entity = $entity['entity'];
-        // // On verifie si l'entité a le champs domain acces,
-        // if ($entity->hasField($field_access)) {
-        // $entity->set($field_access, lesroidelareno::getCurrentDomainId());
-        // }
-        // if ($entity->hasField($field_source)) {
-        // $entity->set($field_source, lesroidelareno::getCurrentDomainId());
-        // }
-        // // Les variations de produits ne sont pas duppliquer
-        // if ($entity->getEntityTypeId() == 'commerce_product') {
-        // $cloneNode = $entity->createDuplicate();
-        // $duplicate_reference->duplicateProduct($entity['entity'], $cloneNode,
-        // true, $uid, $subDatas);
-        // }
-        // else {
-        // $setFields = [
-        // $field_access => lesroidelareno::getCurrentDomainId(),
-        // $field_source => lesroidelareno::getCurrentDomainId()
-        // ];
-        // $cloneNode = $duplicate_reference->duplicateEntity($entity, false,
-        // [], $setFields);
-        // }
-        // $entities[$k]['needs_save'] = true;
-        // $entities[$k]['form'] = null;
-        // $entities[$k]['entity'] = $cloneNode;
-        // }
-        // //
-        // $form_state->set([
-        // 'inline_entity_form',
-        // $ief_id,
-        // 'entities'
-        // ], $entities);
-        // \Stephane888\Debug\debugLog::$max_depth = 5;
-        // \Stephane888\Debug\debugLog::kintDebugDrupal($element['entities'],
-        // 'element__entities__', true);
-        // On met à jour les données present dans le bloc d'affichage.
-        // on reconstruit egalament ceux present dans form_state.
-        foreach ($element['entities'] as $k => $entity) {
-          if (!empty($entity['#entity'])) {
+        foreach ($entities as $k => $entity) {
+          /**
+           *
+           * @var \Drupal\commerce_product\Entity\Product $entity
+           */
+          $entity = $entity['entity'];
+          // On verifie si l'entité a le champs domain acces,
+          if ($entity->hasField($field_access)) {
+            $entity->set($field_access, lesroidelareno::getCurrentDomainId());
+          }
+          if ($entity->hasField($field_source)) {
+            $entity->set($field_source, lesroidelareno::getCurrentDomainId());
+          }
+          // Les variations de produits ne sont pas duppliquer
+          if ($entity->getEntityTypeId() == 'commerce_product') {
+            $cloneNode = $entity->createDuplicate();
+            $duplicate_reference->duplicateProduct($entity['entity'], $cloneNode, true, $uid, $subDatas);
+          }
+          else {
             $setFields = [
               $field_access => lesroidelareno::getCurrentDomainId(),
               $field_source => lesroidelareno::getCurrentDomainId()
             ];
-            $entityClone = $duplicate_reference->duplicateEntity($entity['#entity'], false, [], $setFields);
-            $element['entities'][$k]['#entity'] = $entityClone;
+            $cloneNode = $duplicate_reference->duplicateEntity($entity, false, [], $setFields);
+          }
+          $entities[$k]['needs_save'] = true;
+          $entities[$k]['form'] = null;
+          $entities[$k]['entity'] = $cloneNode;
+        }
+        //
+        $form_state->set([
+          'inline_entity_form',
+          $ief_id,
+          'entities'
+        ], $entities);
+        // On met à jour les données present dans le bloc d'affichage.
+        foreach ($element['entities'] as $k => $entity) {
+          if (!empty($entity['#entity'])) {
+            /**
+             *
+             * @var \Drupal\node\Entity\Node $node
+             */
+            $node = $element['entities'][$k]['#entity'];
+            $cloneNodeDisplay = $node->createDuplicate();
+            if ($cloneNodeDisplay->hasField($field_access)) {
+              $cloneNodeDisplay->set($field_access, lesroidelareno::getCurrentDomainId());
+            }
+            if ($cloneNodeDisplay->hasField($field_source)) {
+              $cloneNodeDisplay->set($field_source, lesroidelareno::getCurrentDomainId());
+            }
+            $element['entities'][$k]['#entity'] = $cloneNodeDisplay;
             $element['entities'][$k]['#needs_save'] = true;
           }
         }
@@ -391,7 +391,6 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
       }
     }
     elseif (!$form_state->get('default_value_widget') && !$form_state->getTriggeringElement()) {
-      //
     }
     // $form_values = NestedArray::getValue($form_state->getValues(),
     // $reference_form['#parents']);
