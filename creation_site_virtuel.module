@@ -288,41 +288,15 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
       $ief_id,
       'entities'
     ]);
-    $field_access = \Drupal\domain_access\DomainAccessManagerInterface::DOMAIN_ACCESS_FIELD;
-    $field_source = \Drupal\domain_source\DomainSourceElementManagerInterface::DOMAIN_SOURCE_FIELD;
-    $uid = \Drupal::currentUser()->id();
-    // \Stephane888\Debug\debugLog::$max_depth = 5;
-    // \Stephane888\Debug\debugLog::kintDebugDrupal($form_state->getTriggeringElement(),
-    // 'form_state__TriggeringElement__', true);
-    /**
-     * On souhaite juste presenter à l'utilisateur la MAJ du domaine.
-     * Le but est juste visuele.
-     */
-    // if (!$form_state->get('default_value_widget') &&
-    // $form_state->getTriggeringElement()) {
-    // foreach ($entities as $k => $entity) {
-    // /**
-    // *
-    // * @var \Drupal\commerce_product\Entity\Product $entity
-    // */
-    // // On verifie si l'entité a le champs domain acces,
-    // if ($entity->hasField($field_access)) {
-    // $entity->set($field_access, lesroidelareno::getCurrentDomainId());
-    // }
-    // if ($entity->hasField($field_source)) {
-    // $entity->set($field_source, lesroidelareno::getCurrentDomainId());
-    // }
-    // $entity->i
-    // }
-    // }
+    
     // uniquement lors de la creation d'un contenu, on duplique les contenus
     // definies par defaut.
-    /**
-     * On ajoute $form_state->getTriggeringElement() afin de limiter à l'action
-     * au bouton " ajouter Nouveau..."
-     */
-    if (!$form_state->get('default_value_widget') && !$form_state->getTriggeringElement()) {
+    if (!$form_state->get('default_value_widget')) {
+      
       if (!empty($entities)) {
+        $field_access = \Drupal\domain_access\DomainAccessManagerInterface::DOMAIN_ACCESS_FIELD;
+        $field_source = \Drupal\domain_source\DomainSourceElementManagerInterface::DOMAIN_SOURCE_FIELD;
+        $uid = \Drupal::currentUser()->id();
         $subDatas = [];
         /**
          *
@@ -333,27 +307,19 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
         foreach ($entities as $k => $entity) {
           /**
            *
-           * @var \Drupal\commerce_product\Entity\Product $entity
+           * @var \Drupal\commerce_product\Entity\Product $cloneNode
            */
-          $entity = $entity['entity'];
+          $cloneNode = $entity['entity']->createDuplicate();
           // On verifie si l'entité a le champs domain acces,
-          if ($entity->hasField($field_access)) {
-            $entity->set($field_access, lesroidelareno::getCurrentDomainId());
+          if ($cloneNode->hasField($field_access)) {
+            $cloneNode->set($field_access, lesroidelareno::getCurrentDomainId());
           }
-          if ($entity->hasField($field_source)) {
-            $entity->set($field_source, lesroidelareno::getCurrentDomainId());
+          if ($cloneNode->hasField($field_source)) {
+            $cloneNode->set($field_source, lesroidelareno::getCurrentDomainId());
           }
           // Les variations de produits ne sont pas duppliquer
-          if ($entity->getEntityTypeId() == 'commerce_product') {
-            $cloneNode = $entity->createDuplicate();
+          if ($cloneNode->getEntityTypeId() == 'commerce_product') {
             $duplicate_reference->duplicateProduct($entity['entity'], $cloneNode, true, $uid, $subDatas);
-          }
-          else {
-            $setFields = [
-              $field_access => lesroidelareno::getCurrentDomainId(),
-              $field_source => lesroidelareno::getCurrentDomainId()
-            ];
-            $cloneNode = $duplicate_reference->duplicateEntity($entity, false, [], $setFields);
           }
           $entities[$k]['needs_save'] = true;
           $entities[$k]['form'] = null;
@@ -390,8 +356,6 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
         \Drupal::messenger()->addStatus($message);
       }
     }
-    elseif (!$form_state->get('default_value_widget') && !$form_state->getTriggeringElement()) {
-    }
     // $form_values = NestedArray::getValue($form_state->getValues(),
     // $reference_form['#parents']);
   }
@@ -418,4 +382,3 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
     // }
   }
 }
-
