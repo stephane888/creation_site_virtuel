@@ -288,14 +288,35 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
       $ief_id,
       'entities'
     ]);
-    
+    if ($form_state->getTriggeringElement()) {
+      // \Stephane888\Debug\debugLog::$max_depth = 4;
+      // \Stephane888\Debug\debugLog::kintDebugDrupal($element,
+      // 'getTriggeringElement', true);
+      $element['#access'] = false;
+      $element = [
+        [
+          '#theme' => 'status_messages',
+          '#message_list' => [
+            "warning" => [
+              'Cliquez sur sur le bouton ci-dessous ( " Creation de ... " ) afin de generer votre contenu.',
+              'Cela peut prendre quelques minutes en fonction de la taille des contenus à generer '
+            ]
+          ]
+        ],
+        $element
+      ];
+    }
     // uniquement lors de la creation d'un contenu, on duplique les contenus
     // definies par defaut.
-    if (!$form_state->get('default_value_widget')) {
+    elseif (!$form_state->get('default_value_widget') && !$form_state->getTriggeringElement()) {
       
       if (!empty($entities)) {
         $field_access = \Drupal\domain_access\DomainAccessManagerInterface::DOMAIN_ACCESS_FIELD;
         $field_source = \Drupal\domain_source\DomainSourceElementManagerInterface::DOMAIN_SOURCE_FIELD;
+        $setFields = [
+          $field_access => lesroidelareno::getCurrentDomainId(),
+          $field_source => lesroidelareno::getCurrentDomainId()
+        ];
         $uid = \Drupal::currentUser()->id();
         $subDatas = [];
         /**
@@ -303,7 +324,7 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
          * @var \Drupal\apivuejs\Services\DuplicateEntityReference $duplicate_reference
          */
         $duplicate_reference = \Drupal::service('apivuejs.duplicate_reference');
-        // on met à jour les données present dans $form_state.
+        // On met à jour les données present dans $form_state.
         foreach ($entities as $k => $entity) {
           /**
            *
@@ -320,6 +341,9 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
           // Les variations de produits ne sont pas duppliquer
           if ($cloneNode->getEntityTypeId() == 'commerce_product') {
             $duplicate_reference->duplicateProduct($entity['entity'], $cloneNode, true, $uid, $subDatas);
+          }
+          else {
+            $cloneNode = $duplicate_reference->duplicateEntity($cloneNode, false, [], $setFields);
           }
           $entities[$k]['needs_save'] = true;
           $entities[$k]['form'] = null;
@@ -359,4 +383,28 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
     // $form_values = NestedArray::getValue($form_state->getValues(),
     // $reference_form['#parents']);
   }
+  else {
+    // $widget = $context['widget'];
+    // $ief_id = $widget->_getIefId();
+    // $entities = $form_state->get([
+    // 'inline_entity_form',
+    // $ief_id,
+    // 'entities'
+    // ]);
+    
+    // foreach ($entities as $vals) {
+    // foreach ($vals as $entity) {
+    // /**
+    // *
+    // * @var \Drupal\block_content\Entity\BlockContent $entity
+    // */
+    // if ($entity instanceof Drupal\block_content\Entity\BlockContent &&
+    // $entity->getEntityTypeId() == 'block_content') {
+    
+    // }
+    // }
+    // }
+  }
 }
+
+
