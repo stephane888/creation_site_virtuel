@@ -288,10 +288,11 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
       $ief_id,
       'entities'
     ]);
+    /**
+     * Lorque l'utilisateur clique sur le bouton "ajouter un nouveau", on ne
+     * cree rien, on masque le contenu et on affiche un alert
+     */
     if ($form_state->getTriggeringElement()) {
-      // \Stephane888\Debug\debugLog::$max_depth = 4;
-      // \Stephane888\Debug\debugLog::kintDebugDrupal($element,
-      // 'getTriggeringElement', true);
       $element['#access'] = false;
       $element = [
         [
@@ -306,10 +307,11 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
         $element
       ];
     }
-    // uniquement lors de la creation d'un contenu, on duplique les contenus
-    // definies par defaut.
+    /**
+     * Lorque l'utilisateur clique sur le bouton "creation de ...", on cree les
+     * les entites en les dupliquants.
+     */
     elseif (!$form_state->get('default_value_widget') && !$form_state->getTriggeringElement()) {
-      
       if (!empty($entities)) {
         $field_access = \Drupal\domain_access\DomainAccessManagerInterface::DOMAIN_ACCESS_FIELD;
         $field_source = \Drupal\domain_source\DomainSourceElementManagerInterface::DOMAIN_SOURCE_FIELD;
@@ -356,24 +358,29 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
           'entities'
         ], $entities);
         // On met à jour les données present dans le bloc d'affichage.
-        foreach ($element['entities'] as $k => $entity) {
-          if (!empty($entity['#entity'])) {
-            /**
-             *
-             * @var \Drupal\node\Entity\Node $node
-             */
-            $node = $element['entities'][$k]['#entity'];
-            $cloneNodeDisplay = $node->createDuplicate();
-            if ($cloneNodeDisplay->hasField($field_access)) {
-              $cloneNodeDisplay->set($field_access, lesroidelareno::getCurrentDomainId());
-            }
-            if ($cloneNodeDisplay->hasField($field_source)) {
-              $cloneNodeDisplay->set($field_source, lesroidelareno::getCurrentDomainId());
-            }
-            $element['entities'][$k]['#entity'] = $cloneNodeDisplay;
-            $element['entities'][$k]['#needs_save'] = true;
-          }
-        }
+      /**
+       * Cette partie concernent l'affichage et n'est plus necessaire.
+       */
+        // foreach ($element['entities'] as $k => $entity) {
+        // if (!empty($entity['#entity'])) {
+        // /**
+        // *
+        // * @var \Drupal\node\Entity\Node $node
+        // */
+        // $node = $element['entities'][$k]['#entity'];
+        // $cloneNodeDisplay = $node->createDuplicate();
+        // if ($cloneNodeDisplay->hasField($field_access)) {
+        // $cloneNodeDisplay->set($field_access,
+        // lesroidelareno::getCurrentDomainId());
+        // }
+        // if ($cloneNodeDisplay->hasField($field_source)) {
+        // $cloneNodeDisplay->set($field_source,
+        // lesroidelareno::getCurrentDomainId());
+        // }
+        // $element['entities'][$k]['#entity'] = $cloneNodeDisplay;
+        // $element['entities'][$k]['#needs_save'] = true;
+        // }
+        // }
       }
       else {
         $message = "Aucun contenu par defaut pour le champs : " . $items->getName();
