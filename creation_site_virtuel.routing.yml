@@ -1,11 +1,3 @@
-creation_site_virtuel.example:
-  path: '/creation-site-virtuel/example'
-  defaults:
-    _title: 'Example'
-    _controller: '\Drupal\creation_site_virtuel\Controller\CreationSiteVirtuelController::build'
-  requirements:
-    _permission: 'access content'
-
 creation_site_virtuel.model_choisie_form:
   path: '/creation-site-virtuel/form/model-choisie'
   defaults:
@@ -14,19 +6,22 @@ creation_site_virtuel.model_choisie_form:
   requirements:
     _access: 'TRUE'
     
-creation_site_virtuel.model_choisie_form_save:
-  path: '/creation-site-virtuel/form-save/model-choisie/{id_entity}'
-  defaults:
-    _controller: '\Drupal\creation_site_virtuel\Controller\CreationSiteVirtuelController::formSave'
-    _title: 'Sauvegarder votre formulaire'
-  requirements:
-    _access: 'TRUE'
 
 creation_site_virtuel.entreprise:
   path: '/creation-site-virtuel/config'
   defaults:
     _form: '\Drupal\creation_site_virtuel\Form\CreationSiteVirtuelSettings'
     _title: 'creation_site_virtuel config headers & footers'
+  requirements:
+    _role: 'administrator'
+  options:
+    _admin_route: TRUE
+   
+creation_site_virtuel.duplicate_page:
+  path: '/creation-site-virtuel/{site_internet_entity}/duplicate-page'
+  defaults:
+    _title: 'Dupliquer la page'
+    _controller: '\Drupal\creation_site_virtuel\Controller\CreationSiteVirtuelController::duplicatePage'
   requirements:
     _role: 'administrator'
   options:

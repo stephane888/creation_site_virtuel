@@ -50,7 +50,7 @@ class SiteTypeDatasListBuilder extends EntityListBuilder {
     }
     
     $row['image'] = $fileUrl;
-    $row['name'] = Link::createFromRoute($entity->label(), 'entity.site_type_datas.edit_form', [
+    $row['name'] = Link::createFromRoute($entity->label(), 'entity.site_type_datas.canonical', [
       'site_type_datas' => $entity->id()
     ]);
     // $row['site_internet_entity_type'] = $entity->getType();
