@@ -18,7 +18,7 @@ creation_site_virtuel.entreprise:
     _admin_route: TRUE
    
 creation_site_virtuel.duplicate_page:
-  path: '/creation-site-virtuel/{site_internet_entity}/duplicate-page'
+  path: '/creation-site-virtuel/site_internet_entity/{site_internet_entity}/duplicate-page'
   defaults:
     _title: 'Dupliquer la page'
     _controller: '\Drupal\creation_site_virtuel\Controller\CreationSiteVirtuelController::duplicatePage'
@@ -28,7 +28,7 @@ creation_site_virtuel.duplicate_page:
     _admin_route: TRUE
     
 creation_site_virtuel.duplicate_blocks_contents:
-  path: '/creation-site-virtuel/{blocks_contents}/duplicate-page'
+  path: '/creation-site-virtuel/blocks_contents/{blocks_contents}/duplicate-page'
   defaults:
     _title: 'Dupliquer la page'
     _controller: '\Drupal\creation_site_virtuel\Controller\CreationSiteVirtuelController::duplicateBlocks_contents'
