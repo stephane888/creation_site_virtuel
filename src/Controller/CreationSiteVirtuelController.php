@@ -19,7 +19,14 @@ class CreationSiteVirtuelController extends ControllerBase {
    */
   public function duplicatePage($site_internet_entity) {
     $entity = \Drupal\creation_site_virtuel\Entity\SiteInternetEntity::load($site_internet_entity);
-    $datas['site_internet_entity'] = $entity;
+    $datas['entitty_to_duplicate'] = $entity;
+    $form = \Drupal::formBuilder()->getForm(\Drupal\creation_site_virtuel\Form\ManageDuplicateForm::class, $datas);
+    return $form;
+  }
+  
+  public function duplicateBlocks_contents($blocks_contents) {
+    $entity = \Drupal\blockscontent\Entity\BlocksContents::load($blocks_contents);
+    $datas['entitty_to_duplicate'] = $entity;
     $form = \Drupal::formBuilder()->getForm(\Drupal\creation_site_virtuel\Form\ManageDuplicateForm::class, $datas);
     return $form;
   }

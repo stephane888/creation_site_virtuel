@@ -57,14 +57,14 @@ class ManageDuplicateForm extends FormBase {
     $buidlInfo = $form_state->getBuildInfo()['args'][0];
     /**
      *
-     * @var \Drupal\creation_site_virtuel\Entity\SiteInternetEntity $site_internet_entity
+     * @var \Drupal\Core\Entity\ContentEntityBase $entitty_to_duplicate
      */
-    $site_internet_entity = $buidlInfo['site_internet_entity'];
-    $form_state->set('site_internet_entity', $site_internet_entity);
+    $entitty_to_duplicate = $buidlInfo['entitty_to_duplicate'];
+    $form_state->set('entitty_to_duplicate', $entitty_to_duplicate);
     $form['name'] = [
       '#type' => 'textfield',
       '#title' => 'Titre de la nouvelle page',
-      '#default_value' => 'Clone : ' . $site_internet_entity->label()
+      '#default_value' => 'Clone : ' . $entitty_to_duplicate->label()
     ];
     
     $form['select_domain'] = [
@@ -107,30 +107,30 @@ class ManageDuplicateForm extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     /**
      *
-     * @var \Drupal\creation_site_virtuel\Entity\SiteInternetEntity $site_internet_entity
+     * @var \Drupal\Core\Entity\ContentEntityBase $entitty_to_duplicate
      */
-    $site_internet_entity = $form_state->get('site_internet_entity');
+    $entitty_to_duplicate = $form_state->get('entitty_to_duplicate');
     $title = $form_state->getValue('name');
     $select_domain = $form_state->getValue('select_domain');
     if (is_array($select_domain)) {
       $select_domain = $select_domain[0]['target_id'];
     }
     $setValues = [];
-    $message = "Copie de : " . $site_internet_entity->label();
+    $message = "Copie de : " . $entitty_to_duplicate->label();
     $message .= ". <br>";
     if (!empty($title)) {
-      $site_internet_entity->set('name', $title);
+      $entitty_to_duplicate->set('name', $title);
     }
     
-    if (!empty($select_domain) && $site_internet_entity->get($this->field_domain_access)->target_id != $select_domain) {
+    if (!empty($select_domain) && $entitty_to_duplicate->get($this->field_domain_access)->target_id != $select_domain) {
       $setValues = [
         \Drupal\domain_access\DomainAccessManagerInterface::DOMAIN_ACCESS_FIELD => $select_domain,
         \Drupal\domain_source\DomainSourceElementManagerInterface::DOMAIN_SOURCE_FIELD => $select_domain
       ];
-      $message .= " Changement de domaine " . $site_internet_entity->get($this->field_domain_access)->target_id . " par " . $select_domain;
+      $message .= " Changement de domaine " . $entitty_to_duplicate->get($this->field_domain_access)->target_id . " par " . $select_domain;
       $message .= ". <br>";
     }
-    $CopieDePage = $this->createCopie($site_internet_entity, $setValues);
+    $CopieDePage = $this->createCopie($entitty_to_duplicate, $setValues);
     if ($CopieDePage) {
       $message .= " Copie Ok ";
       $message .= ". <br>";

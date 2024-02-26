@@ -49,4 +49,11 @@ creation_site_virtuel.duplicate_page: # The first plugin ID
   base_route: entity.site_internet_entity.canonical
   weight: 10  
   
+creation_site_virtuel.duplicate_blocks_contents: # The first plugin ID
+  title: "Dupliquer la page"
+  route_name: creation_site_virtuel.duplicate_blocks_contents
+  base_route: entity.blocks_contents.canonical
+  weight: 10 
+  
+  
   

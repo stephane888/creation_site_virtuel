@@ -26,3 +26,13 @@ creation_site_virtuel.duplicate_page:
     _role: 'administrator'
   options:
     _admin_route: TRUE
+    
+creation_site_virtuel.duplicate_blocks_contents:
+  path: '/creation-site-virtuel/{blocks_contents}/duplicate-page'
+  defaults:
+    _title: 'Dupliquer la page'
+    _controller: '\Drupal\creation_site_virtuel\Controller\CreationSiteVirtuelController::duplicateBlocks_contents'
+  requirements:
+    _role: 'administrator'
+  options:
+    _admin_route: TRUE
