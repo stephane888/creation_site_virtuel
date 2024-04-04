@@ -13,3 +13,8 @@ entity.site_type_datas.add_form:
   title: 'Add Site type datas'
   appears_on:
     - entity.site_type_datas.collection
+entity.hbk_collection.add_form:
+  route_name: entity.hbk_collection.add_form
+  title: 'Add Collection by Habeuk'
+  appears_on:
+    - entity.hbk_collection.collection

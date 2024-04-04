@@ -1,4 +1,5 @@
 <?php
+
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
@@ -103,13 +104,22 @@ function creation_site_virtuel_update_8001() {
  */
 function creation_site_virtuel_entity_base_field_info(EntityTypeInterface $entity_type) {
   $fields = [];
+
+  if ($entity_type->id() == 'site_internet_entity' || $entity_type->id() == "site_type_datas") {
+    $fields["hbk_collection"] = BaseFieldDefinition::create('entity_reference')->setLabel(t(" Collection(s) "))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setTranslatable(false)->setDisplayOptions('form', [
+      'type' => 'select2_entity_reference',
+      'weight' => 0,
+      'settings' => [
+        'autocomplete' => true,
+      ]
+    ])->setSetting("handler_settings", ["auto_create" => true])->setSetting("handler", "default")->setSetting("target_type", "hbk_collection")->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE);
+  }
+
   if ($entity_type->id() == 'site_internet_entity') {
     __creation_site_virtuel_fields_domain($fields);
-  }
-  elseif ($entity_type->id() == 'paragraph') {
+  } elseif ($entity_type->id() == 'paragraph') {
     __creation_site_virtuel_fields_domain($fields);
-  }
-  elseif ($entity_type->id() == 'block_content') {
+  } elseif ($entity_type->id() == 'block_content') {
     $fields['layout_paragraphs'] = BaseFieldDefinition::create('entity_reference')->setLabel(t(' Sections (@Depreciate) '))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setDisplayOptions('form', [
       'type' => 'creationsitevirtuelcomplexinline',
       'weight' => 0
@@ -129,52 +139,39 @@ function creation_site_virtuel_entity_base_field_info(EntityTypeInterface $entit
       'weight' => -3
     ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setDefaultValueCallback('\Drupal\creation_site_virtuel\CreationSiteVirtuel::getCurrentUser');
     __creation_site_virtuel_fields_domain($fields);
-  }
-  elseif ($entity_type->id() == 'commerce_product') {
+  } elseif ($entity_type->id() == 'commerce_product') {
     $fields['layout_paragraphs'] = BaseFieldDefinition::create('entity_reference')->setLabel(t(' Sections (@Depreciate) '))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setDisplayOptions('form', [
       'type' => 'creationsitevirtuelcomplexinline',
       'weight' => 39
     ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'paragraph')->setSetting('handler', 'default')->setTranslatable(true)->setSetting('allow_duplicate', true);
     __creation_site_virtuel_fields_domain($fields);
-  }
-  elseif ($entity_type->id() == 'commerce_payment') {
+  } elseif ($entity_type->id() == 'commerce_payment') {
     __creation_site_virtuel_fields_domain($fields);
-  }
-  elseif ($entity_type->id() == 'commerce_payment_method') {
+  } elseif ($entity_type->id() == 'commerce_payment_method') {
     __creation_site_virtuel_fields_domain($fields);
-  }
-  elseif ($entity_type->id() == 'commerce_order') {
+  } elseif ($entity_type->id() == 'commerce_order') {
     __creation_site_virtuel_fields_domain($fields);
-  }
-  elseif ($entity_type->id() == 'commerce_order_item') {
+  } elseif ($entity_type->id() == 'commerce_order_item') {
     __creation_site_virtuel_fields_domain($fields);
-  }
-  elseif ($entity_type->id() == 'commerce_promotion') {
+  } elseif ($entity_type->id() == 'commerce_promotion') {
     __creation_site_virtuel_fields_domain($fields);
-  }
-  elseif ($entity_type->id() == 'commerce_promotion_coupon') {
+  } elseif ($entity_type->id() == 'commerce_promotion_coupon') {
     __creation_site_virtuel_fields_domain($fields);
-  }
-  elseif ($entity_type->id() == 'commerce_shipping_method') {
+  } elseif ($entity_type->id() == 'commerce_shipping_method') {
     __creation_site_virtuel_fields_domain($fields);
-  }
-  elseif ($entity_type->id() == 'commerce_shipment') {
+  } elseif ($entity_type->id() == 'commerce_shipment') {
     __creation_site_virtuel_fields_domain($fields);
-  }
-  elseif ($entity_type->id() == 'commerce_stock_location') {
+  } elseif ($entity_type->id() == 'commerce_stock_location') {
     __creation_site_virtuel_fields_domain($fields);
-  }
-  elseif ($entity_type->id() == 'commerce_store') {
+  } elseif ($entity_type->id() == 'commerce_store') {
     __creation_site_virtuel_fields_domain($fields);
-  }
-  elseif ($entity_type->id() == 'blocks_contents') {
+  } elseif ($entity_type->id() == 'blocks_contents') {
     __creation_site_virtuel_fields_domain($fields);
-  }
-  elseif ($entity_type->id() == 'bks_autoecole_heures') {
+  } elseif ($entity_type->id() == 'bks_autoecole_heures') {
     __creation_site_virtuel_fields_domain($fields);
-  }
-  //
-  elseif ($entity_type->id() == 'booking_reservation') {
+  } elseif ($entity_type->id() == 'hbk_collection') {
+    __creation_site_virtuel_fields_domain($fields);
+  } elseif ($entity_type->id() == 'booking_reservation') {
     __creation_site_virtuel_fields_domain($fields);
   }
   // elseif ($entity_type->id() == 'dis_period_entity') {
@@ -243,7 +240,7 @@ function creation_site_virtuel_theme_suggestions_site_internet_entity(array $var
   $suggestions = [];
   $entity = $variables['elements']['#site_internet_entity'];
   $sanitized_view_mode = strtr($variables['elements']['#view_mode'], '.', '_');
-  
+
   $suggestions[] = 'site_internet_entity__' . $sanitized_view_mode;
   $suggestions[] = 'site_internet_entity__' . $entity->bundle();
   $suggestions[] = 'site_internet_entity__' . $entity->bundle() . '__' . $sanitized_view_mode;
@@ -259,9 +256,9 @@ function creation_site_virtuel_theme_suggestions_site_internet_entity(array $var
  */
 function creation_site_virtuel_field_widget_inline_entity_form_complex_form_alter(&$element, \Drupal\Core\Form\FormStateInterface $form_state, $context) {
   if (!empty($element['entities']['#entity_type']) && $element['entities']['#entity_type'] == 'paragraph') {
-  /**
-   * On masque pour l'instant, car on doit publier la version 1.
-   */
+    /**
+     * On masque pour l'instant, car on doit publier la version 1.
+     */
     // \Drupal::messenger()->addError(' Le widget "Inline entity form - Complex"
     // n\'est pas compatible avec paragraph, utiliser le widget "Create site
     // virtual Complexe inline". Champs : ' . $element['#ief_id']);
@@ -274,7 +271,7 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
    * @var \Drupal\Core\Field\FieldItemListInterface $items
    */
   $items = $context['items'];
-  
+
   // On n'essaie de faire des copie de contenus.
   if ($items->getEntity()->isNew()) {
     /**
@@ -343,8 +340,7 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
           // Les variations de produits ne sont pas duppliquer
           if ($cloneNode->getEntityTypeId() == 'commerce_product') {
             $duplicate_reference->duplicateProduct($entity['entity'], $cloneNode, true, $uid, $subDatas);
-          }
-          else {
+          } else {
             $cloneNode = $duplicate_reference->duplicateEntity($cloneNode, false, [], $setFields);
           }
           $entities[$k]['needs_save'] = true;
@@ -358,9 +354,9 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
           'entities'
         ], $entities);
         // On met à jour les données present dans le bloc d'affichage.
-      /**
-       * Cette partie concernent l'affichage et n'est plus necessaire.
-       */
+        /**
+         * Cette partie concernent l'affichage et n'est plus necessaire.
+         */
         // foreach ($element['entities'] as $k => $entity) {
         // if (!empty($entity['#entity'])) {
         // /**
@@ -381,16 +377,14 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
         // $element['entities'][$k]['#needs_save'] = true;
         // }
         // }
-      }
-      else {
+      } else {
         $message = "Aucun contenu par defaut pour le champs : " . $items->getName();
         \Drupal::messenger()->addStatus($message);
       }
     }
     // $form_values = NestedArray::getValue($form_state->getValues(),
     // $reference_form['#parents']);
-  }
-  else {
+  } else {
     // $widget = $context['widget'];
     // $ief_id = $widget->_getIefId();
     // $entities = $form_state->get([
@@ -398,7 +392,7 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
     // $ief_id,
     // 'entities'
     // ]);
-    
+
     // foreach ($entities as $vals) {
     // foreach ($vals as $entity) {
     // /**
@@ -407,11 +401,9 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
     // */
     // if ($entity instanceof Drupal\block_content\Entity\BlockContent &&
     // $entity->getEntityTypeId() == 'block_content') {
-    
+
     // }
     // }
     // }
   }
 }
-
-

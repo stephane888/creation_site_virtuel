@@ -57,3 +57,34 @@ view published site type datas entities:
 view unpublished site type datas entities:
   title: 'View unpublished Site type datas entities'
 
+add collection by habeuk entities:
+  title: 'Create new Collection by Habeuk entities'
+
+administer collection by habeuk entities:
+  title: 'Administer Collection by Habeuk entities'
+  description: 'Allow to access the administration form to configure Collection by Habeuk entities.'
+  restrict access: true
+
+delete collection by habeuk entities:
+  title: 'Delete Collection by Habeuk entities'
+
+edit collection by habeuk entities:
+  title: 'Edit Collection by Habeuk entities'
+
+view published collection by habeuk entities:
+  title: 'View published Collection by Habeuk entities'
+
+view unpublished collection by habeuk entities:
+  title: 'View unpublished Collection by Habeuk entities'
+
+view all collection by habeuk revisions:
+  title: 'View all Collection by Habeuk revisions'
+
+revert all collection by habeuk revisions:
+  title: 'Revert all Collection by Habeuk revisions'
+  description: 'Role requires permission <em>view Collection by Habeuk revisions</em> and <em>edit rights</em> for collection by habeuk entities in question or <em>administer collection by habeuk entities</em>.'
+
+delete all collection by habeuk revisions:
+  title: 'Delete all revisions'
+  description: 'Role requires permission to <em>view Collection by Habeuk revisions</em> and <em>delete rights</em> for collection by habeuk entities in question or <em>administer collection by habeuk entities</em>.'
+

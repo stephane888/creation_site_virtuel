@@ -37,3 +37,17 @@ creation_site_virtuel.entreprise:
   route_name: creation_site_virtuel.entreprise
   parent: system.admin_config_ui
   weight: 40
+
+# Collection by Habeuk menu items definition
+entity.hbk_collection.collection:
+  title: 'Collection by Habeuk list'
+  route_name: entity.hbk_collection.collection
+  description: 'List Collection by Habeuk entities'
+  parent: system.admin_structure
+  weight: 100
+
+hbk_collection.admin.structure.settings:
+  title: 'Collection by Habeuk settings'
+  description: 'Configure Collection by Habeuk entities'
+  route_name: hbk_collection.settings
+  parent: system.admin_structure
