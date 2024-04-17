@@ -117,9 +117,11 @@ function creation_site_virtuel_entity_base_field_info(EntityTypeInterface $entit
     __creation_site_virtuel_fields_domain($fields);
     $fields['is_public'] = BaseFieldDefinition::create('boolean')
       ->setDescription(t('define if a terme is public or not'))
+      ->setLabel(t(" Is public "))
       ->setDefaultValue(FALSE)
       ->setDisplayOptions('form', [
         'type' => 'boolean_checkbox',
+        'weight' => -4
       ])
       ->setDisplayConfigurable('form', TRUE);
   }
