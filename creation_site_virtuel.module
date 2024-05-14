@@ -113,7 +113,7 @@ function creation_site_virtuel_entity_base_field_info(EntityTypeInterface $entit
       ]
     ])->setSetting("handler_settings", ["auto_create" => true])->setSetting("handler", "default")->setSetting("target_type", "hbk_collection")->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE);
   }
-  if ($entity_type->id() == "taxonomy_term") {
+  if ($entity_type->id() == "taxonomy_term" || $entity_type->id() == "commerce_shipping_method") {
     __creation_site_virtuel_fields_domain($fields);
     $fields['is_public'] = BaseFieldDefinition::create('boolean')
       ->setDescription(t('define if a terme is public or not'))
