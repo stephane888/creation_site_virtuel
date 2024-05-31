@@ -60,7 +60,7 @@ use Stephane888\Debug\Repositories\ConfigDrupal;
  * )
  */
 class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface {
-  
+
   use EntityChangedTrait;
   use EntityPublishedTrait;
   /**
@@ -68,7 +68,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
    */
   protected $path;
   public static $key_type = 'site_internet_entity_type';
-  
+
   /**
    *
    * {@inheritdoc}
@@ -80,7 +80,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
       'user_id' => \Drupal::currentUser()->id()
     ];
   }
-  
+
   /**
    *
    * {@inheritdoc}
@@ -88,7 +88,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   public function getName() {
     return $this->get('name')->value;
   }
-  
+
   /**
    * Permet de recuperer la valeur du champs menu s"il est definit ou la valeur
    * du titre.
@@ -100,7 +100,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     else
       return $this->getName();
   }
-  
+
   /**
    *
    * {@inheritdoc}
@@ -109,7 +109,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     $this->set('name', $name);
     return $this;
   }
-  
+
   /**
    *
    * {@inheritdoc}
@@ -117,7 +117,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   public function getCreatedTime() {
     return $this->get('created')->value;
   }
-  
+
   /**
    *
    * {@inheritdoc}
@@ -126,7 +126,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     $this->set('created', $timestamp);
     return $this;
   }
-  
+
   /**
    *
    * {@inheritdoc}
@@ -134,7 +134,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   public function getOwner() {
     return $this->get('user_id')->entity;
   }
-  
+
   /**
    *
    * {@inheritdoc}
@@ -142,7 +142,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   public function getOwnerId() {
     return $this->get('user_id')->target_id;
   }
-  
+
   /**
    *
    * {@inheritdoc}
@@ -151,11 +151,11 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     $this->set('user_id', $uid);
     return $this;
   }
-  
+
   public function getType() {
     return $this->get(self::$key_type)->target_id;
   }
-  
+
   /**
    * Retourne la premiere valeur
    *
@@ -164,7 +164,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   public function getCategorie() {
     return $this->get('terms')->target_id;
   }
-  
+
   public function getCategories() {
     $terms = [];
     foreach ($this->get('terms')->getValue() as $value) {
@@ -172,16 +172,16 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     }
     return $terms;
   }
-  
+
   /**
    *
-   * @deprecated
+   * @deprecated use isHomePage method instead
    * @return boolean
    */
   public function getIs_home_page() {
     return $this->isHomePage();
   }
-  
+
   /**
    *
    * @return boolean
@@ -189,11 +189,11 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   public function isHomePage() {
     return (bool) $this->get('is_home_page')->value;
   }
-  
+
   public function setPageSupplementaires(array $values) {
     $this->set('page_supplementaires', $values);
   }
-  
+
   /**
    * --
    */
@@ -204,7 +204,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     }
     return $target_ids;
   }
-  
+
   /**
    *
    * {@inheritdoc}
@@ -213,18 +213,18 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     $this->set('user_id', $account->id());
     return $this;
   }
-  
+
   public function preSave($storage) {
     if (empty($this->getType())) {
       throw new \LogicException('Le type de site web doit etre definie (site_internet_entity_type). ');
     }
     // Si cest pas une page d'accueil; on supprime les champs en relation.
-    if (!$this->getIs_home_page()) {
+    if (!$this->isHomePage()) {
       $this->setPageSupplementaires([]);
     }
     parent::preSave($storage);
   }
-  
+
   /**
    *
    * {@inheritdoc}
@@ -233,7 +233,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   public function postSave(EntityStorageInterface $storage, $update = TRUE) {
     parent::postSave($storage, $update);
   }
-  
+
   /**
    *
    * @param EntityStorageInterface $storage
@@ -254,7 +254,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
         $DuplicateEntityReference->deleteExistantReference($entity);
     }
   }
-  
+
   /**
    *
    * @return string
@@ -262,15 +262,15 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   protected function getPath() {
     if (!$this->path) {
       $conf = ConfigDrupal::config('system.theme');
-      $this->path = DRUPAL_ROOT . '/' . drupal_get_path('theme', $conf['default']) . '/wbu-atomique-theme/src';
+      $this->path = DRUPAL_ROOT . '/' . \Drupal::service("extension.path.resolver")->getPath('theme', $conf['default']) . '/wbu-atomique-theme/src';
     }
     return $this->path;
   }
-  
+
   public function getImageModel() {
     return $this->get('image')->target_id;
   }
-  
+
   /**
    *
    * @return mixed
@@ -287,7 +287,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     }
     return $this->get('image')->target_id;
   }
-  
+
   /**
    * --
    *
@@ -296,13 +296,13 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   public function getPlugins() {
     $plugins = [];
     $vals = $this->get('plugins')->getValue();
-    
+
     foreach ($vals as $val) {
       $plugins[$val['value']] = $val['value'];
     }
     return $plugins;
   }
-  
+
   /**
    *
    * {@inheritdoc}
@@ -322,10 +322,10 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
         if ($v)
           $footer_paragraph_type[$v] = $v;
       }
-    
+
     // Add the published field.
     $fields += static::publishedBaseFieldDefinitions($entity_type);
-    
+
     $fields['user_id'] = BaseFieldDefinition::create('entity_reference')->setLabel(t('Authored by'))->setDescription(t('The user ID of author of the Site type datas entity.'))->setRevisionable(TRUE)->setSetting('target_type', 'user')->setSetting('handler', 'default')->setTranslatable(TRUE)->setDisplayOptions('view', [
       'label' => 'hidden',
       'type' => 'author',
@@ -404,7 +404,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
       'type' => 'boolean_checkbox',
       'weight' => 5
     ])->setDisplayOptions('view', [])->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true)->setDefaultValue(false);
-    
+
     // On permet l'ajout des pages supplementaires qui seront creer par defaut.
     /**
      * SetDefaultValueCallback not work with select2_entity_reference ( On a la
@@ -420,7 +420,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
         'placeholder' => ''
       )
     ])->setDefaultValueCallback("\Drupal\creation_site_virtuel\CreationSiteVirtuel::getDefautPage")->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'site_type_datas')->setSetting('handler', 'default')->setDescription(' Selectionner les pages qui seront automatiquement creer ');
-    
+
     //
     $fields['terms'] = BaseFieldDefinition::create('entity_reference')->setLabel(" Sélectionner les categories ")->setDisplayOptions('form', [
       'type' => 'select2_entity_reference',
@@ -477,7 +477,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
       'type' => 'inline_entity_form_complex',
       'weight' => 0
     ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'paragraph')->setSetting('handler', 'default')->setTranslatable(false)->setSetting('allow_duplicate', true);
-    
+
     //
     $fields['je_choisie_text'] = BaseFieldDefinition::create('string')->setLabel(t('Je choisie (texte)'))->setDisplayConfigurable('form', true)->setDisplayConfigurable('view', TRUE)->setTranslatable(true)->setDefaultValue('Je choisis');
     //
@@ -485,7 +485,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
       'link_type' => '#',
       'title' => 'Je choisie'
     ])->setDisplayConfigurable('form', true)->setDisplayConfigurable('view', TRUE)->setTranslatable(true);
-    
+
     // on definit les pages par defaut.
     // $fields['page_default'] =
     // BaseFieldDefinition::create('select')->setLabel(t(' Page default
@@ -504,11 +504,11 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     // 'site_type_datas')->setSetting('handler', 'default');
     // Pour determiner les modeles en fonction de la categorie. il doivent avoir
     // la meme categorie. Le titre servir de nom de la page.
-    
+
     //
     $fields['voir_demo'] = BaseFieldDefinition::create('link')->setLabel(t('Voir la demo'))->setSetting('link_type', LinkItemInterface::LINK_GENERIC)->setSetting('title', DRUPAL_OPTIONAL)->setTranslatable(true)->setDisplayConfigurable('form', true)->setDisplayConfigurable('view', TRUE);
     //
-    
+
     $fields['plugins'] = BaseFieldDefinition::create('list_string')->setLabel(t('Selectionner les modules'))->setDisplayOptions('form', [
       'type' => 'options_buttons',
       'weight' => 5,
@@ -522,8 +522,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
       '\Drupal\manage_module_config\ManageModuleConfig',
       'getPlugins'
     ])->setCardinality(-1);
-    
+
     return $fields;
   }
-  
 }
