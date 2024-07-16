@@ -183,11 +183,10 @@ function creation_site_virtuel_entity_base_field_info(EntityTypeInterface $entit
     __creation_site_virtuel_fields_domain($fields);
   } elseif ($entity_type->id() == 'booking_reservation') {
     __creation_site_virtuel_fields_domain($fields);
+  } elseif ($entity_type->id() == 'booking_equipes') {
+    __creation_site_virtuel_fields_domain($fields);
   }
   // elseif ($entity_type->id() == 'dis_period_entity') {
-  // __creation_site_virtuel_fields_domain($fields);
-  // }
-  // elseif ($entity_type->id() == 'equipes_entity') {
   // __creation_site_virtuel_fields_domain($fields);
   // }
   // elseif ($entity_type->id() == 'submit_rdv_entity') {
