@@ -11,3 +11,4 @@ dependencies:
   - generate_domain_vps:generate_domain_vps
   - domain:domain_source
   - domain:domain_access
+  - domain:domain_language
