@@ -416,3 +416,29 @@ function creation_site_virtuel_field_widget_creationsitevirtuelcomplexinline_for
     // }
   }
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function creation_site_virtuel_form_domain_language_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  // Check for the specific form ID you want to alter.
+  $form['#validate'][] = '_domain_language_form_custom_validator';
+}
+
+function _domain_language_form_custom_validator(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+  $defaultLanguage = $form_state->getValue("default_language");
+  if ($defaultLanguage == "***LANGUAGE_site_default***") {
+    $domainConfigs = \Drupal::config('domain.config.' . lesroidelareno::getCurrentDomainId() . '.system.site')->getRawData();
+    $defaultLanguage = $domainConfigs["default_langcode"] ?? \DRUPAL::languageManager()->getDefaultLanguage()->getId();
+  }
+
+  $languages = $form_state->getValue("languages");
+  if (!$languages[$defaultLanguage]) {
+    foreach ($languages as $key => $language) {
+      if ($language) {
+        $form_state->setErrorByName("default_language", t("default langcode must be activeddd"));
+      }
+    }
+  }
+  return;
+}
