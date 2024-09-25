@@ -436,7 +436,7 @@ function _domain_language_form_custom_validator(array &$form, \Drupal\Core\Form\
   if (!$languages[$defaultLanguage]) {
     foreach ($languages as $key => $language) {
       if ($language) {
-        $form_state->setErrorByName("default_language", t("default langcode must be activeddd"));
+        $form_state->setErrorByName("default_language", t("default langcode must be active"));
       }
     }
   }
