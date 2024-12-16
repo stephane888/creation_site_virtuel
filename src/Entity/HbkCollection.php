@@ -235,7 +235,7 @@ class HbkCollection extends EditorialContentEntityBase implements HbkCollectionI
     ])->setDisplayOptions('form', [
       'type' => 'string_textfield',
       'weight' => -4
-    ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setRequired(TRUE);
+    ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setRequired(TRUE)->setTranslatable(TRUE);
     
     $fields['status']->setDescription(t('A boolean indicating whether the Collection by Habeuk is published.'))->setDisplayOptions('form', [
       'type' => 'boolean_checkbox',
