@@ -14,7 +14,7 @@ use Drupal\file\Entity\File;
  * @ingroup creation_site_virtuel
  */
 class SiteTypeDatasListBuilder extends EntityListBuilder {
-
+  
   /**
    *
    * {@inheritdoc}
@@ -25,10 +25,11 @@ class SiteTypeDatasListBuilder extends EntityListBuilder {
     $header['name'] = $this->t(' Name ');
     // $header['site_internet_entity_type'] = $this->t(' Type de site web');
     $header['terms'] = $this->t(' Categories ');
+    $header['description'] = $this->t(' Description ');
     $header['is_home_page'] = $this->t(" page d'accueil ? ");
     return $header + parent::buildHeader();
   }
-
+  
   /**
    *
    * {@inheritdoc}
@@ -36,7 +37,7 @@ class SiteTypeDatasListBuilder extends EntityListBuilder {
   public function buildRow(EntityInterface $entity) {
     /* @var \Drupal\creation_site_virtuel\Entity\SiteTypeDatas $entity */
     $row['id'] = $entity->id();
-
+    
     $fileUrl = '';
     $fid = $entity->getImageModel();
     if (!empty($fid)) {
@@ -48,17 +49,24 @@ class SiteTypeDatasListBuilder extends EntityListBuilder {
       ];
       $fileUrl = \Drupal::service('renderer')->renderRoot($fileUrl);
     }
-
+    
     $row['image'] = $fileUrl;
     $row['name'] = Link::createFromRoute($entity->label(), 'entity.site_type_datas.canonical', [
       'site_type_datas' => $entity->id()
     ]);
     // $row['site_internet_entity_type'] = $entity->getType();
     $row['terms'] = $this->getLabelTerms($entity->get('terms')->getValue());
+    $row['description'] = [
+      'data' => [
+        "#type" => 'html_tag',
+        '#tag' => 'div',
+        '#value' => $entity->get('description')->value
+      ]
+    ];
     $row['is_home_page'] = $entity->get('is_home_page')->value ? 'Oui' : 'Non';
     return $row + parent::buildRow($entity);
   }
-
+  
   /**
    *
    * @param array $values
@@ -86,7 +94,7 @@ class SiteTypeDatasListBuilder extends EntityListBuilder {
     ];
     return (\Drupal::service("renderer")->render($ul));
   }
-
+  
   /**
    *
    * {@inheritdoc}
