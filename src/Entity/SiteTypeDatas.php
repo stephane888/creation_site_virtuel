@@ -60,7 +60,7 @@ use Stephane888\Debug\Repositories\ConfigDrupal;
  * )
  */
 class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface {
-
+  
   use EntityChangedTrait;
   use EntityPublishedTrait;
   /**
@@ -68,7 +68,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
    */
   protected $path;
   public static $key_type = 'site_internet_entity_type';
-
+  
   /**
    *
    * {@inheritdoc}
@@ -80,7 +80,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
       'user_id' => \Drupal::currentUser()->id()
     ];
   }
-
+  
   /**
    *
    * {@inheritdoc}
@@ -88,7 +88,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   public function getName() {
     return $this->get('name')->value;
   }
-
+  
   /**
    * Permet de recuperer la valeur du champs menu s"il est definit ou la valeur
    * du titre.
@@ -100,7 +100,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     else
       return $this->getName();
   }
-
+  
   /**
    *
    * {@inheritdoc}
@@ -109,7 +109,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     $this->set('name', $name);
     return $this;
   }
-
+  
   /**
    *
    * {@inheritdoc}
@@ -117,7 +117,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   public function getCreatedTime() {
     return $this->get('created')->value;
   }
-
+  
   /**
    *
    * {@inheritdoc}
@@ -126,7 +126,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     $this->set('created', $timestamp);
     return $this;
   }
-
+  
   /**
    *
    * {@inheritdoc}
@@ -134,7 +134,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   public function getOwner() {
     return $this->get('user_id')->entity;
   }
-
+  
   /**
    *
    * {@inheritdoc}
@@ -142,7 +142,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   public function getOwnerId() {
     return $this->get('user_id')->target_id;
   }
-
+  
   /**
    *
    * {@inheritdoc}
@@ -151,11 +151,11 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     $this->set('user_id', $uid);
     return $this;
   }
-
+  
   public function getType() {
     return $this->get(self::$key_type)->target_id;
   }
-
+  
   /**
    * Retourne la premiere valeur
    *
@@ -164,7 +164,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   public function getCategorie() {
     return $this->get('terms')->target_id;
   }
-
+  
   public function getCategories() {
     $terms = [];
     foreach ($this->get('terms')->getValue() as $value) {
@@ -172,7 +172,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     }
     return $terms;
   }
-
+  
   /**
    *
    * @deprecated use isHomePage method instead
@@ -181,7 +181,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   public function getIs_home_page() {
     return $this->isHomePage();
   }
-
+  
   /**
    *
    * @return boolean
@@ -189,11 +189,11 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   public function isHomePage() {
     return (bool) $this->get('is_home_page')->value;
   }
-
+  
   public function setPageSupplementaires(array $values) {
     $this->set('page_supplementaires', $values);
   }
-
+  
   /**
    * --
    */
@@ -204,7 +204,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     }
     return $target_ids;
   }
-
+  
   /**
    *
    * {@inheritdoc}
@@ -213,7 +213,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     $this->set('user_id', $account->id());
     return $this;
   }
-
+  
   public function preSave($storage) {
     if (empty($this->getType())) {
       throw new \LogicException('Le type de site web doit etre definie (site_internet_entity_type). ');
@@ -224,7 +224,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     }
     parent::preSave($storage);
   }
-
+  
   /**
    *
    * {@inheritdoc}
@@ -233,7 +233,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   public function postSave(EntityStorageInterface $storage, $update = TRUE) {
     parent::postSave($storage, $update);
   }
-
+  
   /**
    *
    * @param EntityStorageInterface $storage
@@ -254,7 +254,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
         $DuplicateEntityReference->deleteExistantReference($entity);
     }
   }
-
+  
   /**
    *
    * @return string
@@ -266,11 +266,11 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     }
     return $this->path;
   }
-
+  
   public function getImageModel() {
     return $this->get('image')->target_id;
   }
-
+  
   /**
    *
    * @return mixed
@@ -287,7 +287,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     }
     return $this->get('image')->target_id;
   }
-
+  
   /**
    * --
    *
@@ -296,13 +296,13 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   public function getPlugins() {
     $plugins = [];
     $vals = $this->get('plugins')->getValue();
-
+    
     foreach ($vals as $val) {
       $plugins[$val['value']] = $val['value'];
     }
     return $plugins;
   }
-
+  
   /**
    *
    * {@inheritdoc}
@@ -322,29 +322,32 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
         if ($v)
           $footer_paragraph_type[$v] = $v;
       }
-
+    
     // Add the published field.
     $fields += static::publishedBaseFieldDefinitions($entity_type);
-
-    $fields['user_id'] = BaseFieldDefinition::create('entity_reference')->setLabel(t('Authored by'))->setDescription(t('The user ID of author of the Site type datas entity.'))->setRevisionable(TRUE)->setSetting('target_type', 'user')->setSetting('handler', 'default')->setTranslatable(TRUE)->setDisplayOptions('view', [
+    
+    $fields['user_id'] = BaseFieldDefinition::create('entity_reference')->setLabel(t('Authored by'))->setDescription(t('The user ID of author of the Site type datas entity.'))->setRevisionable(TRUE)->setSetting(
+      'target_type', 'user')->setSetting('handler', 'default')->setTranslatable(TRUE)->setDisplayOptions('view', [
       'label' => 'hidden',
       'type' => 'author',
       'weight' => 0
-    ])->setDisplayOptions('form', [
-      'type' => 'entity_reference_autocomplete',
-      'weight' => 5,
-      'settings' => [
-        'match_operator' => 'CONTAINS',
-        'size' => '60',
-        'autocomplete_type' => 'tags',
-        'placeholder' => ''
-      ]
-    ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE);
+    ])->setDisplayOptions('form',
+      [
+        'type' => 'entity_reference_autocomplete',
+        'weight' => 5,
+        'settings' => [
+          'match_operator' => 'CONTAINS',
+          'size' => '60',
+          'autocomplete_type' => 'tags',
+          'placeholder' => ''
+        ]
+      ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE);
     //
-    $fields['name'] = BaseFieldDefinition::create('string')->setLabel(t('Name'))->setDescription(t('The name of the Site type datas entity.'))->setSettings([
-      'max_length' => 250,
-      'text_processing' => 0
-    ])->setDefaultValue('')->setDisplayOptions('view', [
+    $fields['name'] = BaseFieldDefinition::create('string')->setLabel(t('Name'))->setDescription(t('The name of the Site type datas entity.'))->setSettings(
+      [
+        'max_length' => 250,
+        'text_processing' => 0
+      ])->setDefaultValue('')->setDisplayOptions('view', [
       'label' => 'above',
       'type' => 'string',
       'weight' => -4
@@ -353,10 +356,11 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
       'weight' => -4
     ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setRequired(TRUE)->setTranslatable(true);
     //
-    $fields['name_menu'] = BaseFieldDefinition::create('string')->setLabel(t('Text à afficher sur le menu'))->setDescription(t('The name of the Site type datas entity.'))->setSettings([
-      'max_length' => 50,
-      'text_processing' => 0
-    ])->setDefaultValue('')->setDisplayOptions('view', [
+    $fields['name_menu'] = BaseFieldDefinition::create('string')->setLabel(t('Text à afficher sur le menu'))->setDescription(t('The name of the Site type datas entity.'))->setSettings(
+      [
+        'max_length' => 50,
+        'text_processing' => 0
+      ])->setDefaultValue('')->setDisplayOptions('view', [
       'label' => 'above',
       'type' => 'string',
       'weight' => -4
@@ -365,19 +369,23 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
       'weight' => 2
     ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setRequired(TRUE)->setTranslatable(true);
     //
-    $fields['entete_paragraph'] = BaseFieldDefinition::create('entity_reference')->setLabel(t('Entête'))->setCardinality(1)->setRequired(false)->setSetting('handler_settings', [
-      'target_bundles' => $entete_paragraph_type
-    ])->setDisplayOptions('form', [
+    $fields['entete_paragraph'] = BaseFieldDefinition::create('entity_reference')->setLabel(t('Entête'))->setCardinality(1)->setRequired(false)->setSetting('handler_settings',
+      [
+        'target_bundles' => $entete_paragraph_type
+      ])->setDisplayOptions('form', [
       'type' => 'inline_entity_form_complex',
       'weight' => 0
-    ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'paragraph')->setSetting('handler', 'default')->setTranslatable(false)->setSetting('allow_duplicate', false);
+    ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'paragraph')->setSetting('handler', 'default')->setTranslatable(false)->setSetting(
+      'allow_duplicate', false);
     //
-    $fields['footer_paragraph'] = BaseFieldDefinition::create('entity_reference')->setLabel(t('Footer'))->setCardinality(1)->setRequired(false)->setSetting('handler_settings', [
-      'target_bundles' => $footer_paragraph_type
-    ])->setDisplayOptions('form', [
+    $fields['footer_paragraph'] = BaseFieldDefinition::create('entity_reference')->setLabel(t('Footer'))->setCardinality(1)->setRequired(false)->setSetting('handler_settings',
+      [
+        'target_bundles' => $footer_paragraph_type
+      ])->setDisplayOptions('form', [
       'type' => 'inline_entity_form_complex',
       'weight' => 0
-    ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'paragraph')->setSetting('handler', 'default')->setTranslatable(false)->setSetting('allow_duplicate', false);
+    ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'paragraph')->setSetting('handler', 'default')->setTranslatable(false)->setSetting(
+      'allow_duplicate', false);
     //
     $fields['status']->setDescription(t('A boolean indicating whether the Site type datas is published.'))->setDisplayOptions('form', [
       'type' => 'boolean_checkbox',
@@ -388,62 +396,68 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     //
     $fields['changed'] = BaseFieldDefinition::create('changed')->setLabel(t('Changed'))->setDescription(t('The time that the entity was last edited.'));
     //
-    $fields[self::$key_type] = BaseFieldDefinition::create('entity_reference')->setLabel(t('Type de site'))->setRequired(true)->setDisplayOptions('form', [
-      'type' => 'options_select',
-      'weight' => 5,
-      'settings' => array(
-        'match_operator' => 'CONTAINS',
-        'size' => '10',
-        'autocomplete_type' => 'tags',
-        'placeholder' => ''
-      )
-    ])->setSetting('target_type', self::$key_type)->setSetting('handler', 'default')->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true);
+    $fields[self::$key_type] = BaseFieldDefinition::create('entity_reference')->setLabel(t('Type de site'))->setRequired(true)->setDisplayOptions('form',
+      [
+        'type' => 'options_select',
+        'weight' => 5,
+        'settings' => array(
+          'match_operator' => 'CONTAINS',
+          'size' => '10',
+          'autocomplete_type' => 'tags',
+          'placeholder' => ''
+        )
+      ])->setSetting('target_type', self::$key_type)->setSetting('handler', 'default')->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true);
     // Permet de definir faire apparaitre le dit modele sur la liste de
     // selection.
     $fields['is_home_page'] = BaseFieldDefinition::create('boolean')->setLabel(" Page d'accueil ? ")->setDisplayOptions('form', [
       'type' => 'boolean_checkbox',
       'weight' => 5
     ])->setDisplayOptions('view', [])->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true)->setDefaultValue(false);
-
+    
     // On permet l'ajout des pages supplementaires qui seront creer par defaut.
     /**
      * SetDefaultValueCallback not work with select2_entity_reference ( On a la
      * surchargée au niveau du formualire ).
      */
-    $fields['page_supplementaires'] = BaseFieldDefinition::create('entity_reference')->setLabel(t(" Page supplementaire "))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setDisplayOptions('form', [
-      'type' => 'select2_entity_reference',
-      'weight' => 3,
-      'settings' => array(
-        'match_operator' => 'CONTAINS',
-        'size' => '10',
-        'autocomplete_type' => 'tags',
-        'placeholder' => ''
-      )
-    ])->setDefaultValueCallback("\Drupal\creation_site_virtuel\CreationSiteVirtuel::getDefautPage")->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'site_type_datas')->setSetting('handler', 'default')->setDescription(' Selectionner les pages qui seront automatiquement creer ');
-
+    $fields['page_supplementaires'] = BaseFieldDefinition::create('entity_reference')->setLabel(t(" Page supplementaire "))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setDisplayOptions(
+      'form', [
+        'type' => 'select2_entity_reference',
+        'weight' => 3,
+        'settings' => array(
+          'match_operator' => 'CONTAINS',
+          'size' => '10',
+          'autocomplete_type' => 'tags',
+          'placeholder' => ''
+        )
+      ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'site_type_datas')->setSetting('handler', 'default')->setDescription(
+      ' Selectionner les pages qui seront automatiquement creer ');
+    
     //
-    $fields['terms'] = BaseFieldDefinition::create('entity_reference')->setLabel(" Sélectionner les categories ")->setDisplayOptions('form', [
-      'type' => 'select2_entity_reference',
-      'weight' => 5,
-      'settings' => array(
-        'match_operator' => 'CONTAINS',
-        'size' => '10',
-        'autocomplete_type' => 'tags',
-        'placeholder' => ''
-      )
-    ])->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true)->setDescription(t(" Selectionnez ou ajouté une categorie pour ce theme "))->setSetting('handler_settings', [
-      'target_bundles' => [
-        'typesite' => 'typesite'
-      ],
-      'sort' => [
-        'field' => 'name',
-        'direction' => 'asc'
-      ],
-      'auto_create' => true,
-      'auto_create_bundle' => ''
-    ])->setSetting('target_type', 'taxonomy_term')->setSetting('handler', 'default:taxonomy_term')->setRevisionable(TRUE)->setCardinality(-1);
+    $fields['terms'] = BaseFieldDefinition::create('entity_reference')->setLabel(" Sélectionner les categories ")->setDisplayOptions('form',
+      [
+        'type' => 'select2_entity_reference',
+        'weight' => 5,
+        'settings' => array(
+          'match_operator' => 'CONTAINS',
+          'size' => '10',
+          'autocomplete_type' => 'tags',
+          'placeholder' => ''
+        )
+      ])->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true)->setDescription(t(" Selectionnez ou ajouté une categorie pour ce theme "))->setSetting('handler_settings',
+      [
+        'target_bundles' => [
+          'typesite' => 'typesite'
+        ],
+        'sort' => [
+          'field' => 'name',
+          'direction' => 'asc'
+        ],
+        'auto_create' => true,
+        'auto_create_bundle' => ''
+      ])->setSetting('target_type', 'taxonomy_term')->setSetting('handler', 'default:taxonomy_term')->setRevisionable(TRUE)->setCardinality(-1);
     //
-    $fields['image'] = BaseFieldDefinition::create('image')->setLabel(' Image du model ')->setRequired(false)->setDisplayConfigurable('form', true)->setSetting("file_extensions", "png gif jpg jpeg webp")->setDisplayConfigurable('view', TRUE)->setSetting("min_resolution", "1000x1000");
+    $fields['image'] = BaseFieldDefinition::create('image')->setLabel(' Image du model ')->setRequired(false)->setDisplayConfigurable('form', true)->setSetting("file_extensions",
+      "png gif jpg jpeg webp")->setDisplayConfigurable('view', TRUE)->setSetting("min_resolution", "1000x1000");
     //
     $fields['description'] = BaseFieldDefinition::create('text_long')->setLabel(" Description ")->setSettings([
       'text_processing' => 0,
@@ -457,13 +471,14 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
       'weight' => 0
     ])->setRequired(TRUE)->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true)->setTranslatable(true);
     //
-    $fields['style_scss'] = BaseFieldDefinition::create('string_long')->setLabel(" Style scss (les variables, mixins de wbu-atomique sont disponible) ")->setDisplayOptions('form', [
-      'type' => 'string_textarea',
-      'weight' => 25,
-      'settings' => [
-        'rows' => 4
-      ]
-    ])->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true);
+    $fields['style_scss'] = BaseFieldDefinition::create('string_long')->setLabel(" Style scss (les variables, mixins de wbu-atomique sont disponible) ")->setDisplayOptions('form',
+      [
+        'type' => 'string_textarea',
+        'weight' => 25,
+        'settings' => [
+          'rows' => 4
+        ]
+      ])->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true);
     //
     $fields['style_js'] = BaseFieldDefinition::create('string_long')->setLabel(" Style JS ")->setDisplayOptions('form', [
       'type' => 'string_textarea',
@@ -473,19 +488,23 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
       ]
     ])->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true);
     //
-    $fields['layout_paragraphs'] = BaseFieldDefinition::create('entity_reference')->setLabel(t(' Sections '))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setDisplayOptions('form', [
-      'type' => 'inline_entity_form_complex',
-      'weight' => 0
-    ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'paragraph')->setSetting('handler', 'default')->setTranslatable(false)->setSetting('allow_duplicate', true);
-
+    $fields['layout_paragraphs'] = BaseFieldDefinition::create('entity_reference')->setLabel(t(' Sections '))->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)->setDisplayOptions(
+      'form', [
+        'type' => 'inline_entity_form_complex',
+        'weight' => 0
+      ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('target_type', 'paragraph')->setSetting('handler', 'default')->setTranslatable(false)->setSetting(
+      'allow_duplicate', true);
+    
     //
-    $fields['je_choisie_text'] = BaseFieldDefinition::create('string')->setLabel(t('Je choisie (texte)'))->setDisplayConfigurable('form', true)->setDisplayConfigurable('view', TRUE)->setTranslatable(true)->setDefaultValue('Je choisis');
+    $fields['je_choisie_text'] = BaseFieldDefinition::create('string')->setLabel(t('Je choisie (texte)'))->setDisplayConfigurable('form', true)->setDisplayConfigurable('view', TRUE)->setTranslatable(
+      true)->setDefaultValue('Je choisis');
     //
-    $fields['je_choisie'] = BaseFieldDefinition::create('link')->setLabel(t('Je choisie (direct link )'))->setSetting('link_type', LinkItemInterface::LINK_GENERIC)->setSetting('title', DRUPAL_OPTIONAL)->setDefaultValue([
-      'link_type' => '#',
-      'title' => 'Je choisie'
-    ])->setDisplayConfigurable('form', true)->setDisplayConfigurable('view', TRUE)->setTranslatable(true);
-
+    $fields['je_choisie'] = BaseFieldDefinition::create('link')->setLabel(t('Je choisie (direct link )'))->setSetting('link_type', LinkItemInterface::LINK_GENERIC)->setSetting('title', DRUPAL_OPTIONAL)->setDefaultValue(
+      [
+        'link_type' => '#',
+        'title' => 'Je choisie'
+      ])->setDisplayConfigurable('form', true)->setDisplayConfigurable('view', TRUE)->setTranslatable(true);
+    
     // on definit les pages par defaut.
     // $fields['page_default'] =
     // BaseFieldDefinition::create('select')->setLabel(t(' Page default
@@ -504,25 +523,43 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     // 'site_type_datas')->setSetting('handler', 'default');
     // Pour determiner les modeles en fonction de la categorie. il doivent avoir
     // la meme categorie. Le titre servir de nom de la page.
-
+    
     //
-    $fields['voir_demo'] = BaseFieldDefinition::create('link')->setLabel(t('Voir la demo'))->setSetting('link_type', LinkItemInterface::LINK_GENERIC)->setSetting('title', DRUPAL_OPTIONAL)->setTranslatable(true)->setDisplayConfigurable('form', true)->setDisplayConfigurable('view', TRUE);
+    $fields['voir_demo'] = BaseFieldDefinition::create('link')->setLabel(t('Voir la demo'))->setSetting('link_type', LinkItemInterface::LINK_GENERIC)->setSetting('title', DRUPAL_OPTIONAL)->setTranslatable(
+      true)->setDisplayConfigurable('form', true)->setDisplayConfigurable('view', TRUE);
     //
-
-    $fields['plugins'] = BaseFieldDefinition::create('list_string')->setLabel(t('Selectionner les modules'))->setDisplayOptions('form', [
-      'type' => 'options_buttons',
-      'weight' => 5,
-      'settings' => [
-        'match_operator' => 'CONTAINS',
-        'size' => '10',
-        'autocomplete_type' => 'tags',
-        'placeholder' => ''
-      ]
-    ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('allowed_values_function', [
+    
+    $fields['plugins'] = BaseFieldDefinition::create('list_string')->setLabel(t('Selectionner les modules'))->setDisplayOptions('form',
+      [
+        'type' => 'options_buttons',
+        'weight' => 5,
+        'settings' => [
+          'match_operator' => 'CONTAINS',
+          'size' => '10',
+          'autocomplete_type' => 'tags',
+          'placeholder' => ''
+        ]
+      ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('allowed_values_function', [
       '\Drupal\manage_module_config\ManageModuleConfig',
       'getPlugins'
     ])->setCardinality(-1);
-
+    
+    $fields['webforms_users'] = BaseFieldDefinition::create('list_string')->setLabel(t('Selectionner les formulaires'))->setDisplayOptions('form',
+      [
+        'type' => 'options_buttons',
+        'weight' => 5,
+        'settings' => [
+          'match_operator' => 'CONTAINS',
+          'size' => '10',
+          'autocomplete_type' => 'tags',
+          'placeholder' => ''
+        ]
+      ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('allowed_values_function',
+      [
+        '\Drupal\manage_module_config\ManageModuleConfig',
+        'getFormWebformByUser'
+      ])->setCardinality(-1)->setDescription(" Selectionner les formulaires que l'utilisateur peut soumettre ")->setRequired(TRUE);
+    
     return $fields;
   }
 }
