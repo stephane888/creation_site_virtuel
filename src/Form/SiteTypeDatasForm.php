@@ -64,7 +64,6 @@ class SiteTypeDatasForm extends ContentEntityForm {
         ]
       ]
     ];
-    
     if (!$this->entity->isNew()) {
       $form['actions']['duplicate'] = [
         '#type' => 'submit',
@@ -136,5 +135,4 @@ class SiteTypeDatasForm extends ContentEntityForm {
       'site_type_datas' => $entity->id()
     ]);
   }
-  
 }

@@ -304,6 +304,20 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
   }
   
   /**
+   * --
+   *
+   * @return array
+   */
+  public function getWebformsUsers() {
+    $plugins = [];
+    $vals = $this->get('webforms_users')->getValue();
+    foreach ($vals as $val) {
+      $plugins[$val['value']] = $val['value'];
+    }
+    return $plugins;
+  }
+  
+  /**
    *
    * {@inheritdoc}
    */
