@@ -427,7 +427,6 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
       'type' => 'boolean_checkbox',
       'weight' => 5
     ])->setDisplayOptions('view', [])->setDisplayConfigurable('view', TRUE)->setDisplayConfigurable('form', true)->setDefaultValue(false);
-    
     // On permet l'ajout des pages supplementaires qui seront creer par defaut.
     /**
      * SetDefaultValueCallback not work with select2_entity_reference ( On a la
@@ -542,7 +541,6 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     $fields['voir_demo'] = BaseFieldDefinition::create('link')->setLabel(t('Voir la demo'))->setSetting('link_type', LinkItemInterface::LINK_GENERIC)->setSetting('title', DRUPAL_OPTIONAL)->setTranslatable(
       true)->setDisplayConfigurable('form', true)->setDisplayConfigurable('view', TRUE);
     //
-    
     $fields['plugins'] = BaseFieldDefinition::create('list_string')->setLabel(t('Selectionner les modules'))->setDisplayOptions('form',
       [
         'type' => 'options_buttons',
@@ -557,7 +555,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
       '\Drupal\manage_module_config\ManageModuleConfig',
       'getPlugins'
     ])->setCardinality(-1);
-    
+    //
     $fields['webforms_users'] = BaseFieldDefinition::create('list_string')->setLabel(t('Selectionner les formulaires'))->setDisplayOptions('form',
       [
         'type' => 'options_buttons',
@@ -573,6 +571,33 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
         '\Drupal\manage_module_config\ManageModuleConfig',
         'getFormWebformByUser'
       ])->setCardinality(-1)->setDescription(" Selectionner les formulaires que l'utilisateur peut soumettre ")->setRequired(TRUE);
+    //
+    $fields['packs'] = BaseFieldDefinition::create('list_string')->setLabel(t("Selectionner le pack"))->setDisplayOptions('form',
+      [
+        'type' => 'options_select',
+        'weight' => 5,
+        'settings' => [
+          'match_operator' => 'CONTAINS',
+          'size' => '10',
+          'autocomplete_type' => 'tags',
+          'placeholder' => ''
+        ]
+      ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setSetting('allowed_values_function', [
+      '\Drupal\manage_module_config\ManageModuleConfig',
+      'webSitePack'
+    ])->setDescription("Selectionner le type de pack")->setRequired(TRUE);
+    //
+    $fields['price'] = BaseFieldDefinition::create('string')->setSettings([
+      'max_length' => 50,
+      'text_processing' => 0
+    ])->setDefaultValue('')->setDisplayOptions('view', [
+      'label' => 'above',
+      'type' => 'string',
+      'weight' => -4
+    ])->setDisplayOptions('form', [
+      'type' => 'string_textfield',
+      'weight' => 2
+    ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE);
     
     return $fields;
   }
