@@ -597,7 +597,7 @@ class SiteTypeDatas extends ContentEntityBase implements SiteTypeDatasInterface 
     ])->setDisplayOptions('form', [
       'type' => 'string_textfield',
       'weight' => 2
-    ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE);
+    ])->setDisplayConfigurable('form', TRUE)->setDisplayConfigurable('view', TRUE)->setLabel(t("Price"));
     
     return $fields;
   }
