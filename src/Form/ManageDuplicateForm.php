@@ -4,7 +4,6 @@ namespace Drupal\creation_site_virtuel\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\lesroidelareno\lesroidelareno;
 use Drupal\apivuejs\Services\DuplicateEntityReference;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -66,14 +65,25 @@ class ManageDuplicateForm extends FormBase {
       '#title' => 'Titre de la nouvelle page',
       '#default_value' => 'Clone : ' . $entitty_to_duplicate->label()
     ];
+    if (\Drupal::moduleHandler()->moduleExists('lesroidelareno')) {
+      $curentDomain = \Drupal\lesroidelareno\lesroidelareno::getCurrentDomainId();
+    }
+    else {
+      /**
+       *
+       * @var \Drupal\domain\DomainNegotiator $domainManagement
+       */
+      $domainManagement = \Drupal::service('domain.negotiator');
+      $curentDomain = $domainManagement->getActiveId();
+    }
     
     $form['select_domain'] = [
       '#type' => 'select2',
       '#options' => [
-        lesroidelareno::getCurrentDomainId() => lesroidelareno::getCurrentDomainId()
+        $curentDomain => $curentDomain
       ],
       '#title' => $this->t('Selectionner un domaine'),
-      '#default_value' => lesroidelareno::getCurrentDomainId(),
+      '#default_value' => $curentDomain,
       '#required' => TRUE,
       '#autocomplete' => TRUE,
       '#target_type' => 'domain',
@@ -153,5 +163,4 @@ class ManageDuplicateForm extends FormBase {
     else
       $this->messenger()->addError("Vous ne pouvez pas faire une copie d'une donnée qui n'est pas sauvegarder.");
   }
-  
 }
