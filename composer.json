@@ -10,10 +10,10 @@
     }
   ],
   "require": {
-    "drupal/paragraphs": "^1.14",
-    "drupal/select2": "^1.13",
-    "drupal/inline_entity_form": "^1.0@RC",
-    "drupal/domain_language": "^2.0@alpha",
+    "drupal/paragraphs": "*",
+    "drupal/select2": "*",
+    "drupal/inline_entity_form": "*",
+    "drupal/domain_language": "*",
     "stephane888/generate_domain_vps": "dev-1x|^1.0"
   }
 }
