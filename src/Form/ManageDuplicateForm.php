@@ -10,7 +10,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Provides a Creation site virtuel form.
  */
-class ManageDuplicateForm extends FormBase {
+class ManageDuplicateForm extends FormBase
+{
   /**
    *
    * @var string
@@ -21,38 +22,42 @@ class ManageDuplicateForm extends FormBase {
    * @var string
    */
   protected $field_domain_source = \Drupal\domain_source\DomainSourceElementManagerInterface::DOMAIN_SOURCE_FIELD;
-  
+
   /**
    *
    * @var DuplicateEntityReference
    */
   protected $DuplicateEntityReference;
-  
-  function __construct(DuplicateEntityReference $DuplicateEntityReference) {
+
+  function __construct(DuplicateEntityReference $DuplicateEntityReference)
+  {
     $this->DuplicateEntityReference = $DuplicateEntityReference;
   }
-  
+
   /**
    *
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container) {
+  public static function create(ContainerInterface $container)
+  {
     return new static($container->get('apivuejs.duplicate_reference'));
   }
-  
+
   /**
    *
    * {@inheritdoc}
    */
-  public function getFormId() {
+  public function getFormId()
+  {
     return 'creation_site_virtuel_manage_duplicate';
   }
-  
+
   /**
    *
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state)
+  {
     $buidlInfo = $form_state->getBuildInfo()['args'][0];
     /**
      *
@@ -67,8 +72,7 @@ class ManageDuplicateForm extends FormBase {
     ];
     if (\Drupal::moduleHandler()->moduleExists('lesroidelareno')) {
       $curentDomain = \Drupal\lesroidelareno\lesroidelareno::getCurrentDomainId();
-    }
-    else {
+    } else {
       /**
        *
        * @var \Drupal\domain\DomainNegotiator $domainManagement
@@ -76,7 +80,7 @@ class ManageDuplicateForm extends FormBase {
       $domainManagement = \Drupal::service('domain.negotiator');
       $curentDomain = $domainManagement->getActiveId();
     }
-    
+
     $form['select_domain'] = [
       '#type' => 'select2',
       '#options' => [
@@ -91,7 +95,7 @@ class ManageDuplicateForm extends FormBase {
       // '#multiple' => 1,
       '#description' => "Vous pouvez selectionner un autre domaine si vous souhaitez transferer une copie de cla page"
     ];
-    
+
     $form['actions'] = [
       '#type' => 'actions'
     ];
@@ -101,20 +105,22 @@ class ManageDuplicateForm extends FormBase {
     ];
     return $form;
   }
-  
+
   /**
    *
    * {@inheritdoc}
    */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
+  public function validateForm(array &$form, FormStateInterface $form_state)
+  {
     //
   }
-  
+
   /**
    *
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state)
+  {
     /**
      *
      * @var \Drupal\Core\Entity\ContentEntityBase $entitty_to_duplicate
@@ -129,9 +135,13 @@ class ManageDuplicateForm extends FormBase {
     $message = "Copie de : " . $entitty_to_duplicate->label();
     $message .= ". <br>";
     if (!empty($title)) {
-      $entitty_to_duplicate->set('name', $title);
+      if ($entitty_to_duplicate->getEntityTypeId() == "node") {
+        $entitty_to_duplicate->set('title', $title);
+      } else {
+        $entitty_to_duplicate->set('name', $title);
+      }
     }
-    
+
     if (!empty($select_domain) && $entitty_to_duplicate->get($this->field_domain_access)->target_id != $select_domain) {
       $setValues = [
         \Drupal\domain_access\DomainAccessManagerInterface::DOMAIN_ACCESS_FIELD => $select_domain,
@@ -146,21 +156,20 @@ class ManageDuplicateForm extends FormBase {
       $message .= ". <br>";
       $message .= " Nouvelle page : " . $CopieDePage->id();
       $this->messenger()->addStatus($message);
-    }
-    else {
+    } else {
       $message .= " Erreur de copie ";
       $this->messenger()->addWarning($message);
     }
   }
-  
+
   /**
    * Permet de dupliquer une page avec la possibilité de changer de domaine.
    */
-  protected function createCopie(\Drupal\Core\Entity\ContentEntityBase $entity, $setValues) {
+  protected function createCopie(\Drupal\Core\Entity\ContentEntityBase $entity, $setValues)
+  {
     if (!$entity->isNew()) {
       return $this->DuplicateEntityReference->duplicateEntity($entity, false, [], $setValues, true);
-    }
-    else
+    } else
       $this->messenger()->addError("Vous ne pouvez pas faire une copie d'une donnée qui n'est pas sauvegarder.");
   }
 }

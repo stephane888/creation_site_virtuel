@@ -31,6 +31,13 @@ class CreationSiteVirtuelController extends ControllerBase {
     return $form;
   }
   
+  public function duplicateNode($node){
+    $entity = \Drupal\node\Entity\Node::load($node);
+    $datas['entitty_to_duplicate'] = $entity;
+    $form = \Drupal::formBuilder()->getForm(\Drupal\creation_site_virtuel\Form\ManageDuplicateForm::class, $datas);
+    return $form;
+  }
+
   /**
    *
    * @param array|string $configs

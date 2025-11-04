@@ -37,6 +37,16 @@ creation_site_virtuel.duplicate_blocks_contents:
   options:
     _admin_route: TRUE
 
+creation_site_virtuel.duplicate_node:
+  path: '/creation-site-virtuel/node/{node}/duplicate-page'
+  defaults:
+    _title: 'Dupliquer la page'
+    _controller: '\Drupal\creation_site_virtuel\Controller\CreationSiteVirtuelController::duplicateNode'
+  requirements:
+    _role: 'administrator'
+  options:
+    _admin_route: TRUE
+
 creation_site_virtuel.language:
   path: '/admin/config/domain/language/{domain}/edit'
   defaults:

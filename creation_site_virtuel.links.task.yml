@@ -53,9 +53,14 @@ creation_site_virtuel.duplicate_blocks_contents: # The first plugin ID
   title: "Dupliquer la page"
   route_name: creation_site_virtuel.duplicate_blocks_contents
   base_route: entity.blocks_contents.canonical
-  weight: 10 
-  
-  
+  weight: 10
+
+creation_site_virtuel.duplicate_node: # The first plugin ID
+  title: "Dupliquer la page"
+  route_name: creation_site_virtuel.duplicate_node
+  base_route: entity.node.canonical
+  weight: 10
+
   # Collection by Habeuk routing definition
 hbk_collection.settings_tab:
   route_name: hbk_collection.settings
